@@ -478,6 +478,41 @@ section{
     margin:20px 0;
 }
 
+.quiz-exit-controls{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:18px;
+    padding-top:16px;
+    border-top:1px solid rgba(255,255,255,.07);
+}
+
+.quiz-exit-btn{
+    padding:10px 16px;
+    border-radius:10px;
+    border:1px solid rgba(0,229,255,.25);
+    background:rgba(0,229,255,.06);
+    color:#b9c4d9;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.quiz-exit-btn:hover{
+    transform:translateY(-2px);
+    border-color:#00e5ff;
+    color:#fff;
+}
+
+.quiz-exit-btn.danger{
+    border-color:rgba(255,78,106,.25);
+    background:rgba(255,78,106,.06);
+}
+
+.quiz-exit-btn.danger:hover{
+    border-color:#ff4e6a;
+}
+
 /* ================= RESULT ================= */
 
 .result{
@@ -1085,6 +1120,20 @@ footer{
                     Next →
                 </button>
 
+            </div>
+
+            <div class="quiz-exit-controls">
+                <button
+                    class="quiz-exit-btn"
+                    onclick="saveQuizForLater()">
+                    💾 Save & Do Later
+                </button>
+
+                <button
+                    class="quiz-exit-btn danger"
+                    onclick="exitQuiz()">
+                    ↩ Choose Another Topic
+                </button>
             </div>
 
         </div>
@@ -2054,50 +2103,70 @@ let currentCategory="";
 
 function startQuiz(category){
 
+    const saved = getSavedQuiz(category);
+
+    /* Resume an unfinished quiz if one exists */
+    if(saved){
+        const resume = confirm(
+            "You have an unfinished " + getCategoryName(category) + " quiz.\n\n" +
+            "Press OK to RESUME it from Question " + (saved.currentIndex + 1) +
+            " or Cancel to START A NEW quiz."
+        );
+
+        if(resume){
+            currentCategory = saved.category;
+            currentQuestions = saved.questions || [];
+            currentIndex = saved.currentIndex || 0;
+            selectedAnswers = saved.selectedAnswers || new Array(currentQuestions.length).fill(null);
+
+            /* Recalculate score from saved answers so it stays accurate */
+            score = selectedAnswers.reduce((total, answer, index) => {
+                return total + (answer !== null && currentQuestions[index] && answer === currentQuestions[index].answer ? 1 : 0);
+            }, 0);
+
+            document.getElementById("quizMenu").style.display="none";
+            document.getElementById("quizBox").style.display="block";
+            document.getElementById("resultBox").style.display="none";
+
+            showQuestion();
+            document.getElementById("quiz").scrollIntoView();
+            return;
+        }
+
+        /* User chose a fresh attempt */
+        clearSavedQuiz(category);
+    }
+
     currentCategory=category;
 
     if(category==="MIX"){
 
-        currentQuestions=[
-            ...questions
-        ].sort(()=>Math.random()-.5);
+        currentQuestions=[...questions].sort(()=>Math.random()-.5);
 
     }else{
 
-        currentQuestions=
-            questions.filter(q=>q.category===category);
+        currentQuestions=questions.filter(q=>q.category===category);
 
     }
 
     /* Shuffle questions */
+    currentQuestions=currentQuestions.sort(()=>Math.random()-.5);
 
-    currentQuestions=
-        currentQuestions.sort(()=>Math.random()-.5);
-
-    /* Limit to 30 */
-
-    currentQuestions=
-        currentQuestions.slice(0,30);
+    /* Every topic contains 30 questions */
+    currentQuestions=currentQuestions.slice(0,30);
 
     currentIndex=0;
-
     score=0;
-
-    selectedAnswers=
-        new Array(currentQuestions.length).fill(null);
+    selectedAnswers=new Array(currentQuestions.length).fill(null);
 
     document.getElementById("quizMenu").style.display="none";
-
     document.getElementById("quizBox").style.display="block";
-
     document.getElementById("resultBox").style.display="none";
 
     showQuestion();
-
     document.getElementById("quiz").scrollIntoView();
 
 }
-
 
 /* =====================================================
    SHOW QUESTION
@@ -2215,6 +2284,79 @@ function selectAnswer(index){
 
 
 /* =====================================================
+   SAVE / EXIT / RESUME QUIZ
+===================================================== */
+
+function getSavedQuiz(category){
+    try{
+        const savedQuizzes = JSON.parse(localStorage.getItem("cseNexusSavedQuizzes")) || {};
+        return savedQuizzes[category] || null;
+    }catch(error){
+        return null;
+    }
+}
+
+function saveQuizForLater(){
+
+    if(!currentQuestions.length) return;
+
+    const savedQuizzes = JSON.parse(localStorage.getItem("cseNexusSavedQuizzes")) || {};
+
+    savedQuizzes[currentCategory] = {
+        category:currentCategory,
+        questions:currentQuestions,
+        currentIndex:currentIndex,
+        selectedAnswers:selectedAnswers,
+        savedAt:new Date().toISOString()
+    };
+
+    localStorage.setItem("cseNexusSavedQuizzes", JSON.stringify(savedQuizzes));
+
+    document.getElementById("quizBox").style.display="none";
+    document.getElementById("resultBox").style.display="none";
+    document.getElementById("quizMenu").style.display="grid";
+
+    alert("Quiz saved! 💾 You can come back later and resume from Question " + (currentIndex+1) + ".");
+    document.getElementById("quiz").scrollIntoView();
+}
+
+function clearSavedQuiz(category){
+    const savedQuizzes = JSON.parse(localStorage.getItem("cseNexusSavedQuizzes")) || {};
+    delete savedQuizzes[category];
+    localStorage.setItem("cseNexusSavedQuizzes", JSON.stringify(savedQuizzes));
+}
+
+function exitQuiz(){
+
+    if(currentQuestions.length){
+        const choice = confirm(
+            "Leave this quiz?\n\n" +
+            "OK = Save your progress and choose another topic.\n" +
+            "Cancel = Stay in the quiz."
+        );
+
+        if(!choice) return;
+
+        /* Save automatically so the learner can resume later */
+        const savedQuizzes = JSON.parse(localStorage.getItem("cseNexusSavedQuizzes")) || {};
+        savedQuizzes[currentCategory] = {
+            category:currentCategory,
+            questions:currentQuestions,
+            currentIndex:currentIndex,
+            selectedAnswers:selectedAnswers,
+            savedAt:new Date().toISOString()
+        };
+        localStorage.setItem("cseNexusSavedQuizzes", JSON.stringify(savedQuizzes));
+    }
+
+    document.getElementById("quizBox").style.display="none";
+    document.getElementById("resultBox").style.display="none";
+    document.getElementById("quizMenu").style.display="grid";
+    document.getElementById("quiz").scrollIntoView();
+}
+
+
+/* =====================================================
    NEXT QUESTION
 ===================================================== */
 
@@ -2266,6 +2408,9 @@ function previousQuestion(){
 ===================================================== */
 
 function finishQuiz(){
+
+    /* Remove the saved incomplete version because this quiz is now finished */
+    clearSavedQuiz(currentCategory);
 
     let earnedXP=
         score*10;
