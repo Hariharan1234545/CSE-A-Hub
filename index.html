@@ -4,123 +4,88 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CSE Nexus | Student Learning Hub</title>
+<title>CSE NEXUS | CSE A 2026-2030</title>
 
 <style>
-
-/* =========================
-   GLOBAL
-========================= */
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-}
-
-html{
     scroll-behavior:smooth;
 }
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    color:#fff;
+    font-family:Arial, Helvetica, sans-serif;
     background:#050816;
+    color:#fff;
     overflow-x:hidden;
 }
 
-/* Animated background */
+/* ================= BACKGROUND ================= */
+
+#particles{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-2;
+}
 
 body::before{
     content:"";
     position:fixed;
-    width:500px;
-    height:500px;
-    border-radius:50%;
-    background:rgba(0,229,255,.12);
-    filter:blur(100px);
-    top:-200px;
-    left:-150px;
-    animation:float1 8s infinite alternate;
-    z-index:-2;
-}
-
-body::after{
-    content:"";
-    position:fixed;
-    width:500px;
-    height:500px;
-    border-radius:50%;
-    background:rgba(124,77,255,.15);
-    filter:blur(100px);
-    right:-200px;
-    bottom:-200px;
-    animation:float2 10s infinite alternate;
-    z-index:-2;
-}
-
-@keyframes float1{
-    from{transform:translate(0,0)}
-    to{transform:translate(150px,120px)}
-}
-
-@keyframes float2{
-    from{transform:translate(0,0)}
-    to{transform:translate(-120px,-100px)}
-}
-
-canvas{
-    position:fixed;
     inset:0;
+    background:
+        radial-gradient(circle at 20% 20%,rgba(0,229,255,.12),transparent 30%),
+        radial-gradient(circle at 80% 30%,rgba(255,78,205,.10),transparent 30%),
+        radial-gradient(circle at 50% 90%,rgba(90,70,255,.10),transparent 35%);
     z-index:-1;
-    pointer-events:none;
 }
 
-
-/* =========================
-   NAVBAR
-========================= */
+/* ================= NAVBAR ================= */
 
 .navbar{
-    position:sticky;
+    position:fixed;
     top:0;
-    z-index:100;
-    padding:16px 5%;
+    width:100%;
+    z-index:1000;
+    padding:14px 6%;
     display:flex;
     justify-content:space-between;
     align-items:center;
-
     background:rgba(5,8,22,.75);
-    backdrop-filter:blur(20px);
-
+    backdrop-filter:blur(15px);
     border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .brand{
-    font-size:24px;
+    font-size:22px;
     font-weight:900;
     letter-spacing:2px;
+    color:#00e5ff;
+}
 
-    background:linear-gradient(
-        90deg,
-        #00e5ff,
-        #7c4dff,
-        #ff4ecd
-    );
-
+.class-info{
+    display:block;
+    font-size:9px;
+    letter-spacing:2px;
+    margin-top:4px;
+    background:linear-gradient(90deg,#00e5ff,#ff4ecd);
     -webkit-background-clip:text;
     color:transparent;
 }
 
 .nav-links{
     display:flex;
-    gap:25px;
+    gap:20px;
+    list-style:none;
 }
 
 .nav-links a{
-    color:#aeb8d0;
+    color:#bbb;
     text-decoration:none;
-    font-size:14px;
+    font-size:13px;
     transition:.3s;
 }
 
@@ -128,108 +93,83 @@ canvas{
     color:#00e5ff;
 }
 
-
-/* =========================
-   GENERAL
-========================= */
-
-.container{
-    width:92%;
-    max-width:1150px;
-    margin:auto;
-}
+/* ================= COMMON ================= */
 
 section{
-    padding:90px 0;
+    padding:100px 7%;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
 }
 
 .section-title{
     text-align:center;
-    font-size:36px;
+    font-size:34px;
     margin-bottom:15px;
 }
 
 .section-subtitle{
     text-align:center;
-    color:#8994ad;
+    color:#8d95aa;
     margin-bottom:45px;
 }
 
 .glass{
-    background:rgba(255,255,255,.055);
-    border:1px solid rgba(255,255,255,.1);
-    backdrop-filter:blur(18px);
-    box-shadow:0 20px 70px rgba(0,0,0,.25);
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.09);
+    backdrop-filter:blur(15px);
+    box-shadow:0 15px 50px rgba(0,0,0,.25);
 }
 
-
-/* =========================
-   HERO
-========================= */
+/* ================= HERO ================= */
 
 .hero{
-    min-height:90vh;
+    min-height:100vh;
     display:flex;
     align-items:center;
     justify-content:center;
     text-align:center;
-    position:relative;
+    padding-top:130px;
 }
 
 .hero-content{
-    max-width:850px;
+    max-width:900px;
 }
 
 .badge{
     display:inline-block;
-    padding:9px 18px;
-    border-radius:30px;
+    padding:10px 18px;
+    border-radius:50px;
+    border:1px solid rgba(0,229,255,.3);
     background:rgba(0,229,255,.08);
-    border:1px solid rgba(0,229,255,.25);
     color:#00e5ff;
+    font-size:12px;
+    letter-spacing:1px;
     margin-bottom:25px;
-    font-size:13px;
-    animation:pulse 2s infinite;
-}
-
-@keyframes pulse{
-    0%,100%{box-shadow:0 0 0 rgba(0,229,255,0)}
-    50%{box-shadow:0 0 30px rgba(0,229,255,.2)}
 }
 
 .hero h1{
-    font-size:clamp(50px,9vw,100px);
-    line-height:.95;
-    font-weight:1000;
-    letter-spacing:-5px;
-
-    background:linear-gradient(
-        90deg,
-        #fff,
-        #00e5ff,
-        #7c4dff,
-        #ff4ecd,
-        #fff
-    );
-
-    background-size:300%;
+    font-size:clamp(45px,8vw,90px);
+    line-height:1;
+    font-weight:900;
+    background:linear-gradient(90deg,#00e5ff,#fff,#ff4ecd);
     -webkit-background-clip:text;
     color:transparent;
-
-    animation:gradientMove 5s linear infinite;
 }
 
-@keyframes gradientMove{
-    0%{background-position:0%}
-    100%{background-position:300%}
+.hero h2{
+    margin-top:20px;
+    color:#d8dbe8;
+    font-size:22px;
 }
 
 .hero p{
     max-width:700px;
-    margin:30px auto;
-    color:#aeb8d0;
-    font-size:18px;
-    line-height:1.7;
+    margin:20px auto;
+    color:#8992aa;
+    line-height:1.8;
 }
 
 .hero-buttons{
@@ -237,130 +177,143 @@ section{
     justify-content:center;
     gap:15px;
     flex-wrap:wrap;
+    margin-top:30px;
 }
 
 .btn{
-    padding:15px 25px;
     border:none;
-    border-radius:14px;
-    color:white;
-    font-weight:bold;
+    padding:13px 23px;
+    border-radius:12px;
     cursor:pointer;
+    color:#fff;
+    font-weight:bold;
     transition:.3s;
 }
 
-.btn:hover{
-    transform:translateY(-4px) scale(1.02);
-}
-
 .btn-primary{
-    background:linear-gradient(90deg,#00bcd4,#7c4dff);
-    box-shadow:0 10px 35px rgba(124,77,255,.25);
+    background:linear-gradient(90deg,#00bcd4,#5b4cff);
 }
 
 .btn-secondary{
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.12);
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.1);
 }
 
+.btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 30px rgba(0,229,255,.15);
+}
 
-/* =========================
-   DASHBOARD
-========================= */
+/* ================= DASHBOARD ================= */
 
-.dashboard{
+.stats{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:18px;
 }
 
-.stat{
+.stat-card{
     padding:25px;
-    border-radius:20px;
+    border-radius:18px;
     text-align:center;
 }
 
-.stat-icon{
+.stat-card .icon{
     font-size:30px;
     margin-bottom:10px;
 }
 
-.stat-value{
-    font-size:30px;
-    font-weight:900;
+.stat-card h3{
+    font-size:28px;
+    color:#00e5ff;
 }
 
-.stat-label{
-    color:#8994ad;
+.stat-card p{
+    color:#8d95aa;
     margin-top:5px;
     font-size:13px;
 }
 
+.level-box{
+    margin-top:25px;
+    padding:25px;
+    border-radius:18px;
+}
 
-/* =========================
-   ROADMAP
-========================= */
+.level-header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:12px;
+}
+
+.progress{
+    height:10px;
+    background:#11172b;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#00e5ff,#ff4ecd);
+    transition:.5s;
+}
+
+/* ================= ROADMAP ================= */
 
 .roadmap{
     display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:15px;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
 }
 
 .roadmap-card{
-    padding:25px 15px;
-    border-radius:20px;
-    text-align:center;
-    position:relative;
+    padding:25px;
+    border-radius:18px;
     transition:.3s;
 }
 
 .roadmap-card:hover{
-    transform:translateY(-10px);
-    border-color:#00e5ff;
+    transform:translateY(-7px);
+    border-color:rgba(0,229,255,.4);
 }
 
-.roadmap-icon{
-    font-size:38px;
-    margin-bottom:15px;
+.roadmap-number{
+    font-size:35px;
+    font-weight:bold;
+    color:#00e5ff;
 }
 
 .roadmap-card h3{
-    font-size:16px;
-    margin-bottom:8px;
+    margin:15px 0 10px;
 }
 
 .roadmap-card p{
-    color:#8994ad;
-    font-size:12px;
-    line-height:1.5;
+    color:#8992aa;
+    font-size:14px;
+    line-height:1.6;
 }
 
+.roadmap-card ul{
+    margin-top:15px;
+    padding-left:18px;
+    color:#aab1c4;
+    line-height:1.8;
+    font-size:13px;
+}
 
-/* =========================
-   MISSIONS
-========================= */
+/* ================= MISSIONS ================= */
 
 .missions{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:20px;
+    gap:18px;
 }
 
 .mission{
-    padding:28px;
-    border-radius:22px;
-    transition:.3s;
-}
-
-.mission:hover{
-    transform:translateY(-8px);
-    box-shadow:0 20px 50px rgba(0,0,0,.35);
-}
-
-.mission-icon{
-    font-size:40px;
-    margin-bottom:15px;
+    padding:25px;
+    border-radius:18px;
 }
 
 .mission h3{
@@ -368,241 +321,221 @@ section{
 }
 
 .mission p{
-    color:#8994ad;
+    color:#8d95aa;
     line-height:1.6;
     font-size:14px;
 }
 
-.mission button{
-    margin-top:20px;
+.xp{
+    margin-top:15px;
+    color:#00e5ff;
+    font-weight:bold;
 }
 
+/* ================= ACHIEVEMENTS ================= */
 
-/* =========================
-   QUIZ CATEGORY
-========================= */
-
-.categories{
+.achievements{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:18px;
 }
 
-.category{
+.achievement{
     padding:25px;
-    border-radius:20px;
-    cursor:pointer;
     text-align:center;
+    border-radius:18px;
+    opacity:.35;
+    filter:grayscale(1);
     transition:.3s;
 }
 
-.category:hover{
-    transform:translateY(-8px);
-    border-color:#7c4dff;
+.achievement.unlocked{
+    opacity:1;
+    filter:none;
+    border-color:#00e5ff;
 }
 
-.category-icon{
-    font-size:42px;
+.achievement-icon{
+    font-size:40px;
     margin-bottom:12px;
 }
 
-.category p{
-    color:#8994ad;
-    font-size:13px;
-    margin-top:7px;
-}
+/* ================= QUIZ ================= */
 
-
-/* =========================
-   QUIZ
-========================= */
-
-#quizArea{
-    display:none;
-}
-
-.quiz-box{
-    padding:35px;
-    border-radius:25px;
-    max-width:850px;
+.quiz-wrapper{
+    max-width:900px;
     margin:auto;
 }
 
-.quiz-header{
+.quiz-menu{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.category-btn{
+    padding:18px;
+    border-radius:15px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.09);
+    color:#fff;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.category-btn:hover{
+    transform:translateY(-4px);
+    border-color:#00e5ff;
+}
+
+.category-btn span{
+    display:block;
+    font-size:25px;
+    margin-bottom:8px;
+}
+
+.quiz-box{
+    display:none;
+    padding:30px;
+    border-radius:20px;
+}
+
+.quiz-top{
     display:flex;
     justify-content:space-between;
+    align-items:center;
     margin-bottom:20px;
 }
 
-.quiz-topic{
+.quiz-category{
     color:#00e5ff;
-    font-weight:bold;
+    font-size:13px;
 }
 
-.quiz-count{
-    color:#8994ad;
+.question-number{
+    color:#8d95aa;
+    font-size:13px;
 }
 
-.progress-container{
-    height:8px;
-    background:rgba(255,255,255,.08);
-    border-radius:20px;
-    overflow:hidden;
-    margin-bottom:30px;
-}
-
-.progress{
-    height:100%;
-    width:0%;
-    background:linear-gradient(90deg,#00e5ff,#7c4dff,#ff4ecd);
-    transition:.5s;
-}
-
-.quiz-question{
-    font-size:25px;
+.question{
+    font-size:23px;
     line-height:1.5;
     margin-bottom:25px;
 }
 
 .options{
     display:grid;
-    gap:13px;
+    gap:12px;
 }
 
 .option{
-    width:100%;
-    padding:17px;
-    text-align:left;
-    color:white;
-    background:rgba(255,255,255,.055);
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:14px;
+    padding:15px;
+    border-radius:12px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.09);
     cursor:pointer;
     transition:.25s;
 }
 
 .option:hover{
-    transform:translateX(5px);
     border-color:#00e5ff;
-    background:rgba(0,229,255,.08);
+    transform:translateX(3px);
 }
 
 .option.selected{
     border-color:#00e5ff;
-    background:rgba(0,229,255,.15);
+    background:rgba(0,229,255,.1);
 }
 
-.quiz-nav{
+.option.correct{
+    border-color:#35e27f;
+    background:rgba(53,226,127,.1);
+}
+
+.option.wrong{
+    border-color:#ff4e6a;
+    background:rgba(255,78,106,.1);
+}
+
+.explanation{
+    display:none;
+    margin-top:20px;
+    padding:15px;
+    border-left:3px solid #00e5ff;
+    background:rgba(0,229,255,.05);
+    color:#aeb6ca;
+    line-height:1.6;
+    border-radius:8px;
+}
+
+.quiz-controls{
     display:flex;
     justify-content:space-between;
-    margin-top:30px;
+    margin-top:25px;
 }
 
+.quiz-progress{
+    margin:20px 0;
+}
 
-/* =========================
-   RESULT
-========================= */
+/* ================= RESULT ================= */
 
 .result{
     display:none;
     text-align:center;
-    max-width:800px;
-    margin:auto;
-    padding:40px;
-    border-radius:25px;
+    padding:35px;
+    border-radius:20px;
 }
 
 .result-score{
-    font-size:75px;
-    font-weight:1000;
-
-    background:linear-gradient(
-        90deg,
-        #00e5ff,
-        #7c4dff,
-        #ff4ecd
-    );
-
+    font-size:65px;
+    font-weight:bold;
+    background:linear-gradient(90deg,#00e5ff,#ff4ecd);
     -webkit-background-clip:text;
     color:transparent;
+    margin:20px;
 }
 
-.result-message{
-    color:#aeb8d0;
-    margin:15px 0 25px;
+.result p{
+    color:#929ab0;
+    margin:10px;
 }
 
-.badges{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:12px;
-    margin:25px 0;
-}
-
-.badge-earned{
-    padding:12px 18px;
-    background:rgba(255,255,255,.07);
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:30px;
-}
-
-
-/* =========================
-   LEADERBOARD
-========================= */
+/* ================= LEADERBOARD ================= */
 
 .leaderboard{
-    max-width:700px;
+    max-width:800px;
     margin:auto;
     padding:25px;
-    border-radius:22px;
+    border-radius:20px;
 }
 
 .leader-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:17px;
-    margin-bottom:10px;
-    background:rgba(255,255,255,.04);
-    border-radius:13px;
+    display:grid;
+    grid-template-columns:60px 1fr 100px;
+    padding:15px;
+    border-bottom:1px solid rgba(255,255,255,.07);
 }
 
-.rank{
-    font-weight:bold;
-    color:#00e5ff;
+.leader-row:first-child{
+    color:#ffd700;
 }
 
-.player{
-    flex:1;
-    margin-left:15px;
-}
-
-.points{
-    font-weight:bold;
-}
-
-
-/* =========================
-   FOOTER
-========================= */
+/* ================= FOOTER ================= */
 
 footer{
-    padding:50px 20px;
+    padding:40px 7%;
     text-align:center;
-    color:#66718b;
     border-top:1px solid rgba(255,255,255,.07);
+    color:#737c92;
+    font-size:13px;
 }
 
-
-/* =========================
-   RESPONSIVE
-========================= */
+/* ================= RESPONSIVE ================= */
 
 @media(max-width:900px){
 
-    .dashboard{
+    .stats{
         grid-template-columns:repeat(2,1fr);
     }
 
@@ -614,7 +547,11 @@ footer{
         grid-template-columns:1fr;
     }
 
-    .categories{
+    .achievements{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .quiz-menu{
         grid-template-columns:repeat(2,1fr);
     }
 
@@ -626,744 +563,612 @@ footer{
 @media(max-width:600px){
 
     section{
-        padding:60px 0;
+        padding:80px 5%;
     }
 
-    .dashboard{
+    .stats{
         grid-template-columns:1fr 1fr;
     }
 
     .roadmap{
+        grid-template-columns:1fr;
+    }
+
+    .achievements{
         grid-template-columns:1fr 1fr;
     }
 
-    .categories{
-        grid-template-columns:1fr 1fr;
+    .quiz-menu{
+        grid-template-columns:1fr;
     }
 
-    .quiz-box{
-        padding:20px;
+    .question{
+        font-size:19px;
     }
 
-    .quiz-question{
-        font-size:20px;
-    }
-
-    .hero h1{
-        letter-spacing:-3px;
+    .hero h2{
+        font-size:17px;
     }
 }
-
 </style>
 </head>
-
 
 <body>
 
 <canvas id="particles"></canvas>
 
-
-<!-- =========================
-     NAVBAR
-========================= -->
+<!-- ================= NAVBAR ================= -->
 
 <nav class="navbar">
 
     <div class="brand">
         CSE NEXUS
+        <span class="class-info">CSE A 2026 - 2030</span>
     </div>
 
-    <div class="nav-links">
-
-        <a href="#home">Home</a>
-        <a href="#dashboard">Dashboard</a>
-        <a href="#roadmap">Roadmap</a>
-        <a href="#missions">Missions</a>
-        <a href="#quiz">Quiz</a>
-        <a href="#leaderboard">Leaderboard</a>
-
-    </div>
+    <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#roadmap">Roadmap</a></li>
+        <li><a href="#missions">Missions</a></li>
+        <li><a href="#quiz">Quiz</a></li>
+        <li><a href="#leaderboard">Leaderboard</a></li>
+    </ul>
 
 </nav>
 
 
-
-<!-- =========================
-     HERO
-========================= -->
+<!-- ================= HERO ================= -->
 
 <section class="hero" id="home">
 
-<div class="container">
+    <div class="hero-content">
 
-<div class="hero-content">
+        <div class="badge">
+            ⚡ CSE A 2026 - 2030 • NEXT-GEN STUDENT HUB
+        </div>
 
-<div class="badge">
-⚡ NEXT-GEN CSE STUDENT HUB
-</div>
+        <h1>CSE NEXUS</h1>
 
-<h1>
-CSE<br>NEXUS
-</h1>
+        <h2>Your Journey From Student → Future Engineer</h2>
 
-<p>
-Don't just study Computer Science.
-Build your skills, complete missions,
-earn XP, unlock achievements and become
-a better engineer every day.
-</p>
+        <p>
+            Learn Computer Science, challenge yourself with quizzes,
+            earn XP, unlock achievements and track your progress.
+        </p>
 
-<div class="hero-buttons">
+        <div class="hero-buttons">
 
-<button
-class="btn btn-primary"
-onclick="startJourney()">
-🚀 Start My Journey
-</button>
+            <a href="#quiz">
+                <button class="btn btn-primary">
+                    🚀 Start Learning
+                </button>
+            </a>
 
-<button
-class="btn btn-secondary"
-onclick="scrollToSection('roadmap')">
-🗺️ Explore Roadmap
-</button>
+            <a href="#roadmap">
+                <button class="btn btn-secondary">
+                    🧭 Explore Roadmap
+                </button>
+            </a>
 
-</div>
+        </div>
 
-</div>
-
-</div>
+    </div>
 
 </section>
 
 
-
-<!-- =========================
-     DASHBOARD
-========================= -->
+<!-- ================= DASHBOARD ================= -->
 
 <section id="dashboard">
 
-<div class="container">
+    <div class="container">
 
-<h2 class="section-title">
-📊 Your CSE Dashboard
-</h2>
+        <h2 class="section-title">📊 Student Dashboard</h2>
 
-<p class="section-subtitle">
-Your learning journey at a glance
-</p>
+        <p class="section-subtitle">
+            Track your CSE learning journey
+        </p>
 
+        <div class="stats">
 
-<div class="dashboard">
+            <div class="stat-card glass">
+                <div class="icon">⚡</div>
+                <h3 id="xpDisplay">0</h3>
+                <p>Total XP</p>
+            </div>
 
-<div class="stat glass">
+            <div class="stat-card glass">
+                <div class="icon">🧠</div>
+                <h3 id="solvedDisplay">0</h3>
+                <p>Questions Solved</p>
+            </div>
 
-<div class="stat-icon">⚡</div>
+            <div class="stat-card glass">
+                <div class="icon">🔥</div>
+                <h3 id="streakDisplay">0</h3>
+                <p>Streak</p>
+            </div>
 
-<div
-class="stat-value"
-id="xpValue">
-0
-</div>
+            <div class="stat-card glass">
+                <div class="icon">🏆</div>
+                <h3 id="levelDisplay">1</h3>
+                <p>Level</p>
+            </div>
 
-<div class="stat-label">
-XP POINTS
-</div>
+        </div>
 
-</div>
+        <div class="level-box glass">
 
+            <div class="level-header">
+                <span id="levelText">Level 1</span>
+                <span id="levelXP">0 / 100 XP</span>
+            </div>
 
-<div class="stat glass">
+            <div class="progress">
+                <div class="progress-bar" id="levelProgress"></div>
+            </div>
 
-<div class="stat-icon">🔥</div>
+        </div>
 
-<div
-class="stat-value"
-id="streakValue">
-0
-</div>
-
-<div class="stat-label">
-STREAK
-</div>
-
-</div>
-
-
-<div class="stat glass">
-
-<div class="stat-icon">🏆</div>
-
-<div
-class="stat-value"
-id="levelValue">
-1
-</div>
-
-<div class="stat-label">
-LEVEL
-</div>
-
-</div>
-
-
-<div class="stat glass">
-
-<div class="stat-icon">🎯</div>
-
-<div
-class="stat-value"
-id="solvedValue">
-0
-</div>
-
-<div class="stat-label">
-QUESTIONS SOLVED
-</div>
-
-</div>
-
-</div>
-
-</div>
+    </div>
 
 </section>
 
 
-
-<!-- =========================
-     ROADMAP
-========================= -->
+<!-- ================= ROADMAP ================= -->
 
 <section id="roadmap">
 
-<div class="container">
+    <div class="container">
 
-<h2 class="section-title">
-🗺️ CSE Learning Roadmap
-</h2>
+        <h2 class="section-title">🧭 CSE Learning Roadmap</h2>
 
-<p class="section-subtitle">
-Your path from beginner to software engineer
-</p>
+        <p class="section-subtitle">
+            Follow the path and become a stronger programmer
+        </p>
 
+        <div class="roadmap">
 
-<div class="roadmap">
+            <div class="roadmap-card glass">
 
-<div class="roadmap-card glass">
+                <div class="roadmap-number">01</div>
 
-<div class="roadmap-icon">
-💻
-</div>
+                <h3>Programming</h3>
 
-<h3>Programming</h3>
+                <p>
+                    Build your programming foundation.
+                </p>
 
-<p>
-C • C++ • Python • Java
-</p>
+                <ul>
+                    <li>C Programming</li>
+                    <li>Python</li>
+                    <li>Problem Solving</li>
+                    <li>Algorithms</li>
+                </ul>
 
-</div>
-
-
-<div class="roadmap-card glass">
-
-<div class="roadmap-icon">
-🌳
-</div>
-
-<h3>Data Structures</h3>
-
-<p>
-Arrays • Trees • Graphs • Algorithms
-</p>
-
-</div>
+            </div>
 
 
-<div class="roadmap-card glass">
+            <div class="roadmap-card glass">
 
-<div class="roadmap-icon">
-🗄️
-</div>
+                <div class="roadmap-number">02</div>
 
-<h3>Databases</h3>
+                <h3>Core CSE</h3>
 
-<p>
-SQL • DBMS • Normalization
-</p>
+                <p>
+                    Master the fundamentals of computer science.
+                </p>
 
-</div>
+                <ul>
+                    <li>Data Structures</li>
+                    <li>DBMS</li>
+                    <li>Operating Systems</li>
+                    <li>Computer Networks</li>
+                </ul>
 
-
-<div class="roadmap-card glass">
-
-<div class="roadmap-icon">
-🌐
-</div>
-
-<h3>Web Development</h3>
-
-<p>
-HTML • CSS • JavaScript
-</p>
-
-</div>
+            </div>
 
 
-<div class="roadmap-card glass">
+            <div class="roadmap-card glass">
 
-<div class="roadmap-icon">
-🤖
-</div>
+                <div class="roadmap-number">03</div>
 
-<h3>Future Tech</h3>
+                <h3>Development</h3>
 
-<p>
-AI • ML • Cloud • Cyber Security
-</p>
+                <p>
+                    Learn to build real-world applications.
+                </p>
 
-</div>
+                <ul>
+                    <li>HTML & CSS</li>
+                    <li>JavaScript</li>
+                    <li>Web Development</li>
+                    <li>Git & GitHub</li>
+                </ul>
 
-</div>
+            </div>
 
-</div>
+
+            <div class="roadmap-card glass">
+
+                <div class="roadmap-number">04</div>
+
+                <h3>Future Tech</h3>
+
+                <p>
+                    Explore modern technologies.
+                </p>
+
+                <ul>
+                    <li>Artificial Intelligence</li>
+                    <li>Machine Learning</li>
+                    <li>Cloud Computing</li>
+                    <li>Cyber Security</li>
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
 
-
-<!-- =========================
-     MISSIONS
-========================= -->
+<!-- ================= MISSIONS ================= -->
 
 <section id="missions">
 
-<div class="container">
+    <div class="container">
 
-<h2 class="section-title">
-🎮 CSE Missions
-</h2>
+        <h2 class="section-title">🎯 Missions</h2>
 
-<p class="section-subtitle">
-Learning becomes more fun when it feels like a game
-</p>
+        <p class="section-subtitle">
+            Complete missions and gain XP
+        </p>
 
+        <div class="missions">
 
-<div class="missions">
+            <div class="mission glass">
 
+                <h3>💻 Coding Rookie</h3>
 
-<div class="mission glass">
+                <p>
+                    Solve your first 10 CSE questions.
+                </p>
 
-<div class="mission-icon">
-⚡
-</div>
+                <div class="xp">
+                    +100 XP
+                </div>
 
-<h3>Daily Challenge</h3>
-
-<p>
-Solve a quick CSE challenge and
-earn bonus XP.
-</p>
-
-<button
-class="btn btn-primary"
-onclick="startQuiz('random')">
-
-Start Challenge
-
-</button>
-
-</div>
+            </div>
 
 
+            <div class="mission glass">
 
-<div class="mission glass">
+                <h3>🔥 Knowledge Hunter</h3>
 
-<div class="mission-icon">
-🧠
-</div>
+                <p>
+                    Solve 25 questions.
+                </p>
 
-<h3>Knowledge Test</h3>
+                <div class="xp">
+                    +250 XP
+                </div>
 
-<p>
-Test your knowledge across different
-CSE subjects.
-</p>
-
-<button
-class="btn btn-primary"
-onclick="startQuiz('all')">
-
-Take Test
-
-</button>
-
-</div>
+            </div>
 
 
+            <div class="mission glass">
 
-<div class="mission glass">
+                <h3>🚀 CSE Explorer</h3>
 
-<div class="mission-icon">
-🏆
-</div>
+                <p>
+                    Try questions from different CSE subjects.
+                </p>
 
-<h3>Master Mode</h3>
+                <div class="xp">
+                    +500 XP
+                </div>
 
-<p>
-Challenge yourself with advanced
-programming and CS concepts.
-</p>
+            </div>
 
-<button
-class="btn btn-primary"
-onclick="startQuiz('advanced')">
+        </div>
 
-Enter Mode
-
-</button>
-
-</div>
-
-
-</div>
-
-</div>
+    </div>
 
 </section>
 
 
+<!-- ================= ACHIEVEMENTS ================= -->
 
-<!-- =========================
-     QUIZ CATEGORIES
-========================= -->
+<section>
+
+    <div class="container">
+
+        <h2 class="section-title">🏅 Achievements</h2>
+
+        <p class="section-subtitle">
+            Unlock badges as you progress
+        </p>
+
+        <div class="achievements">
+
+            <div class="achievement glass" id="badge10">
+
+                <div class="achievement-icon">🌱</div>
+
+                <h3>First Steps</h3>
+
+                <p>10 questions solved</p>
+
+            </div>
+
+
+            <div class="achievement glass" id="badge25">
+
+                <div class="achievement-icon">⚡</div>
+
+                <h3>Fast Learner</h3>
+
+                <p>25 questions solved</p>
+
+            </div>
+
+
+            <div class="achievement glass" id="badge50">
+
+                <div class="achievement-icon">🔥</div>
+
+                <h3>CSE Warrior</h3>
+
+                <p>50 questions solved</p>
+
+            </div>
+
+
+            <div class="achievement glass" id="badge100">
+
+                <div class="achievement-icon">👑</div>
+
+                <h3>CSE Master</h3>
+
+                <p>100 questions solved</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= QUIZ ================= -->
 
 <section id="quiz">
 
-<div class="container">
+    <div class="container quiz-wrapper">
 
-<h2 class="section-title">
-🎯 Choose Your Mission
-</h2>
+        <h2 class="section-title">🧠 CSE Quiz Arena</h2>
 
-<p class="section-subtitle">
-Select a subject and begin
-</p>
+        <p class="section-subtitle">
+            Select a category and test your knowledge
+        </p>
 
 
-<div class="categories">
+        <div class="quiz-menu" id="quizMenu">
 
+            <button class="category-btn" onclick="startQuiz('C')">
+                <span>💻</span>
+                C Programming
+            </button>
 
-<div
-class="category glass"
-onclick="startQuiz('C Programming')">
+            <button class="category-btn" onclick="startQuiz('DS')">
+                <span>🌳</span>
+                Data Structures
+            </button>
 
-<div class="category-icon">
-💻
-</div>
+            <button class="category-btn" onclick="startQuiz('DBMS')">
+                <span>🗄️</span>
+                DBMS
+            </button>
 
-<h3>C Programming</h3>
+            <button class="category-btn" onclick="startQuiz('OS')">
+                <span>⚙️</span>
+                Operating Systems
+            </button>
 
-<p>Variables • Loops • Functions</p>
+            <button class="category-btn" onclick="startQuiz('CN')">
+                <span>🌐</span>
+                Computer Networks
+            </button>
 
-</div>
+            <button class="category-btn" onclick="startQuiz('WEB')">
+                <span>🌎</span>
+                Web Technology
+            </button>
 
+            <button class="category-btn" onclick="startQuiz('FUND')">
+                <span>🖥️</span>
+                Computer Fundamentals
+            </button>
 
-<div
-class="category glass"
-onclick="startQuiz('Data Structures')">
+            <button class="category-btn" onclick="startQuiz('MIX')">
+                <span>🚀</span>
+                Mixed Challenge
+            </button>
 
-<div class="category-icon">
-🌳
-</div>
+        </div>
 
-<h3>Data Structures</h3>
 
-<p>Stack • Queue • Trees</p>
+        <!-- QUIZ BOX -->
 
-</div>
+        <div class="quiz-box glass" id="quizBox">
 
+            <div class="quiz-top">
 
-<div
-class="category glass"
-onclick="startQuiz('DBMS')">
+                <div class="quiz-category" id="quizCategory">
+                    C Programming
+                </div>
 
-<div class="category-icon">
-🗄️
-</div>
+                <div class="question-number" id="questionNumber">
+                    Question 1
+                </div>
 
-<h3>DBMS</h3>
+            </div>
 
-<p>SQL • Keys • Tables</p>
 
-</div>
+            <div class="quiz-progress">
 
+                <div class="progress">
+                    <div class="progress-bar" id="quizProgress"></div>
+                </div>
 
-<div
-class="category glass"
-onclick="startQuiz('Operating Systems')">
+            </div>
 
-<div class="category-icon">
-⚙️
-</div>
 
-<h3>Operating Systems</h3>
+            <div class="question" id="question">
+                Question goes here
+            </div>
 
-<p>Process • Memory • Files</p>
 
-</div>
+            <div class="options" id="options">
+            </div>
 
 
-<div
-class="category glass"
-onclick="startQuiz('Computer Networks')">
+            <div class="explanation" id="explanation">
+            </div>
 
-<div class="category-icon">
-🌐
-</div>
 
-<h3>Networks</h3>
+            <div class="quiz-controls">
 
-<p>IP • LAN • Protocols</p>
+                <button
+                    class="btn btn-secondary"
+                    onclick="previousQuestion()"
+                    id="previousBtn">
+                    ← Previous
+                </button>
 
-</div>
+                <button
+                    class="btn btn-primary"
+                    onclick="nextQuestion()"
+                    id="nextBtn">
+                    Next →
+                </button>
 
+            </div>
 
-<div
-class="category glass"
-onclick="startQuiz('Web Technology')">
+        </div>
 
-<div class="category-icon">
-🕸️
-</div>
 
-<h3>Web Technology</h3>
+        <!-- RESULT -->
 
-<p>HTML • CSS • JavaScript</p>
+        <div class="result glass" id="resultBox">
 
-</div>
+            <h2>🎉 Quiz Completed!</h2>
 
+            <div class="result-score" id="resultScore">
+                0%
+            </div>
 
-<div
-class="category glass"
-onclick="startQuiz('Computer Fundamentals')">
+            <p id="resultMessage">
+                Great work!
+            </p>
 
-<div class="category-icon">
-🖥️
-</div>
+            <p id="resultXP">
+                XP Earned: 0
+            </p>
 
-<h3>Fundamentals</h3>
+            <button
+                class="btn btn-primary"
+                onclick="closeResult()">
+                🔄 Try Another Quiz
+            </button>
 
-<p>Hardware • Software • Memory</p>
+        </div>
 
-</div>
-
-
-<div
-class="category glass"
-onclick="startQuiz('all')">
-
-<div class="category-icon">
-🚀
-</div>
-
-<h3>Mixed Challenge</h3>
-
-<p>Everything combined</p>
-
-</div>
-
-
-</div>
-
-
-
-<!-- QUIZ -->
-
-<div
-id="quizArea"
-style="margin-top:50px">
-
-<div class="quiz-box glass">
-
-
-<div class="quiz-header">
-
-<div
-class="quiz-topic"
-id="quizTopic">
-C Programming
-</div>
-
-<div
-class="quiz-count"
-id="quizCount">
-1 / 10
-</div>
-
-</div>
-
-
-<div class="progress-container">
-
-<div
-class="progress"
-id="quizProgress">
-</div>
-
-</div>
-
-
-<div
-class="quiz-question"
-id="quizQuestion">
-Question
-</div>
-
-
-<div
-class="options"
-id="quizOptions">
-</div>
-
-
-<div class="quiz-nav">
-
-<button
-class="btn btn-secondary"
-onclick="previousQuestion()"
-id="prevBtn">
-
-← Previous
-
-</button>
-
-
-<button
-class="btn btn-primary"
-onclick="nextQuestion()"
-id="nextBtn">
-
-Next →
-
-</button>
-
-</div>
-
-
-</div>
-
-</div>
-
-
-
-<!-- RESULT -->
-
-<div
-class="result glass"
-id="resultBox">
-
-<h2>
-🎉 Mission Complete!
-</h2>
-
-<br>
-
-<div
-class="result-score"
-id="finalScore">
-0 / 10
-</div>
-
-<div
-class="result-message"
-id="finalMessage">
-Excellent!
-</div>
-
-<div
-class="badges"
-id="earnedBadges">
-</div>
-
-<button
-class="btn btn-primary"
-onclick="closeResult()">
-
-Continue Journey 🚀
-
-</button>
-
-</div>
-
-
-</div>
+    </div>
 
 </section>
 
 
-
-<!-- =========================
-     LEADERBOARD
-========================= -->
+<!-- ================= LEADERBOARD ================= -->
 
 <section id="leaderboard">
 
-<div class="container">
+    <div class="container">
 
-<h2 class="section-title">
-🏅 Local Leaderboard
-</h2>
+        <h2 class="section-title">🏆 Leaderboard</h2>
 
-<p class="section-subtitle">
-Your scores are stored in this browser
-</p>
+        <p class="section-subtitle">
+            Your local CSE NEXUS ranking
+        </p>
 
+        <div class="leaderboard glass">
 
-<div
-class="leaderboard glass"
-id="leaderboardBox">
-</div>
+            <div class="leader-row">
+                <strong>Rank</strong>
+                <strong>Player</strong>
+                <strong>XP</strong>
+            </div>
 
-</div>
+            <div class="leader-row">
+                <span>🥇</span>
+                <span>You</span>
+                <span id="leaderXP">0</span>
+            </div>
+
+            <div class="leader-row">
+                <span>🥈</span>
+                <span>CSE Warrior</span>
+                <span>850</span>
+            </div>
+
+            <div class="leader-row">
+                <span>🥉</span>
+                <span>Code Master</span>
+                <span>700</span>
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
 
+<!-- ================= FOOTER ================= -->
 
 <footer>
 
-CSE NEXUS • Built for future engineers 💻
+    <p>
+        CSE NEXUS • CSE A 2026 - 2030
+    </p>
 
-<br><br>
-
-Keep Learning • Keep Building • Keep Creating
+    <p style="margin-top:8px;">
+        Built for future engineers 💻
+    </p>
 
 </footer>
 
 
-
 <script>
 
-/* =========================
+/* =====================================================
    PARTICLE BACKGROUND
-========================= */
+===================================================== */
 
-const canvas =
-document.getElementById("particles");
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
 
-const ctx =
-canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-canvas.width =
-window.innerWidth;
+let particles = [];
 
-canvas.height =
-window.innerHeight;
-
-let particles=[];
-
-for(let i=0;i<80;i++){
+for(let i = 0; i < 80; i++){
 
     particles.push({
 
@@ -1383,23 +1188,18 @@ for(let i=0;i<80;i++){
 
 function animateParticles(){
 
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
     particles.forEach(p=>{
 
-        p.x+=p.speedX;
-        p.y+=p.speedY;
+        p.x += p.speedX;
+        p.y += p.speedY;
 
-        if(p.x<0)p.x=canvas.width;
-        if(p.x>canvas.width)p.x=0;
+        if(p.x<0 || p.x>canvas.width)
+            p.speedX *= -1;
 
-        if(p.y<0)p.y=canvas.height;
-        if(p.y>canvas.height)p.y=0;
+        if(p.y<0 || p.y>canvas.height)
+            p.speedY *= -1;
 
         ctx.beginPath();
 
@@ -1411,464 +1211,32 @@ function animateParticles(){
             Math.PI*2
         );
 
-        ctx.fillStyle=
-        "rgba(0,229,255,.35)";
+        ctx.fillStyle="rgba(0,229,255,.5)";
 
         ctx.fill();
 
     });
 
-    requestAnimationFrame(
-        animateParticles
-    );
+    requestAnimationFrame(animateParticles);
 }
 
 animateParticles();
 
 
-window.addEventListener(
-"resize",
-()=>{
+window.addEventListener("resize",()=>{
 
-    canvas.width=
-    window.innerWidth;
-
-    canvas.height=
-    window.innerHeight;
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
 
 });
 
 
+/* =====================================================
+   PLAYER DATA
+===================================================== */
 
-/* =========================
-   QUESTION DATABASE
-========================= */
-
-const questions=[
-
-{
-topic:"C Programming",
-q:"Which symbol terminates a statement in C?",
-o:[".",";",":",","],
-a:1,
-e:"The semicolon terminates most C statements."
-},
-
-{
-topic:"C Programming",
-q:"Which function is used to display output in C?",
-o:["scanf()","printf()","display()","output()"],
-a:1,
-e:"printf() is the standard formatted output function."
-},
-
-{
-topic:"C Programming",
-q:"Which data type stores a single character?",
-o:["int","float","char","double"],
-a:2,
-e:"char is used to store a character."
-},
-
-{
-topic:"C Programming",
-q:"Which operator gives the address of a variable?",
-o:["*","&","%","#"],
-a:1,
-e:"The & operator is the address-of operator."
-},
-
-{
-topic:"C Programming",
-q:"Which loop executes its body at least once?",
-o:["for","while","do-while","if"],
-a:2,
-e:"do-while checks its condition after executing the body."
-},
-
-{
-topic:"C Programming",
-q:"Which keyword is used to return a value from a function?",
-o:["send","return","break","exit"],
-a:1,
-e:"return sends control and optionally a value back to the caller."
-},
-
-
-{
-topic:"Data Structures",
-q:"Which data structure follows LIFO?",
-o:["Queue","Stack","Graph","Array"],
-a:1,
-e:"Stack follows Last In First Out."
-},
-
-{
-topic:"Data Structures",
-q:"Which data structure follows FIFO?",
-o:["Stack","Queue","Tree","Graph"],
-a:1,
-e:"Queue follows First In First Out."
-},
-
-{
-topic:"Data Structures",
-q:"Which structure consists of vertices and edges?",
-o:["Stack","Graph","Array","Variable"],
-a:1,
-e:"A graph is composed of vertices connected by edges."
-},
-
-{
-topic:"Data Structures",
-q:"What is the topmost node of a tree called?",
-o:["Leaf","Root","Child","Branch"],
-a:1,
-e:"The root is the topmost node."
-},
-
-{
-topic:"Data Structures",
-q:"Which structure commonly uses nodes connected by pointers?",
-o:["Array","Linked List","Integer","Matrix"],
-a:1,
-e:"Linked lists connect dynamically allocated nodes using links or pointers."
-},
-
-{
-topic:"Data Structures",
-q:"Which traversal visits Root, Left, Right?",
-o:["Inorder","Postorder","Preorder","Level order"],
-a:2,
-e:"Preorder traversal follows Root, Left, Right."
-},
-
-
-{
-topic:"DBMS",
-q:"What does DBMS stand for?",
-o:[
-"Data Backup Management System",
-"Database Management System",
-"Database Machine System",
-"Data Memory System"
-],
-a:1,
-e:"DBMS means Database Management System."
-},
-
-{
-topic:"DBMS",
-q:"Which language is commonly used to query relational databases?",
-o:["HTML","SQL","CSS","XML"],
-a:1,
-e:"SQL is used to query and manipulate relational databases."
-},
-
-{
-topic:"DBMS",
-q:"Which key uniquely identifies a record?",
-o:[
-"Foreign Key",
-"Primary Key",
-"Normal Key",
-"Secondary Key"
-],
-a:1,
-e:"A primary key uniquely identifies rows in a table."
-},
-
-{
-topic:"DBMS",
-q:"Which SQL command retrieves data?",
-o:["INSERT","SELECT","DELETE","UPDATE"],
-a:1,
-e:"SELECT retrieves data from database tables."
-},
-
-{
-topic:"DBMS",
-q:"Which command removes a table structure?",
-o:["DELETE","DROP","REMOVE","CLEAR"],
-a:1,
-e:"DROP TABLE removes the table and its definition."
-},
-
-{
-topic:"DBMS",
-q:"A foreign key is mainly used to represent what?",
-o:[
-"A relationship between tables",
-"A CPU register",
-"A file extension",
-"A programming loop"
-],
-a:0,
-e:"Foreign keys reference keys in another table and establish relationships."
-},
-
-
-{
-topic:"Operating Systems",
-q:"Which is an operating system?",
-o:["Windows","Google","HTML","Python"],
-a:0,
-e:"Windows is an operating system."
-},
-
-{
-topic:"Operating Systems",
-q:"What is the main purpose of an operating system?",
-o:[
-"Manage computer resources",
-"Create only websites",
-"Draw pictures",
-"Write only C programs"
-],
-a:0,
-e:"An operating system manages hardware and software resources."
-},
-
-{
-topic:"Operating Systems",
-q:"Which component decides which process gets CPU time?",
-o:[
-"Scheduler",
-"Compiler",
-"Browser",
-"Text editor"
-],
-a:0,
-e:"The scheduler selects processes for CPU execution."
-},
-
-{
-topic:"Operating Systems",
-q:"Which memory is generally faster than RAM?",
-o:["Hard disk","Cache","DVD","USB"],
-a:1,
-e:"Cache memory is designed for very fast access."
-},
-
-{
-topic:"Operating Systems",
-q:"What is virtual memory?",
-o:[
-"Disk space used as an extension of memory",
-"A second CPU",
-"A graphics card",
-"A network cable"
-],
-a:0,
-e:"Virtual memory uses storage to extend the apparent memory available to programs."
-},
-
-{
-topic:"Operating Systems",
-q:"What is a process?",
-o:[
-"A program in execution",
-"A keyboard",
-"A file extension",
-"A monitor"
-],
-a:0,
-e:"A process is a program currently executing."
-},
-
-
-{
-topic:"Computer Networks",
-q:"What does LAN stand for?",
-o:[
-"Large Area Network",
-"Local Area Network",
-"Long Area Network",
-"Linked Area Network"
-],
-a:1,
-e:"LAN means Local Area Network."
-},
-
-{
-topic:"Computer Networks",
-q:"Which device connects different networks?",
-o:["Switch","Router","Monitor","Keyboard"],
-a:1,
-e:"Routers forward packets between networks."
-},
-
-{
-topic:"Computer Networks",
-q:"What does IP stand for?",
-o:[
-"Internet Protocol",
-"Internet Program",
-"Internal Process",
-"Information Protocol"
-],
-a:0,
-e:"IP means Internet Protocol."
-},
-
-{
-topic:"Computer Networks",
-q:"Which protocol is commonly used for web communication?",
-o:["HTTP","FTP","SMTP","POP3"],
-a:0,
-e:"HTTP is the standard protocol used for web communication."
-},
-
-{
-topic:"Computer Networks",
-q:"Which device forwards frames inside a LAN?",
-o:["Router","Switch","Printer","Scanner"],
-a:1,
-e:"A switch forwards Ethernet frames within a LAN."
-},
-
-{
-topic:"Computer Networks",
-q:"Which protocol is commonly used to send email?",
-o:["SMTP","HTTP","FTP","DHCP"],
-a:0,
-e:"SMTP is used for sending email."
-},
-
-
-{
-topic:"Web Technology",
-q:"What does HTML stand for?",
-o:[
-"Hyper Text Markup Language",
-"High Text Machine Language",
-"Hyperlink Text Management Language",
-"Home Tool Markup Language"
-],
-a:0,
-e:"HTML means HyperText Markup Language."
-},
-
-{
-topic:"Web Technology",
-q:"Which language styles webpages?",
-o:["HTML","CSS","SQL","C"],
-a:1,
-e:"CSS controls webpage presentation and layout."
-},
-
-{
-topic:"Web Technology",
-q:"Which language adds interaction to webpages?",
-o:["HTML","CSS","JavaScript","SQL"],
-a:2,
-e:"JavaScript provides client-side interactivity and dynamic behavior."
-},
-
-{
-topic:"Web Technology",
-q:"Which HTML element creates a hyperlink?",
-o:["<a>","<p>","<h1>","<img>"],
-a:0,
-e:"The anchor element <a> creates hyperlinks."
-},
-
-{
-topic:"Web Technology",
-q:"Which heading element is the highest level?",
-o:["<h6>","<h4>","<h1>","<head>"],
-a:2,
-e:"<h1> represents the highest-level heading."
-},
-
-{
-topic:"Web Technology",
-q:"Which technology is mainly responsible for webpage structure?",
-o:["HTML","CSS","JavaScript","SQL"],
-a:0,
-e:"HTML defines the structure and content of a webpage."
-},
-
-
-{
-topic:"Computer Fundamentals",
-q:"Which component is often called the brain of the computer?",
-o:["RAM","CPU","Monitor","Keyboard"],
-a:1,
-e:"The CPU executes instructions and performs processing."
-},
-
-{
-topic:"Computer Fundamentals",
-q:"Which memory is volatile?",
-o:["ROM","RAM","SSD","DVD"],
-a:1,
-e:"RAM loses its stored contents when power is removed."
-},
-
-{
-topic:"Computer Fundamentals",
-q:"What does USB stand for?",
-o:[
-"Universal Serial Bus",
-"Universal System Board",
-"United Serial Bus",
-"User System Bus"
-],
-a:0,
-e:"USB means Universal Serial Bus."
-},
-
-{
-topic:"Computer Fundamentals",
-q:"Which number system uses only 0 and 1?",
-o:["Decimal","Binary","Octal","Hexadecimal"],
-a:1,
-e:"Binary uses two digits: 0 and 1."
-},
-
-{
-topic:"Computer Fundamentals",
-q:"Which device is primarily used for permanent storage?",
-o:["RAM","SSD","Cache","Register"],
-a:1,
-e:"An SSD provides non-volatile permanent storage."
-},
-
-{
-topic:"Computer Fundamentals",
-q:"Which unit is commonly used to represent processor frequency?",
-o:["Byte","Hertz","Pixel","Volt"],
-a:1,
-e:"Processor frequency is measured in hertz, such as GHz."
-}
-
-];
-
-
-
-/* =========================
-   GAME VARIABLES
-========================= */
-
-let current=0;
-
-let quizQuestions=[];
-
-let answers=[];
-
-let currentCategory="";
-
-
-
-/* =========================
-   LOCAL STORAGE
-========================= */
-
-let gameData=
-JSON.parse(
-localStorage.getItem("cseNexusData")
-) || {
+let playerData =
+JSON.parse(localStorage.getItem("cseNexusData")) || {
 
     xp:0,
 
@@ -1887,266 +1255,668 @@ function saveData(){
 
     localStorage.setItem(
         "cseNexusData",
-        JSON.stringify(gameData)
+        JSON.stringify(playerData)
     );
 
-    updateDashboard();
-
-    showLeaderboard();
 }
-
 
 
 function updateDashboard(){
 
-    document.getElementById(
-        "xpValue"
-    ).innerText=gameData.xp;
+    document.getElementById("xpDisplay").textContent =
+        playerData.xp;
 
-    document.getElementById(
-        "solvedValue"
-    ).innerText=gameData.solved;
+    document.getElementById("solvedDisplay").textContent =
+        playerData.solved;
 
-    document.getElementById(
-        "streakValue"
-    ).innerText=gameData.streak;
+    document.getElementById("streakDisplay").textContent =
+        playerData.streak;
 
-    gameData.level=
-    Math.floor(gameData.xp/100)+1;
+    playerData.level =
+        Math.floor(playerData.xp/100)+1;
 
-    document.getElementById(
-        "levelValue"
-    ).innerText=gameData.level;
+    document.getElementById("levelDisplay").textContent =
+        playerData.level;
 
-}
+    document.getElementById("levelText").textContent =
+        "Level " + playerData.level;
 
+    let currentXP = playerData.xp % 100;
 
+    document.getElementById("levelXP").textContent =
+        currentXP + " / 100 XP";
 
-/* =========================
-   START JOURNEY
-========================= */
+    document.getElementById("levelProgress").style.width =
+        currentXP + "%";
 
-function startJourney(){
-
-    scrollToSection("quiz");
-
-}
+    document.getElementById("leaderXP").textContent =
+        playerData.xp;
 
 
+    updateAchievements();
 
-/* =========================
-   SCROLL
-========================= */
-
-function scrollToSection(id){
-
-    document.getElementById(id)
-    .scrollIntoView({
-        behavior:"smooth"
-    });
+    saveData();
 
 }
 
 
+function updateAchievements(){
 
-/* =========================
+    if(playerData.solved >= 10)
+        document.getElementById("badge10")
+        .classList.add("unlocked");
+
+    if(playerData.solved >= 25)
+        document.getElementById("badge25")
+        .classList.add("unlocked");
+
+    if(playerData.solved >= 50)
+        document.getElementById("badge50")
+        .classList.add("unlocked");
+
+    if(playerData.solved >= 100)
+        document.getElementById("badge100")
+        .classList.add("unlocked");
+
+}
+
+
+updateDashboard();
+
+
+/* =====================================================
+   QUESTIONS
+===================================================== */
+
+const questions = [
+
+/* ================= C PROGRAMMING ================= */
+
+{
+category:"C",
+question:"Which symbol is used to end a statement in C?",
+options:[".",":",";","#"],
+answer:2,
+explanation:"The semicolon (;) is used to terminate statements in C."
+},
+
+{
+category:"C",
+question:"Which function is used to print output in C?",
+options:["scanf()","printf()","print()","output()"],
+answer:1,
+explanation:"printf() is the standard C function used to display formatted output."
+},
+
+{
+category:"C",
+question:"Which data type is used to store a character?",
+options:["int","float","char","double"],
+answer:2,
+explanation:"The char data type stores a single character."
+},
+
+{
+category:"C",
+question:"Which symbol is used for a single-line comment in C?",
+options:["//","##","<!--","**"],
+answer:0,
+explanation:"Two forward slashes (//) start a single-line comment."
+},
+
+{
+category:"C",
+question:"Which loop executes at least once?",
+options:["for","while","do-while","if"],
+answer:2,
+explanation:"A do-while loop executes its body before checking the condition."
+},
+
+/* ================= DATA STRUCTURES ================= */
+
+{
+category:"DS",
+question:"Which data structure follows LIFO?",
+options:["Queue","Stack","Array","Graph"],
+answer:1,
+explanation:"Stack follows Last In First Out (LIFO)."
+},
+
+{
+category:"DS",
+question:"Which data structure follows FIFO?",
+options:["Stack","Tree","Queue","Graph"],
+answer:2,
+explanation:"Queue follows First In First Out (FIFO)."
+},
+
+{
+category:"DS",
+question:"Which data structure uses nodes and pointers?",
+options:["Linked List","Array","Integer","String"],
+answer:0,
+explanation:"Linked lists consist of nodes connected using pointers."
+},
+
+{
+category:"DS",
+question:"What is the root node in a tree?",
+options:["Last node","Top node","Middle node","Leaf node"],
+answer:1,
+explanation:"The root is the topmost node of a tree."
+},
+
+{
+category:"DS",
+question:"Which structure is commonly used for BFS?",
+options:["Stack","Queue","Array","Heap"],
+answer:1,
+explanation:"Breadth First Search uses a queue."
+},
+
+/* ================= DBMS ================= */
+
+{
+category:"DBMS",
+question:"What does DBMS stand for?",
+options:[
+"Data Backup Management System",
+"Database Management System",
+"Database Memory System",
+"Data Binary Management System"
+],
+answer:1,
+explanation:"DBMS stands for Database Management System."
+},
+
+{
+category:"DBMS",
+question:"Which language is used to communicate with relational databases?",
+options:["HTML","SQL","CSS","C"],
+answer:1,
+explanation:"SQL is used to create, retrieve and manipulate relational database data."
+},
+
+{
+category:"DBMS",
+question:"Which key uniquely identifies a record?",
+options:["Foreign Key","Primary Key","Candidate Key","Secondary Key"],
+answer:1,
+explanation:"A primary key uniquely identifies each record in a table."
+},
+
+{
+category:"DBMS",
+question:"Which command is used to retrieve data?",
+options:["INSERT","UPDATE","SELECT","DELETE"],
+answer:2,
+explanation:"SELECT retrieves data from a database."
+},
+
+{
+category:"DBMS",
+question:"What does SQL stand for?",
+options:[
+"Structured Query Language",
+"Simple Query Language",
+"System Query Language",
+"Sequential Query Language"
+],
+answer:0,
+explanation:"SQL means Structured Query Language."
+},
+
+/* ================= OPERATING SYSTEM ================= */
+
+{
+category:"OS",
+question:"Which is an operating system?",
+options:["Linux","HTML","SQL","Python"],
+answer:0,
+explanation:"Linux is an operating system."
+},
+
+{
+category:"OS",
+question:"Which component manages hardware resources?",
+options:["Compiler","Operating System","Browser","Editor"],
+answer:1,
+explanation:"The operating system manages CPU, memory, storage and other hardware resources."
+},
+
+{
+category:"OS",
+question:"What is a process?",
+options:[
+"A program in execution",
+"A storage device",
+"A network",
+"A file"
+],
+answer:0,
+explanation:"A process is a program that is currently executing."
+},
+
+{
+category:"OS",
+question:"Which manages virtual memory?",
+options:["CPU","Operating System","Keyboard","Monitor"],
+answer:1,
+explanation:"The operating system manages virtual memory."
+},
+
+{
+category:"OS",
+question:"What is multitasking?",
+options:[
+"Running multiple tasks",
+"Deleting tasks",
+"Installing software",
+"Formatting disk"
+],
+answer:0,
+explanation:"Multitasking allows multiple processes or tasks to run seemingly simultaneously."
+},
+
+/* ================= COMPUTER NETWORKS ================= */
+
+{
+category:"CN",
+question:"What does IP stand for?",
+options:[
+"Internet Protocol",
+"Internal Program",
+"Internet Program",
+"Information Protocol"
+],
+answer:0,
+explanation:"IP stands for Internet Protocol."
+},
+
+{
+category:"CN",
+question:"Which device connects different networks?",
+options:["Switch","Router","Keyboard","Monitor"],
+answer:1,
+explanation:"Routers connect different networks and forward packets between them."
+},
+
+{
+category:"CN",
+question:"Which protocol is used for secure web browsing?",
+options:["HTTP","FTP","HTTPS","SMTP"],
+answer:2,
+explanation:"HTTPS provides encrypted communication for web browsing."
+},
+
+{
+category:"CN",
+question:"What does LAN stand for?",
+options:[
+"Large Area Network",
+"Local Area Network",
+"Long Access Network",
+"Linked Area Network"
+],
+answer:1,
+explanation:"LAN means Local Area Network."
+},
+
+{
+category:"CN",
+question:"Which protocol is commonly used to send email?",
+options:["SMTP","HTTP","FTP","IP"],
+answer:0,
+explanation:"SMTP is used for sending email."
+},
+
+/* ================= WEB ================= */
+
+{
+category:"WEB",
+question:"What does HTML stand for?",
+options:[
+"Hyper Text Markup Language",
+"High Text Machine Language",
+"Hyperlink Text Management Language",
+"Home Tool Markup Language"
+],
+answer:0,
+explanation:"HTML stands for HyperText Markup Language."
+},
+
+{
+category:"WEB",
+question:"Which language styles HTML pages?",
+options:["HTML","CSS","SQL","C"],
+answer:1,
+explanation:"CSS controls the presentation and styling of web pages."
+},
+
+{
+category:"WEB",
+question:"Which language adds interactivity to websites?",
+options:["CSS","HTML","JavaScript","SQL"],
+answer:2,
+explanation:"JavaScript is widely used to add dynamic behavior and interactivity."
+},
+
+{
+category:"WEB",
+question:"Which tag creates a hyperlink?",
+options:["<p>","<a>","<h1>","<img>"],
+answer:1,
+explanation:"The <a> element creates hyperlinks."
+},
+
+{
+category:"WEB",
+question:"Which file extension is normally used for HTML?",
+options:[".css",".js",".html",".sql"],
+answer:2,
+explanation:"HTML documents normally use the .html extension."
+},
+
+/* ================= FUNDAMENTALS ================= */
+
+{
+category:"FUND",
+question:"What is the brain of a computer?",
+options:["RAM","CPU","SSD","Monitor"],
+answer:1,
+explanation:"The CPU performs instructions and is often called the brain of the computer."
+},
+
+{
+category:"FUND",
+question:"Which memory is volatile?",
+options:["ROM","SSD","RAM","Hard Disk"],
+answer:2,
+explanation:"RAM is volatile memory because its contents are lost when power is removed."
+},
+
+{
+category:"FUND",
+question:"What does CPU stand for?",
+options:[
+"Central Processing Unit",
+"Computer Processing Utility",
+"Central Program Unit",
+"Computer Power Unit"
+],
+answer:0,
+explanation:"CPU stands for Central Processing Unit."
+},
+
+{
+category:"FUND",
+question:"Which is an input device?",
+options:["Monitor","Printer","Keyboard","Speaker"],
+answer:2,
+explanation:"A keyboard is used to enter data into a computer."
+},
+
+{
+category:"FUND",
+question:"Which number system uses only 0 and 1?",
+options:["Decimal","Binary","Hexadecimal","Octal"],
+answer:1,
+explanation:"Binary uses only two digits: 0 and 1."
+},
+
+/* ================= MIXED ================= */
+
+{
+category:"MIX",
+question:"Which algorithm is used to find the shortest path in a weighted graph with non-negative weights?",
+options:["Bubble Sort","Dijkstra's Algorithm","Binary Search","DFS"],
+answer:1,
+explanation:"Dijkstra's algorithm finds shortest paths when edge weights are non-negative."
+},
+
+{
+category:"MIX",
+question:"Which Git command uploads local commits to a remote repository?",
+options:["git pull","git push","git clone","git init"],
+answer:1,
+explanation:"git push sends local commits to a remote repository."
+},
+
+{
+category:"MIX",
+question:"Which technology is used to store code repositories online?",
+options:["GitHub","BIOS","RAM","CPU"],
+answer:0,
+explanation:"GitHub hosts Git repositories and provides collaboration tools."
+},
+
+{
+category:"MIX",
+question:"Which concept allows a class to have multiple forms?",
+options:["Encapsulation","Polymorphism","Compilation","Recursion"],
+answer:1,
+explanation:"Polymorphism means one interface or concept can have multiple forms."
+},
+
+{
+category:"MIX",
+question:"What does AI stand for?",
+options:[
+"Automatic Internet",
+"Artificial Intelligence",
+"Advanced Information",
+"Automated Interface"
+],
+answer:1,
+explanation:"AI stands for Artificial Intelligence."
+}
+
+];
+
+
+/* =====================================================
+   QUIZ VARIABLES
+===================================================== */
+
+let currentQuestions=[];
+
+let currentIndex=0;
+
+let score=0;
+
+let selectedAnswers=[];
+
+let currentCategory="";
+
+
+/* =====================================================
    START QUIZ
-========================= */
+===================================================== */
 
 function startQuiz(category){
 
     currentCategory=category;
 
-    let pool=[...questions];
+    if(category==="MIX"){
 
+        currentQuestions=[
+            ...questions
+        ].sort(()=>Math.random()-.5);
 
-    if(
-        category!=="all" &&
-        category!=="random" &&
-        category!=="advanced"
-    ){
+    }else{
 
-        pool=questions.filter(
-            q=>q.topic===category
-        );
+        currentQuestions=
+            questions.filter(q=>q.category===category);
 
     }
 
+    /* Shuffle questions */
 
-    /* Random mode */
+    currentQuestions=
+        currentQuestions.sort(()=>Math.random()-.5);
 
-    pool.sort(
-        ()=>Math.random()-.5
-    );
+    /* Limit to 10 */
 
+    currentQuestions=
+        currentQuestions.slice(0,10);
 
-    if(category==="random"){
+    currentIndex=0;
 
-        quizQuestions=
-        pool.slice(0,5);
+    score=0;
 
-    }
-    else{
+    selectedAnswers=
+        new Array(currentQuestions.length).fill(null);
 
-        quizQuestions=
-        pool.slice(0,10);
+    document.getElementById("quizMenu").style.display="none";
 
-    }
+    document.getElementById("quizBox").style.display="block";
 
-
-    current=0;
-
-    answers=[];
-
-
-    document.getElementById(
-        "quizArea"
-    ).style.display="block";
-
-
-    document.getElementById(
-        "resultBox"
-    ).style.display="none";
-
-
-    scrollToSection("quizArea");
-
+    document.getElementById("resultBox").style.display="none";
 
     showQuestion();
 
+    document.getElementById("quiz").scrollIntoView();
+
 }
 
 
-
-/* =========================
+/* =====================================================
    SHOW QUESTION
-========================= */
+===================================================== */
 
 function showQuestion(){
 
-    const q=
-    quizQuestions[current];
+    let q=currentQuestions[currentIndex];
 
+    document.getElementById("quizCategory").textContent=
+        getCategoryName(currentCategory);
 
-    document.getElementById(
-        "quizTopic"
-    ).innerText=q.topic;
+    document.getElementById("questionNumber").textContent=
+        "Question " +
+        (currentIndex+1) +
+        " / " +
+        currentQuestions.length;
 
+    document.getElementById("question").textContent=
+        q.question;
 
-    document.getElementById(
-        "quizCount"
-    ).innerText=
-    (current+1)+" / "+quizQuestions.length;
+    let progress=
+        ((currentIndex+1)/currentQuestions.length)*100;
 
+    document.getElementById("quizProgress").style.width=
+        progress+"%";
 
-    document.getElementById(
-        "quizQuestion"
-    ).innerText=q.q;
+    let optionsContainer=
+        document.getElementById("options");
 
+    optionsContainer.innerHTML="";
 
-    document.getElementById(
-        "quizProgress"
-    ).style.width=
-    ((current+1)/quizQuestions.length*100)+"%";
+    q.options.forEach((option,index)=>{
 
+        let div=document.createElement("div");
 
-    const box=
-    document.getElementById(
-        "quizOptions"
-    );
+        div.className="option";
 
-    box.innerHTML="";
+        div.textContent=
+            String.fromCharCode(65+index)+". "+option;
 
+        if(selectedAnswers[currentIndex]===index){
 
-    q.o.forEach(
-        (option,index)=>{
-
-            const button=
-            document.createElement("button");
-
-
-            button.className=
-            "option";
-
-
-            button.innerText=
-            String.fromCharCode(65+index)
-            +". "+option;
-
-
-            if(
-                answers[current]===index
-            ){
-
-                button.classList.add(
-                    "selected"
-                );
-
-            }
-
-
-            button.onclick=()=>{
-
-                answers[current]=index;
-
-                showQuestion();
-
-            };
-
-
-            box.appendChild(button);
+            div.classList.add("selected");
 
         }
-    );
+
+        div.onclick=()=>selectAnswer(index);
+
+        optionsContainer.appendChild(div);
+
+    });
 
 
-    document.getElementById(
-        "prevBtn"
-    ).disabled=
-    current===0;
+    document.getElementById("explanation").style.display="none";
+
+    document.getElementById("explanation").textContent=
+        "💡 "+q.explanation;
 
 
-    document.getElementById(
-        "nextBtn"
-    ).innerText=
-    current===quizQuestions.length-1
-    ?"Finish 🏆"
-    :"Next →";
+    document.getElementById("previousBtn").style.visibility=
+        currentIndex===0 ? "hidden":"visible";
+
+    document.getElementById("nextBtn").textContent=
+        currentIndex===currentQuestions.length-1
+        ? "Finish Quiz ✓"
+        : "Next →";
 
 }
 
 
+/* =====================================================
+   SELECT ANSWER
+===================================================== */
 
-/* =========================
-   NEXT
-========================= */
+function selectAnswer(index){
+
+    if(selectedAnswers[currentIndex]!==null)
+        return;
+
+    selectedAnswers[currentIndex]=index;
+
+    let q=currentQuestions[currentIndex];
+
+    let options=
+        document.querySelectorAll(".option");
+
+    options.forEach((option,i)=>{
+
+        if(i===q.answer){
+
+            option.classList.add("correct");
+
+        }
+
+        if(i===index && i!==q.answer){
+
+            option.classList.add("wrong");
+
+        }
+
+    });
+
+
+    if(index===q.answer){
+
+        score++;
+
+    }
+
+    document.getElementById("explanation").style.display=
+        "block";
+
+}
+
+
+/* =====================================================
+   NEXT QUESTION
+===================================================== */
 
 function nextQuestion(){
 
-    if(
-        answers[current]===undefined
-    ){
+    if(selectedAnswers[currentIndex]===null){
 
-        alert(
-            "Please select an answer first."
-        );
+        alert("Please select an answer first.");
 
         return;
 
     }
 
+    if(currentIndex<
+       currentQuestions.length-1){
 
-    if(
-        current<
-        quizQuestions.length-1
-    ){
-
-        current++;
+        currentIndex++;
 
         showQuestion();
 
-    }
-    else{
+    }else{
 
         finishQuiz();
 
@@ -2155,16 +1925,15 @@ function nextQuestion(){
 }
 
 
-
-/* =========================
-   PREVIOUS
-========================= */
+/* =====================================================
+   PREVIOUS QUESTION
+===================================================== */
 
 function previousQuestion(){
 
-    if(current>0){
+    if(currentIndex>0){
 
-        current--;
+        currentIndex--;
 
         showQuestion();
 
@@ -2173,390 +1942,198 @@ function previousQuestion(){
 }
 
 
-
-/* =========================
-   FINISH
-========================= */
+/* =====================================================
+   FINISH QUIZ
+===================================================== */
 
 function finishQuiz(){
 
-    let score=0;
+    let earnedXP=
+        score*10;
 
+    playerData.xp += earnedXP;
 
-    quizQuestions.forEach(
-        (q,index)=>{
+    playerData.solved += currentQuestions.length;
 
-            if(
-                answers[index]===q.a
-            ){
+    playerData.streak++;
 
-                score++;
+    playerData.scores.push({
 
-            }
-
-        }
-    );
-
-
-    /* XP */
-
-    const earnedXP=
-    score*10;
-
-
-    gameData.xp+=earnedXP;
-
-    gameData.solved+=
-    quizQuestions.length;
-
-
-    gameData.streak++;
-
-
-    /* Save score */
-
-    gameData.scores.push({
+        category:currentCategory,
 
         score:score,
 
-        total:quizQuestions.length,
+        total:currentQuestions.length,
 
-        date:new Date()
-        .toLocaleDateString()
+        xp:earnedXP,
+
+        date:new Date().toLocaleDateString()
 
     });
 
+    saveData();
 
-    if(
-        gameData.scores.length>10
-    ){
+    updateDashboard();
 
-        gameData.scores=
-        gameData.scores.slice(-10);
+    document.getElementById("quizBox").style.display=
+        "none";
+
+    document.getElementById("resultBox").style.display=
+        "block";
+
+    let percentage=
+        Math.round(
+            score/currentQuestions.length*100
+        );
+
+    document.getElementById("resultScore").textContent=
+        percentage+"%";
+
+    document.getElementById("resultXP").textContent=
+        "⚡ XP Earned: "+earnedXP;
+
+    let message="Keep learning! 🚀";
+
+    if(percentage>=90){
+
+        message="🔥 Outstanding! You're becoming a CSE Master!";
+
+    }else if(percentage>=70){
+
+        message="🚀 Great job! Your CSE skills are growing!";
+
+    }else if(percentage>=50){
+
+        message="💪 Good effort! Keep practicing!";
 
     }
 
-
-    saveData();
-
-
-    showResult(score);
+    document.getElementById("resultMessage").textContent=
+        message;
 
     confetti();
 
 }
 
 
-
-/* =========================
-   RESULT
-========================= */
-
-function showResult(score){
-
-    document.getElementById(
-        "quizArea"
-    ).style.display="none";
-
-
-    document.getElementById(
-        "resultBox"
-    ).style.display="block";
-
-
-    document.getElementById(
-        "finalScore"
-    ).innerText=
-    score+" / "+quizQuestions.length;
-
-
-    let percentage=
-    score/quizQuestions.length*100;
-
-
-    let message;
-
-
-    if(percentage===100){
-
-        message=
-        "🔥 PERFECT! You're operating at CSE Master level!";
-
-    }
-    else if(percentage>=80){
-
-        message=
-        "🚀 Excellent! Your CSE skills are getting stronger!";
-
-    }
-    else if(percentage>=60){
-
-        message=
-        "⚡ Good job! Keep learning and push your score higher.";
-
-    }
-    else{
-
-        message=
-        "💪 Keep practicing. Every question makes you better.";
-
-    }
-
-
-    document.getElementById(
-        "finalMessage"
-    ).innerText=message;
-
-
-    const badges=
-    document.getElementById(
-        "earnedBadges"
-    );
-
-
-    badges.innerHTML="";
-
-
-    if(score>=quizQuestions.length*.8){
-
-        addBadge(
-            "🏆 Knowledge Crusher"
-        );
-
-    }
-
-    if(score===quizQuestions.length){
-
-        addBadge(
-            "👑 Perfect Score"
-        );
-
-    }
-
-    if(gameData.solved>=50){
-
-        addBadge(
-            "⚡ 50 Questions"
-        );
-
-    }
-
-    if(gameData.xp>=500){
-
-        addBadge(
-            "💎 XP Hunter"
-        );
-
-    }
-
-}
-
-
-function addBadge(text){
-
-    const badge=
-    document.createElement("div");
-
-    badge.className=
-    "badge-earned";
-
-    badge.innerText=text;
-
-    document.getElementById(
-        "earnedBadges"
-    ).appendChild(badge);
-
-}
-
-
-
-/* =========================
+/* =====================================================
    CLOSE RESULT
-========================= */
+===================================================== */
 
 function closeResult(){
 
-    document.getElementById(
-        "resultBox"
-    ).style.display="none";
+    document.getElementById("resultBox").style.display=
+        "none";
 
-
-    scrollToSection(
-        "dashboard"
-    );
+    document.getElementById("quizMenu").style.display=
+        "grid";
 
 }
 
 
+/* =====================================================
+   CATEGORY NAME
+===================================================== */
 
-/* =========================
-   LEADERBOARD
-========================= */
+function getCategoryName(category){
 
-function showLeaderboard(){
+    const names={
 
-    const box=
-    document.getElementById(
-        "leaderboardBox"
-    );
+        C:"💻 C Programming",
 
+        DS:"🌳 Data Structures",
 
-    if(!gameData.scores.length){
+        DBMS:"🗄️ DBMS",
 
-        box.innerHTML=
-        "<p style='text-align:center;color:#8994ad'>"
-        +"Complete a quiz to appear here!"
-        +"</p>";
+        OS:"⚙️ Operating Systems",
 
-        return;
+        CN:"🌐 Computer Networks",
 
-    }
+        WEB:"🌎 Web Technology",
 
+        FUND:"🖥️ Computer Fundamentals",
 
-    let sorted=
-    [...gameData.scores]
-    .sort(
-        (a,b)=>b.score-a.score
-    );
+        MIX:"🚀 Mixed Challenge"
 
+    };
 
-    box.innerHTML="";
-
-
-    sorted.forEach(
-        (item,index)=>{
-
-            const row=
-            document.createElement("div");
-
-
-            row.className=
-            "leader-row";
-
-
-            row.innerHTML=`
-
-                <div class="rank">
-                    #${index+1}
-                </div>
-
-                <div class="player">
-                    CSE Learner
-                    <small style="display:block;color:#66718b">
-                    ${item.date}
-                    </small>
-                </div>
-
-                <div class="points">
-                    ${item.score}/${item.total}
-                </div>
-
-            `;
-
-
-            box.appendChild(row);
-
-        }
-    );
+    return names[category] || category;
 
 }
 
 
-
-/* =========================
+/* =====================================================
    CONFETTI
-========================= */
+===================================================== */
 
 function confetti(){
 
-    for(let i=0;i<100;i++){
+    for(let i=0;i<70;i++){
 
-        const piece=
-        document.createElement("div");
+        let piece=document.createElement("div");
 
+        piece.style.position="fixed";
 
-        piece.style.position=
-        "fixed";
+        piece.style.width="7px";
 
-        piece.style.width=
-        "8px";
+        piece.style.height="7px";
 
-        piece.style.height=
-        "8px";
+        piece.style.background=
+            ["#00e5ff","#ff4ecd","#fff","#35e27f"]
+            [Math.floor(Math.random()*4)];
 
         piece.style.left=
-        Math.random()*100+"vw";
+            Math.random()*100+"vw";
 
         piece.style.top="-10px";
 
-        piece.style.background=
-        [
-            "#00e5ff",
-            "#7c4dff",
-            "#ff4ecd",
-            "#fff"
-        ][
-            Math.floor(
-                Math.random()*4
-            )
-        ];
-
         piece.style.zIndex="9999";
 
-        piece.style.borderRadius=
-        "2px";
+        piece.style.borderRadius="2px";
 
+        document.body.appendChild(piece);
 
-        document.body.appendChild(
-            piece
-        );
-
-
-        const duration=
-        1500+Math.random()*2500;
-
+        let duration=
+            Math.random()*2000+1500;
 
         piece.animate(
-            [
 
+            [
                 {
-                    transform:
-                    "translateY(0) rotate(0deg)"
+                    transform:"translateY(0) rotate(0deg)",
+                    opacity:1
                 },
 
                 {
                     transform:
-                    `translateY(110vh)
-                     rotate(${Math.random()*720}deg)`
-
+                        "translateY(110vh) rotate(720deg)",
+                    opacity:0
                 }
-
             ],
+
             {
                 duration:duration,
                 easing:"ease-out"
             }
+
         );
 
+        setTimeout(()=>{
 
-        setTimeout(
-            ()=>piece.remove(),
-            duration
-        );
+            piece.remove();
+
+        },duration);
 
     }
 
 }
 
 
-
-/* =========================
+/* =====================================================
    INITIALIZE
-========================= */
+===================================================== */
 
 updateDashboard();
-
-showLeaderboard();
 
 
 </script>
