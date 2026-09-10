@@ -4,900 +4,2167 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CSE Quiz Arena</title>
+<title>CSE Nexus | Student Learning Hub</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+/* =========================
+   GLOBAL
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    min-height: 100vh;
-    color: white;
-    background:
-        radial-gradient(circle at top left, #243b55, transparent 40%),
-        radial-gradient(circle at bottom right, #6a11cb, transparent 40%),
-        linear-gradient(135deg, #050816, #10172b);
+html{
+    scroll-behavior:smooth;
 }
 
-.container {
-    width: 92%;
-    max-width: 900px;
-    margin: auto;
-    padding: 40px 0;
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    color:#fff;
+    background:#050816;
+    overflow-x:hidden;
 }
 
-/* Header */
+/* Animated background */
 
-.header {
-    text-align: center;
-    margin-bottom: 30px;
+body::before{
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:rgba(0,229,255,.12);
+    filter:blur(100px);
+    top:-200px;
+    left:-150px;
+    animation:float1 8s infinite alternate;
+    z-index:-2;
 }
 
-.logo {
-    font-size: 55px;
-    font-weight: 900;
-    letter-spacing: 4px;
-    background: linear-gradient(90deg, #00e5ff, #7c4dff, #ff4ecd);
-    -webkit-background-clip: text;
-    color: transparent;
+body::after{
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:rgba(124,77,255,.15);
+    filter:blur(100px);
+    right:-200px;
+    bottom:-200px;
+    animation:float2 10s infinite alternate;
+    z-index:-2;
 }
 
-.subtitle {
-    color: #b8c1d9;
-    margin-top: 8px;
+@keyframes float1{
+    from{transform:translate(0,0)}
+    to{transform:translate(150px,120px)}
 }
 
-/* Glass card */
-
-.card {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 25px;
-    padding: 30px;
-    backdrop-filter: blur(18px);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+@keyframes float2{
+    from{transform:translate(0,0)}
+    to{transform:translate(-120px,-100px)}
 }
 
-/* Start screen */
-
-.start-screen {
-    text-align: center;
+canvas{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
 }
 
-.start-screen h2 {
-    font-size: 30px;
-    margin-bottom: 15px;
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:100;
+    padding:16px 5%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:rgba(5,8,22,.75);
+    backdrop-filter:blur(20px);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
 }
 
-.start-screen p {
-    color: #b8c1d9;
-    line-height: 1.6;
-    margin-bottom: 25px;
-}
+.brand{
+    font-size:24px;
+    font-weight:900;
+    letter-spacing:2px;
 
-input {
-    width: 100%;
-    padding: 15px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.2);
-    background: rgba(0,0,0,0.25);
-    color: white;
-    font-size: 16px;
-    outline: none;
-    margin-bottom: 20px;
-}
-
-input:focus {
-    border-color: #00e5ff;
-}
-
-/* Buttons */
-
-button {
-    border: none;
-    padding: 13px 22px;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.25s;
-}
-
-button:hover {
-    transform: translateY(-2px);
-}
-
-.primary {
-    color: white;
-    background: linear-gradient(90deg, #00bcd4, #7c4dff);
-}
-
-.secondary {
-    color: white;
-    background: rgba(255,255,255,0.1);
-}
-
-/* Quiz */
-
-.hidden {
-    display: none;
-}
-
-.quiz-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.question-number {
-    color: #00e5ff;
-    font-weight: bold;
-}
-
-.topic {
-    color: #b8c1d9;
-    font-size: 14px;
-}
-
-/* Progress */
-
-.progress-container {
-    width: 100%;
-    height: 9px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 30px;
-}
-
-.progress {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #00e5ff, #7c4dff);
-    transition: 0.3s;
-}
-
-/* Question */
-
-.question {
-    font-size: 25px;
-    line-height: 1.4;
-    margin-bottom: 25px;
-}
-
-/* Options */
-
-.options {
-    display: grid;
-    gap: 13px;
-}
-
-.option {
-    width: 100%;
-    text-align: left;
-    color: white;
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.12);
-}
-
-.option:hover {
-    background: rgba(0,229,255,0.12);
-    border-color: #00e5ff;
-}
-
-.option.selected {
-    background: linear-gradient(
+    background:linear-gradient(
         90deg,
-        rgba(0,188,212,0.35),
-        rgba(124,77,255,0.35)
+        #00e5ff,
+        #7c4dff,
+        #ff4ecd
     );
-    border-color: #00e5ff;
+
+    -webkit-background-clip:text;
+    color:transparent;
 }
 
-/* Navigation */
-
-.navigation {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
+.nav-links{
+    display:flex;
+    gap:25px;
 }
 
-/* Result */
-
-.result {
-    text-align: center;
+.nav-links a{
+    color:#aeb8d0;
+    text-decoration:none;
+    font-size:14px;
+    transition:.3s;
 }
 
-.score {
-    font-size: 70px;
-    font-weight: 900;
-    margin: 20px 0;
-    background: linear-gradient(90deg,#00e5ff,#ff4ecd);
-    -webkit-background-clip: text;
-    color: transparent;
+.nav-links a:hover{
+    color:#00e5ff;
 }
 
-.result-message {
-    font-size: 20px;
-    margin-bottom: 25px;
+
+/* =========================
+   GENERAL
+========================= */
+
+.container{
+    width:92%;
+    max-width:1150px;
+    margin:auto;
 }
 
-.review {
-    text-align: left;
-    margin-top: 30px;
+section{
+    padding:90px 0;
 }
 
-.review-item {
-    background: rgba(255,255,255,0.06);
-    padding: 18px;
-    border-radius: 15px;
-    margin-bottom: 15px;
+.section-title{
+    text-align:center;
+    font-size:36px;
+    margin-bottom:15px;
 }
 
-.correct {
-    color: #49f58c;
+.section-subtitle{
+    text-align:center;
+    color:#8994ad;
+    margin-bottom:45px;
 }
 
-.wrong {
-    color: #ff647c;
+.glass{
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.1);
+    backdrop-filter:blur(18px);
+    box-shadow:0 20px 70px rgba(0,0,0,.25);
 }
 
-.explanation {
-    color: #b8c1d9;
-    margin-top: 8px;
-    line-height: 1.5;
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:90vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    position:relative;
 }
 
-/* Footer */
-
-.footer {
-    text-align: center;
-    color: #77819b;
-    margin-top: 25px;
-    font-size: 13px;
+.hero-content{
+    max-width:850px;
 }
 
-/* Mobile */
+.badge{
+    display:inline-block;
+    padding:9px 18px;
+    border-radius:30px;
+    background:rgba(0,229,255,.08);
+    border:1px solid rgba(0,229,255,.25);
+    color:#00e5ff;
+    margin-bottom:25px;
+    font-size:13px;
+    animation:pulse 2s infinite;
+}
 
-@media(max-width:600px) {
+@keyframes pulse{
+    0%,100%{box-shadow:0 0 0 rgba(0,229,255,0)}
+    50%{box-shadow:0 0 30px rgba(0,229,255,.2)}
+}
 
-    .container {
-        width: 94%;
-        padding: 20px 0;
+.hero h1{
+    font-size:clamp(50px,9vw,100px);
+    line-height:.95;
+    font-weight:1000;
+    letter-spacing:-5px;
+
+    background:linear-gradient(
+        90deg,
+        #fff,
+        #00e5ff,
+        #7c4dff,
+        #ff4ecd,
+        #fff
+    );
+
+    background-size:300%;
+    -webkit-background-clip:text;
+    color:transparent;
+
+    animation:gradientMove 5s linear infinite;
+}
+
+@keyframes gradientMove{
+    0%{background-position:0%}
+    100%{background-position:300%}
+}
+
+.hero p{
+    max-width:700px;
+    margin:30px auto;
+    color:#aeb8d0;
+    font-size:18px;
+    line-height:1.7;
+}
+
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:15px 25px;
+    border:none;
+    border-radius:14px;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-4px) scale(1.02);
+}
+
+.btn-primary{
+    background:linear-gradient(90deg,#00bcd4,#7c4dff);
+    box-shadow:0 10px 35px rgba(124,77,255,.25);
+}
+
+.btn-secondary{
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.12);
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.stat{
+    padding:25px;
+    border-radius:20px;
+    text-align:center;
+}
+
+.stat-icon{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.stat-value{
+    font-size:30px;
+    font-weight:900;
+}
+
+.stat-label{
+    color:#8994ad;
+    margin-top:5px;
+    font-size:13px;
+}
+
+
+/* =========================
+   ROADMAP
+========================= */
+
+.roadmap{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+}
+
+.roadmap-card{
+    padding:25px 15px;
+    border-radius:20px;
+    text-align:center;
+    position:relative;
+    transition:.3s;
+}
+
+.roadmap-card:hover{
+    transform:translateY(-10px);
+    border-color:#00e5ff;
+}
+
+.roadmap-icon{
+    font-size:38px;
+    margin-bottom:15px;
+}
+
+.roadmap-card h3{
+    font-size:16px;
+    margin-bottom:8px;
+}
+
+.roadmap-card p{
+    color:#8994ad;
+    font-size:12px;
+    line-height:1.5;
+}
+
+
+/* =========================
+   MISSIONS
+========================= */
+
+.missions{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.mission{
+    padding:28px;
+    border-radius:22px;
+    transition:.3s;
+}
+
+.mission:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+}
+
+.mission-icon{
+    font-size:40px;
+    margin-bottom:15px;
+}
+
+.mission h3{
+    margin-bottom:10px;
+}
+
+.mission p{
+    color:#8994ad;
+    line-height:1.6;
+    font-size:14px;
+}
+
+.mission button{
+    margin-top:20px;
+}
+
+
+/* =========================
+   QUIZ CATEGORY
+========================= */
+
+.categories{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.category{
+    padding:25px;
+    border-radius:20px;
+    cursor:pointer;
+    text-align:center;
+    transition:.3s;
+}
+
+.category:hover{
+    transform:translateY(-8px);
+    border-color:#7c4dff;
+}
+
+.category-icon{
+    font-size:42px;
+    margin-bottom:12px;
+}
+
+.category p{
+    color:#8994ad;
+    font-size:13px;
+    margin-top:7px;
+}
+
+
+/* =========================
+   QUIZ
+========================= */
+
+#quizArea{
+    display:none;
+}
+
+.quiz-box{
+    padding:35px;
+    border-radius:25px;
+    max-width:850px;
+    margin:auto;
+}
+
+.quiz-header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.quiz-topic{
+    color:#00e5ff;
+    font-weight:bold;
+}
+
+.quiz-count{
+    color:#8994ad;
+}
+
+.progress-container{
+    height:8px;
+    background:rgba(255,255,255,.08);
+    border-radius:20px;
+    overflow:hidden;
+    margin-bottom:30px;
+}
+
+.progress{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#00e5ff,#7c4dff,#ff4ecd);
+    transition:.5s;
+}
+
+.quiz-question{
+    font-size:25px;
+    line-height:1.5;
+    margin-bottom:25px;
+}
+
+.options{
+    display:grid;
+    gap:13px;
+}
+
+.option{
+    width:100%;
+    padding:17px;
+    text-align:left;
+    color:white;
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:14px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.option:hover{
+    transform:translateX(5px);
+    border-color:#00e5ff;
+    background:rgba(0,229,255,.08);
+}
+
+.option.selected{
+    border-color:#00e5ff;
+    background:rgba(0,229,255,.15);
+}
+
+.quiz-nav{
+    display:flex;
+    justify-content:space-between;
+    margin-top:30px;
+}
+
+
+/* =========================
+   RESULT
+========================= */
+
+.result{
+    display:none;
+    text-align:center;
+    max-width:800px;
+    margin:auto;
+    padding:40px;
+    border-radius:25px;
+}
+
+.result-score{
+    font-size:75px;
+    font-weight:1000;
+
+    background:linear-gradient(
+        90deg,
+        #00e5ff,
+        #7c4dff,
+        #ff4ecd
+    );
+
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.result-message{
+    color:#aeb8d0;
+    margin:15px 0 25px;
+}
+
+.badges{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:12px;
+    margin:25px 0;
+}
+
+.badge-earned{
+    padding:12px 18px;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:30px;
+}
+
+
+/* =========================
+   LEADERBOARD
+========================= */
+
+.leaderboard{
+    max-width:700px;
+    margin:auto;
+    padding:25px;
+    border-radius:22px;
+}
+
+.leader-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:17px;
+    margin-bottom:10px;
+    background:rgba(255,255,255,.04);
+    border-radius:13px;
+}
+
+.rank{
+    font-weight:bold;
+    color:#00e5ff;
+}
+
+.player{
+    flex:1;
+    margin-left:15px;
+}
+
+.points{
+    font-weight:bold;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    padding:50px 20px;
+    text-align:center;
+    color:#66718b;
+    border-top:1px solid rgba(255,255,255,.07);
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+    .dashboard{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .logo {
-        font-size: 40px;
+    .roadmap{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .card {
-        padding: 20px;
-        border-radius: 20px;
+    .missions{
+        grid-template-columns:1fr;
     }
 
-    .question {
-        font-size: 20px;
+    .categories{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .score {
-        font-size: 55px;
-    }
-
-    .navigation button {
-        padding: 11px 15px;
+    .nav-links{
+        display:none;
     }
 }
+
+@media(max-width:600px){
+
+    section{
+        padding:60px 0;
+    }
+
+    .dashboard{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .roadmap{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .categories{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .quiz-box{
+        padding:20px;
+    }
+
+    .quiz-question{
+        font-size:20px;
+    }
+
+    .hero h1{
+        letter-spacing:-3px;
+    }
+}
+
 </style>
 </head>
 
+
 <body>
+
+<canvas id="particles"></canvas>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <div class="brand">
+        CSE NEXUS
+    </div>
+
+    <div class="nav-links">
+
+        <a href="#home">Home</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#missions">Missions</a>
+        <a href="#quiz">Quiz</a>
+        <a href="#leaderboard">Leaderboard</a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero" id="home">
 
 <div class="container">
 
-    <!-- HEADER -->
+<div class="hero-content">
 
-    <div class="header">
-        <div class="logo">CSE QUIZ</div>
-        <div class="subtitle">
-            Computer Science Engineering • Quiz Arena
-        </div>
-    </div>
+<div class="badge">
+⚡ NEXT-GEN CSE STUDENT HUB
+</div>
 
+<h1>
+CSE<br>NEXUS
+</h1>
 
-    <!-- START SCREEN -->
+<p>
+Don't just study Computer Science.
+Build your skills, complete missions,
+earn XP, unlock achievements and become
+a better engineer every day.
+</p>
 
-    <div class="card start-screen" id="startScreen">
+<div class="hero-buttons">
 
-        <h2>🚀 Welcome to CSE Quiz Arena</h2>
+<button
+class="btn btn-primary"
+onclick="startJourney()">
+🚀 Start My Journey
+</button>
 
-        <p>
-            Test your Computer Science knowledge with questions
-            from programming, data structures, DBMS, operating systems,
-            networking and web technology.
-        </p>
+<button
+class="btn btn-secondary"
+onclick="scrollToSection('roadmap')">
+🗺️ Explore Roadmap
+</button>
 
-        <input
-            type="text"
-            id="studentName"
-            placeholder="Enter your name"
-        >
+</div>
 
-        <button class="primary" onclick="startQuiz()">
-            Start Quiz 🚀
-        </button>
+</div>
 
-    </div>
+</div>
 
-
-    <!-- QUIZ SCREEN -->
-
-    <div class="card hidden" id="quizScreen">
-
-        <div class="quiz-top">
-
-            <div class="question-number" id="questionNumber">
-                Question 1
-            </div>
-
-            <div class="topic" id="topic">
-                C Programming
-            </div>
-
-        </div>
-
-        <div class="progress-container">
-            <div class="progress" id="progress"></div>
-        </div>
-
-        <div class="question" id="question">
-            Question goes here
-        </div>
-
-        <div class="options" id="options"></div>
-
-        <div class="navigation">
-
-            <button
-                class="secondary"
-                onclick="previousQuestion()"
-                id="previousBtn">
-                ← Previous
-            </button>
-
-            <button
-                class="primary"
-                onclick="nextQuestion()"
-                id="nextBtn">
-                Next →
-            </button>
-
-        </div>
-
-    </div>
+</section>
 
 
-    <!-- RESULT SCREEN -->
 
-    <div class="card hidden result" id="resultScreen">
+<!-- =========================
+     DASHBOARD
+========================= -->
 
-        <h2>🏆 Quiz Completed!</h2>
+<section id="dashboard">
 
-        <div id="resultName"></div>
+<div class="container">
 
-        <div class="score" id="score">
-            0 / 30
-        </div>
+<h2 class="section-title">
+📊 Your CSE Dashboard
+</h2>
 
-        <div class="result-message" id="resultMessage"></div>
-
-        <button
-            class="primary"
-            onclick="restartQuiz()">
-            🔄 Try Again
-        </button>
-
-        <div class="review">
-
-            <h2>📋 Answer Review</h2>
-
-            <br>
-
-            <div id="reviewContainer"></div>
-
-        </div>
-
-    </div>
+<p class="section-subtitle">
+Your learning journey at a glance
+</p>
 
 
-    <div class="footer">
-        CSE Quiz Arena • Made for CSE Students 💻
-    </div>
+<div class="dashboard">
+
+<div class="stat glass">
+
+<div class="stat-icon">⚡</div>
+
+<div
+class="stat-value"
+id="xpValue">
+0
+</div>
+
+<div class="stat-label">
+XP POINTS
+</div>
 
 </div>
 
 
+<div class="stat glass">
+
+<div class="stat-icon">🔥</div>
+
+<div
+class="stat-value"
+id="streakValue">
+0
+</div>
+
+<div class="stat-label">
+STREAK
+</div>
+
+</div>
+
+
+<div class="stat glass">
+
+<div class="stat-icon">🏆</div>
+
+<div
+class="stat-value"
+id="levelValue">
+1
+</div>
+
+<div class="stat-label">
+LEVEL
+</div>
+
+</div>
+
+
+<div class="stat glass">
+
+<div class="stat-icon">🎯</div>
+
+<div
+class="stat-value"
+id="solvedValue">
+0
+</div>
+
+<div class="stat-label">
+QUESTIONS SOLVED
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     ROADMAP
+========================= -->
+
+<section id="roadmap">
+
+<div class="container">
+
+<h2 class="section-title">
+🗺️ CSE Learning Roadmap
+</h2>
+
+<p class="section-subtitle">
+Your path from beginner to software engineer
+</p>
+
+
+<div class="roadmap">
+
+<div class="roadmap-card glass">
+
+<div class="roadmap-icon">
+💻
+</div>
+
+<h3>Programming</h3>
+
+<p>
+C • C++ • Python • Java
+</p>
+
+</div>
+
+
+<div class="roadmap-card glass">
+
+<div class="roadmap-icon">
+🌳
+</div>
+
+<h3>Data Structures</h3>
+
+<p>
+Arrays • Trees • Graphs • Algorithms
+</p>
+
+</div>
+
+
+<div class="roadmap-card glass">
+
+<div class="roadmap-icon">
+🗄️
+</div>
+
+<h3>Databases</h3>
+
+<p>
+SQL • DBMS • Normalization
+</p>
+
+</div>
+
+
+<div class="roadmap-card glass">
+
+<div class="roadmap-icon">
+🌐
+</div>
+
+<h3>Web Development</h3>
+
+<p>
+HTML • CSS • JavaScript
+</p>
+
+</div>
+
+
+<div class="roadmap-card glass">
+
+<div class="roadmap-icon">
+🤖
+</div>
+
+<h3>Future Tech</h3>
+
+<p>
+AI • ML • Cloud • Cyber Security
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     MISSIONS
+========================= -->
+
+<section id="missions">
+
+<div class="container">
+
+<h2 class="section-title">
+🎮 CSE Missions
+</h2>
+
+<p class="section-subtitle">
+Learning becomes more fun when it feels like a game
+</p>
+
+
+<div class="missions">
+
+
+<div class="mission glass">
+
+<div class="mission-icon">
+⚡
+</div>
+
+<h3>Daily Challenge</h3>
+
+<p>
+Solve a quick CSE challenge and
+earn bonus XP.
+</p>
+
+<button
+class="btn btn-primary"
+onclick="startQuiz('random')">
+
+Start Challenge
+
+</button>
+
+</div>
+
+
+
+<div class="mission glass">
+
+<div class="mission-icon">
+🧠
+</div>
+
+<h3>Knowledge Test</h3>
+
+<p>
+Test your knowledge across different
+CSE subjects.
+</p>
+
+<button
+class="btn btn-primary"
+onclick="startQuiz('all')">
+
+Take Test
+
+</button>
+
+</div>
+
+
+
+<div class="mission glass">
+
+<div class="mission-icon">
+🏆
+</div>
+
+<h3>Master Mode</h3>
+
+<p>
+Challenge yourself with advanced
+programming and CS concepts.
+</p>
+
+<button
+class="btn btn-primary"
+onclick="startQuiz('advanced')">
+
+Enter Mode
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     QUIZ CATEGORIES
+========================= -->
+
+<section id="quiz">
+
+<div class="container">
+
+<h2 class="section-title">
+🎯 Choose Your Mission
+</h2>
+
+<p class="section-subtitle">
+Select a subject and begin
+</p>
+
+
+<div class="categories">
+
+
+<div
+class="category glass"
+onclick="startQuiz('C Programming')">
+
+<div class="category-icon">
+💻
+</div>
+
+<h3>C Programming</h3>
+
+<p>Variables • Loops • Functions</p>
+
+</div>
+
+
+<div
+class="category glass"
+onclick="startQuiz('Data Structures')">
+
+<div class="category-icon">
+🌳
+</div>
+
+<h3>Data Structures</h3>
+
+<p>Stack • Queue • Trees</p>
+
+</div>
+
+
+<div
+class="category glass"
+onclick="startQuiz('DBMS')">
+
+<div class="category-icon">
+🗄️
+</div>
+
+<h3>DBMS</h3>
+
+<p>SQL • Keys • Tables</p>
+
+</div>
+
+
+<div
+class="category glass"
+onclick="startQuiz('Operating Systems')">
+
+<div class="category-icon">
+⚙️
+</div>
+
+<h3>Operating Systems</h3>
+
+<p>Process • Memory • Files</p>
+
+</div>
+
+
+<div
+class="category glass"
+onclick="startQuiz('Computer Networks')">
+
+<div class="category-icon">
+🌐
+</div>
+
+<h3>Networks</h3>
+
+<p>IP • LAN • Protocols</p>
+
+</div>
+
+
+<div
+class="category glass"
+onclick="startQuiz('Web Technology')">
+
+<div class="category-icon">
+🕸️
+</div>
+
+<h3>Web Technology</h3>
+
+<p>HTML • CSS • JavaScript</p>
+
+</div>
+
+
+<div
+class="category glass"
+onclick="startQuiz('Computer Fundamentals')">
+
+<div class="category-icon">
+🖥️
+</div>
+
+<h3>Fundamentals</h3>
+
+<p>Hardware • Software • Memory</p>
+
+</div>
+
+
+<div
+class="category glass"
+onclick="startQuiz('all')">
+
+<div class="category-icon">
+🚀
+</div>
+
+<h3>Mixed Challenge</h3>
+
+<p>Everything combined</p>
+
+</div>
+
+
+</div>
+
+
+
+<!-- QUIZ -->
+
+<div
+id="quizArea"
+style="margin-top:50px">
+
+<div class="quiz-box glass">
+
+
+<div class="quiz-header">
+
+<div
+class="quiz-topic"
+id="quizTopic">
+C Programming
+</div>
+
+<div
+class="quiz-count"
+id="quizCount">
+1 / 10
+</div>
+
+</div>
+
+
+<div class="progress-container">
+
+<div
+class="progress"
+id="quizProgress">
+</div>
+
+</div>
+
+
+<div
+class="quiz-question"
+id="quizQuestion">
+Question
+</div>
+
+
+<div
+class="options"
+id="quizOptions">
+</div>
+
+
+<div class="quiz-nav">
+
+<button
+class="btn btn-secondary"
+onclick="previousQuestion()"
+id="prevBtn">
+
+← Previous
+
+</button>
+
+
+<button
+class="btn btn-primary"
+onclick="nextQuestion()"
+id="nextBtn">
+
+Next →
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- RESULT -->
+
+<div
+class="result glass"
+id="resultBox">
+
+<h2>
+🎉 Mission Complete!
+</h2>
+
+<br>
+
+<div
+class="result-score"
+id="finalScore">
+0 / 10
+</div>
+
+<div
+class="result-message"
+id="finalMessage">
+Excellent!
+</div>
+
+<div
+class="badges"
+id="earnedBadges">
+</div>
+
+<button
+class="btn btn-primary"
+onclick="closeResult()">
+
+Continue Journey 🚀
+
+</button>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     LEADERBOARD
+========================= -->
+
+<section id="leaderboard">
+
+<div class="container">
+
+<h2 class="section-title">
+🏅 Local Leaderboard
+</h2>
+
+<p class="section-subtitle">
+Your scores are stored in this browser
+</p>
+
+
+<div
+class="leaderboard glass"
+id="leaderboardBox">
+</div>
+
+</div>
+
+</section>
+
+
+
+<footer>
+
+CSE NEXUS • Built for future engineers 💻
+
+<br><br>
+
+Keep Learning • Keep Building • Keep Creating
+
+</footer>
+
+
+
 <script>
 
-const questions = [
+/* =========================
+   PARTICLE BACKGROUND
+========================= */
+
+const canvas =
+document.getElementById("particles");
+
+const ctx =
+canvas.getContext("2d");
+
+canvas.width =
+window.innerWidth;
+
+canvas.height =
+window.innerHeight;
+
+let particles=[];
+
+for(let i=0;i<80;i++){
+
+    particles.push({
+
+        x:Math.random()*canvas.width,
+
+        y:Math.random()*canvas.height,
+
+        size:Math.random()*2+1,
+
+        speedX:(Math.random()-.5)*.5,
+
+        speedY:(Math.random()-.5)*.5
+
+    });
+
+}
+
+function animateParticles(){
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    particles.forEach(p=>{
+
+        p.x+=p.speedX;
+        p.y+=p.speedY;
+
+        if(p.x<0)p.x=canvas.width;
+        if(p.x>canvas.width)p.x=0;
+
+        if(p.y<0)p.y=canvas.height;
+        if(p.y>canvas.height)p.y=0;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            p.x,
+            p.y,
+            p.size,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fillStyle=
+        "rgba(0,229,255,.35)";
+
+        ctx.fill();
+
+    });
+
+    requestAnimationFrame(
+        animateParticles
+    );
+}
+
+animateParticles();
+
+
+window.addEventListener(
+"resize",
+()=>{
+
+    canvas.width=
+    window.innerWidth;
+
+    canvas.height=
+    window.innerHeight;
+
+});
+
+
+
+/* =========================
+   QUESTION DATABASE
+========================= */
+
+const questions=[
 
 {
-    topic: "C Programming",
-    question: "Which symbol is used to end a statement in C?",
-    options: [".", ";", ":", ","],
-    answer: 1,
-    explanation: "A semicolon (;) is used to terminate statements in C."
+topic:"C Programming",
+q:"Which symbol terminates a statement in C?",
+o:[".",";",":",","],
+a:1,
+e:"The semicolon terminates most C statements."
 },
 
 {
-    topic: "C Programming",
-    question: "Which function is used to print output in C?",
-    options: ["scanf()", "print()", "printf()", "display()"],
-    answer: 2,
-    explanation: "printf() is the standard output function in C."
+topic:"C Programming",
+q:"Which function is used to display output in C?",
+o:["scanf()","printf()","display()","output()"],
+a:1,
+e:"printf() is the standard formatted output function."
 },
 
 {
-    topic: "C Programming",
-    question: "Which data type is used to store a character?",
-    options: ["int", "float", "char", "double"],
-    answer: 2,
-    explanation: "The char data type stores a single character."
+topic:"C Programming",
+q:"Which data type stores a single character?",
+o:["int","float","char","double"],
+a:2,
+e:"char is used to store a character."
 },
 
 {
-    topic: "C Programming",
-    question: "Which operator is used to get the address of a variable?",
-    options: ["*", "&", "#", "@"],
-    answer: 1,
-    explanation: "The & operator returns the memory address of a variable."
+topic:"C Programming",
+q:"Which operator gives the address of a variable?",
+o:["*","&","%","#"],
+a:1,
+e:"The & operator is the address-of operator."
 },
 
 {
-    topic: "C Programming",
-    question: "Which loop executes at least once?",
-    options: ["for", "while", "do-while", "if"],
-    answer: 2,
-    explanation: "A do-while loop executes its body before checking the condition."
-},
-
-
-{
-    topic: "Data Structures",
-    question: "Which data structure follows LIFO?",
-    options: ["Queue", "Stack", "Array", "Linked List"],
-    answer: 1,
-    explanation: "Stack follows Last In First Out (LIFO)."
+topic:"C Programming",
+q:"Which loop executes its body at least once?",
+o:["for","while","do-while","if"],
+a:2,
+e:"do-while checks its condition after executing the body."
 },
 
 {
-    topic: "Data Structures",
-    question: "Which data structure follows FIFO?",
-    options: ["Stack", "Queue", "Tree", "Graph"],
-    answer: 1,
-    explanation: "Queue follows First In First Out (FIFO)."
-},
-
-{
-    topic: "Data Structures",
-    question: "Which structure consists of nodes connected by edges?",
-    options: ["Array", "Stack", "Graph", "Variable"],
-    answer: 2,
-    explanation: "A graph consists of vertices/nodes connected by edges."
-},
-
-{
-    topic: "Data Structures",
-    question: "What is the root node in a tree?",
-    options: [
-        "Last node",
-        "Topmost node",
-        "Middle node",
-        "Leaf node"
-    ],
-    answer: 1,
-    explanation: "The root is the topmost node of a tree."
-},
-
-{
-    topic: "Data Structures",
-    question: "Which data structure uses nodes and pointers?",
-    options: ["Array", "Linked List", "Integer", "String"],
-    answer: 1,
-    explanation: "Linked lists use nodes connected through pointers."
-},
-
-
-{
-    topic: "DBMS",
-    question: "What does DBMS stand for?",
-    options: [
-        "Data Base Management System",
-        "Database Management System",
-        "Data Backup Management System",
-        "Database Machine System"
-    ],
-    answer: 1,
-    explanation: "DBMS stands for Database Management System."
-},
-
-{
-    topic: "DBMS",
-    question: "Which language is mainly used to communicate with databases?",
-    options: ["HTML", "CSS", "SQL", "C"],
-    answer: 2,
-    explanation: "SQL is used to create, access and manipulate relational databases."
-},
-
-{
-    topic: "DBMS",
-    question: "Which key uniquely identifies a record?",
-    options: [
-        "Foreign Key",
-        "Primary Key",
-        "Candidate Key",
-        "Normal Key"
-    ],
-    answer: 1,
-    explanation: "A primary key uniquely identifies each record in a table."
-},
-
-{
-    topic: "DBMS",
-    question: "Which command is used to retrieve data?",
-    options: ["INSERT", "DELETE", "SELECT", "UPDATE"],
-    answer: 2,
-    explanation: "SELECT is used to retrieve data from a database."
-},
-
-{
-    topic: "DBMS",
-    question: "Which SQL command removes a table?",
-    options: ["DELETE", "DROP", "REMOVE", "CLEAR"],
-    answer: 1,
-    explanation: "DROP TABLE permanently removes a table."
-},
-
-
-{
-    topic: "Operating Systems",
-    question: "Which is an example of an operating system?",
-    options: ["Windows", "Google", "HTML", "Python"],
-    answer: 0,
-    explanation: "Windows is an operating system."
-},
-
-{
-    topic: "Operating Systems",
-    question: "What is the main function of an operating system?",
-    options: [
-        "Play games",
-        "Manage computer resources",
-        "Create websites",
-        "Edit photos"
-    ],
-    answer: 1,
-    explanation: "An OS manages hardware and software resources."
-},
-
-{
-    topic: "Operating Systems",
-    question: "Which manages processes in an operating system?",
-    options: [
-        "Process Scheduler",
-        "Compiler",
-        "Browser",
-        "Editor"
-    ],
-    answer: 0,
-    explanation: "The process scheduler manages CPU allocation among processes."
-},
-
-{
-    topic: "Operating Systems",
-    question: "What is virtual memory?",
-    options: [
-        "Extra CPU",
-        "Memory using disk space",
-        "A type of processor",
-        "A programming language"
-    ],
-    answer: 1,
-    explanation: "Virtual memory uses part of storage as an extension of RAM."
-},
-
-{
-    topic: "Operating Systems",
-    question: "Which memory is fastest?",
-    options: [
-        "Hard Disk",
-        "RAM",
-        "Cache",
-        "DVD"
-    ],
-    answer: 2,
-    explanation: "Cache memory is faster than RAM and storage."
+topic:"C Programming",
+q:"Which keyword is used to return a value from a function?",
+o:["send","return","break","exit"],
+a:1,
+e:"return sends control and optionally a value back to the caller."
 },
 
 
 {
-    topic: "Computer Networks",
-    question: "What does LAN stand for?",
-    options: [
-        "Large Area Network",
-        "Local Area Network",
-        "Long Area Network",
-        "Linked Area Network"
-    ],
-    answer: 1,
-    explanation: "LAN stands for Local Area Network."
+topic:"Data Structures",
+q:"Which data structure follows LIFO?",
+o:["Queue","Stack","Graph","Array"],
+a:1,
+e:"Stack follows Last In First Out."
 },
 
 {
-    topic: "Computer Networks",
-    question: "Which device connects different networks?",
-    options: ["Switch", "Router", "Keyboard", "Monitor"],
-    answer: 1,
-    explanation: "Routers connect and route traffic between networks."
+topic:"Data Structures",
+q:"Which data structure follows FIFO?",
+o:["Stack","Queue","Tree","Graph"],
+a:1,
+e:"Queue follows First In First Out."
 },
 
 {
-    topic: "Computer Networks",
-    question: "What does IP stand for?",
-    options: [
-        "Internet Protocol",
-        "Internet Program",
-        "Internal Protocol",
-        "Information Process"
-    ],
-    answer: 0,
-    explanation: "IP stands for Internet Protocol."
+topic:"Data Structures",
+q:"Which structure consists of vertices and edges?",
+o:["Stack","Graph","Array","Variable"],
+a:1,
+e:"A graph is composed of vertices connected by edges."
 },
 
 {
-    topic: "Computer Networks",
-    question: "Which protocol is commonly used for web pages?",
-    options: ["HTTP", "FTP", "SMTP", "SSH"],
-    answer: 0,
-    explanation: "HTTP is used for transferring web resources."
+topic:"Data Structures",
+q:"What is the topmost node of a tree called?",
+o:["Leaf","Root","Child","Branch"],
+a:1,
+e:"The root is the topmost node."
 },
 
 {
-    topic: "Computer Networks",
-    question: "Which device forwards data within a LAN?",
-    options: ["Router", "Switch", "Modem", "Printer"],
-    answer: 1,
-    explanation: "A network switch forwards frames between devices in a LAN."
-},
-
-
-{
-    topic: "Web Technology",
-    question: "What does HTML stand for?",
-    options: [
-        "Hyper Text Markup Language",
-        "High Text Machine Language",
-        "Hyperlink Text Management Language",
-        "Home Tool Markup Language"
-    ],
-    answer: 0,
-    explanation: "HTML stands for HyperText Markup Language."
+topic:"Data Structures",
+q:"Which structure commonly uses nodes connected by pointers?",
+o:["Array","Linked List","Integer","Matrix"],
+a:1,
+e:"Linked lists connect dynamically allocated nodes using links or pointers."
 },
 
 {
-    topic: "Web Technology",
-    question: "Which language is used to style webpages?",
-    options: ["HTML", "CSS", "C", "SQL"],
-    answer: 1,
-    explanation: "CSS controls the appearance and layout of webpages."
-},
-
-{
-    topic: "Web Technology",
-    question: "Which language makes webpages interactive?",
-    options: ["HTML", "CSS", "JavaScript", "SQL"],
-    answer: 2,
-    explanation: "JavaScript is commonly used to add interaction and dynamic behavior."
-},
-
-{
-    topic: "Web Technology",
-    question: "Which tag creates a hyperlink?",
-    options: ["<link>", "<a>", "<href>", "<url>"],
-    answer: 1,
-    explanation: "The <a> element creates hyperlinks."
-},
-
-{
-    topic: "Web Technology",
-    question: "Which tag is used for the largest heading?",
-    options: ["<h6>", "<head>", "<h1>", "<title>"],
-    answer: 2,
-    explanation: "<h1> represents the highest-level heading."
+topic:"Data Structures",
+q:"Which traversal visits Root, Left, Right?",
+o:["Inorder","Postorder","Preorder","Level order"],
+a:2,
+e:"Preorder traversal follows Root, Left, Right."
 },
 
 
 {
-    topic: "Computer Fundamentals",
-    question: "What is the brain of the computer?",
-    options: [
-        "RAM",
-        "CPU",
-        "Hard Disk",
-        "Monitor"
-    ],
-    answer: 1,
-    explanation: "The CPU performs instructions and controls processing."
+topic:"DBMS",
+q:"What does DBMS stand for?",
+o:[
+"Data Backup Management System",
+"Database Management System",
+"Database Machine System",
+"Data Memory System"
+],
+a:1,
+e:"DBMS means Database Management System."
 },
 
 {
-    topic: "Computer Fundamentals",
-    question: "Which is temporary memory?",
-    options: ["ROM", "RAM", "SSD", "HDD"],
-    answer: 1,
-    explanation: "RAM is volatile temporary memory."
+topic:"DBMS",
+q:"Which language is commonly used to query relational databases?",
+o:["HTML","SQL","CSS","XML"],
+a:1,
+e:"SQL is used to query and manipulate relational databases."
 },
 
 {
-    topic: "Computer Fundamentals",
-    question: "What does USB stand for?",
-    options: [
-        "Universal Serial Bus",
-        "Universal System Bus",
-        "United Serial Board",
-        "User System Bus"
-    ],
-    answer: 0,
-    explanation: "USB stands for Universal Serial Bus."
+topic:"DBMS",
+q:"Which key uniquely identifies a record?",
+o:[
+"Foreign Key",
+"Primary Key",
+"Normal Key",
+"Secondary Key"
+],
+a:1,
+e:"A primary key uniquely identifies rows in a table."
 },
 
 {
-    topic: "Computer Fundamentals",
-    question: "Which number system does a computer primarily use?",
-    options: [
-        "Decimal",
-        "Binary",
-        "Octal",
-        "Roman"
-    ],
-    answer: 1,
-    explanation: "Digital computers primarily represent data using binary digits (0 and 1)."
+topic:"DBMS",
+q:"Which SQL command retrieves data?",
+o:["INSERT","SELECT","DELETE","UPDATE"],
+a:1,
+e:"SELECT retrieves data from database tables."
+},
+
+{
+topic:"DBMS",
+q:"Which command removes a table structure?",
+o:["DELETE","DROP","REMOVE","CLEAR"],
+a:1,
+e:"DROP TABLE removes the table and its definition."
+},
+
+{
+topic:"DBMS",
+q:"A foreign key is mainly used to represent what?",
+o:[
+"A relationship between tables",
+"A CPU register",
+"A file extension",
+"A programming loop"
+],
+a:0,
+e:"Foreign keys reference keys in another table and establish relationships."
+},
+
+
+{
+topic:"Operating Systems",
+q:"Which is an operating system?",
+o:["Windows","Google","HTML","Python"],
+a:0,
+e:"Windows is an operating system."
+},
+
+{
+topic:"Operating Systems",
+q:"What is the main purpose of an operating system?",
+o:[
+"Manage computer resources",
+"Create only websites",
+"Draw pictures",
+"Write only C programs"
+],
+a:0,
+e:"An operating system manages hardware and software resources."
+},
+
+{
+topic:"Operating Systems",
+q:"Which component decides which process gets CPU time?",
+o:[
+"Scheduler",
+"Compiler",
+"Browser",
+"Text editor"
+],
+a:0,
+e:"The scheduler selects processes for CPU execution."
+},
+
+{
+topic:"Operating Systems",
+q:"Which memory is generally faster than RAM?",
+o:["Hard disk","Cache","DVD","USB"],
+a:1,
+e:"Cache memory is designed for very fast access."
+},
+
+{
+topic:"Operating Systems",
+q:"What is virtual memory?",
+o:[
+"Disk space used as an extension of memory",
+"A second CPU",
+"A graphics card",
+"A network cable"
+],
+a:0,
+e:"Virtual memory uses storage to extend the apparent memory available to programs."
+},
+
+{
+topic:"Operating Systems",
+q:"What is a process?",
+o:[
+"A program in execution",
+"A keyboard",
+"A file extension",
+"A monitor"
+],
+a:0,
+e:"A process is a program currently executing."
+},
+
+
+{
+topic:"Computer Networks",
+q:"What does LAN stand for?",
+o:[
+"Large Area Network",
+"Local Area Network",
+"Long Area Network",
+"Linked Area Network"
+],
+a:1,
+e:"LAN means Local Area Network."
+},
+
+{
+topic:"Computer Networks",
+q:"Which device connects different networks?",
+o:["Switch","Router","Monitor","Keyboard"],
+a:1,
+e:"Routers forward packets between networks."
+},
+
+{
+topic:"Computer Networks",
+q:"What does IP stand for?",
+o:[
+"Internet Protocol",
+"Internet Program",
+"Internal Process",
+"Information Protocol"
+],
+a:0,
+e:"IP means Internet Protocol."
+},
+
+{
+topic:"Computer Networks",
+q:"Which protocol is commonly used for web communication?",
+o:["HTTP","FTP","SMTP","POP3"],
+a:0,
+e:"HTTP is the standard protocol used for web communication."
+},
+
+{
+topic:"Computer Networks",
+q:"Which device forwards frames inside a LAN?",
+o:["Router","Switch","Printer","Scanner"],
+a:1,
+e:"A switch forwards Ethernet frames within a LAN."
+},
+
+{
+topic:"Computer Networks",
+q:"Which protocol is commonly used to send email?",
+o:["SMTP","HTTP","FTP","DHCP"],
+a:0,
+e:"SMTP is used for sending email."
+},
+
+
+{
+topic:"Web Technology",
+q:"What does HTML stand for?",
+o:[
+"Hyper Text Markup Language",
+"High Text Machine Language",
+"Hyperlink Text Management Language",
+"Home Tool Markup Language"
+],
+a:0,
+e:"HTML means HyperText Markup Language."
+},
+
+{
+topic:"Web Technology",
+q:"Which language styles webpages?",
+o:["HTML","CSS","SQL","C"],
+a:1,
+e:"CSS controls webpage presentation and layout."
+},
+
+{
+topic:"Web Technology",
+q:"Which language adds interaction to webpages?",
+o:["HTML","CSS","JavaScript","SQL"],
+a:2,
+e:"JavaScript provides client-side interactivity and dynamic behavior."
+},
+
+{
+topic:"Web Technology",
+q:"Which HTML element creates a hyperlink?",
+o:["<a>","<p>","<h1>","<img>"],
+a:0,
+e:"The anchor element <a> creates hyperlinks."
+},
+
+{
+topic:"Web Technology",
+q:"Which heading element is the highest level?",
+o:["<h6>","<h4>","<h1>","<head>"],
+a:2,
+e:"<h1> represents the highest-level heading."
+},
+
+{
+topic:"Web Technology",
+q:"Which technology is mainly responsible for webpage structure?",
+o:["HTML","CSS","JavaScript","SQL"],
+a:0,
+e:"HTML defines the structure and content of a webpage."
+},
+
+
+{
+topic:"Computer Fundamentals",
+q:"Which component is often called the brain of the computer?",
+o:["RAM","CPU","Monitor","Keyboard"],
+a:1,
+e:"The CPU executes instructions and performs processing."
+},
+
+{
+topic:"Computer Fundamentals",
+q:"Which memory is volatile?",
+o:["ROM","RAM","SSD","DVD"],
+a:1,
+e:"RAM loses its stored contents when power is removed."
+},
+
+{
+topic:"Computer Fundamentals",
+q:"What does USB stand for?",
+o:[
+"Universal Serial Bus",
+"Universal System Board",
+"United Serial Bus",
+"User System Bus"
+],
+a:0,
+e:"USB means Universal Serial Bus."
+},
+
+{
+topic:"Computer Fundamentals",
+q:"Which number system uses only 0 and 1?",
+o:["Decimal","Binary","Octal","Hexadecimal"],
+a:1,
+e:"Binary uses two digits: 0 and 1."
+},
+
+{
+topic:"Computer Fundamentals",
+q:"Which device is primarily used for permanent storage?",
+o:["RAM","SSD","Cache","Register"],
+a:1,
+e:"An SSD provides non-volatile permanent storage."
+},
+
+{
+topic:"Computer Fundamentals",
+q:"Which unit is commonly used to represent processor frequency?",
+o:["Byte","Hertz","Pixel","Volt"],
+a:1,
+e:"Processor frequency is measured in hertz, such as GHz."
 }
 
 ];
 
 
-let currentQuestion = 0;
-let selectedAnswers = [];
-let student = "";
+
+/* =========================
+   GAME VARIABLES
+========================= */
+
+let current=0;
+
+let quizQuestions=[];
+
+let answers=[];
+
+let currentCategory="";
 
 
-function startQuiz() {
 
-    student = document.getElementById("studentName").value.trim();
+/* =========================
+   LOCAL STORAGE
+========================= */
 
-    if(student === "") {
-        alert("Please enter your name.");
-        return;
+let gameData=
+JSON.parse(
+localStorage.getItem("cseNexusData")
+) || {
+
+    xp:0,
+
+    solved:0,
+
+    streak:0,
+
+    level:1,
+
+    scores:[]
+
+};
+
+
+function saveData(){
+
+    localStorage.setItem(
+        "cseNexusData",
+        JSON.stringify(gameData)
+    );
+
+    updateDashboard();
+
+    showLeaderboard();
+}
+
+
+
+function updateDashboard(){
+
+    document.getElementById(
+        "xpValue"
+    ).innerText=gameData.xp;
+
+    document.getElementById(
+        "solvedValue"
+    ).innerText=gameData.solved;
+
+    document.getElementById(
+        "streakValue"
+    ).innerText=gameData.streak;
+
+    gameData.level=
+    Math.floor(gameData.xp/100)+1;
+
+    document.getElementById(
+        "levelValue"
+    ).innerText=gameData.level;
+
+}
+
+
+
+/* =========================
+   START JOURNEY
+========================= */
+
+function startJourney(){
+
+    scrollToSection("quiz");
+
+}
+
+
+
+/* =========================
+   SCROLL
+========================= */
+
+function scrollToSection(id){
+
+    document.getElementById(id)
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+
+/* =========================
+   START QUIZ
+========================= */
+
+function startQuiz(category){
+
+    currentCategory=category;
+
+    let pool=[...questions];
+
+
+    if(
+        category!=="all" &&
+        category!=="random" &&
+        category!=="advanced"
+    ){
+
+        pool=questions.filter(
+            q=>q.topic===category
+        );
+
     }
 
-    document.getElementById("startScreen").classList.add("hidden");
 
-    document.getElementById("quizScreen").classList.remove("hidden");
+    /* Random mode */
+
+    pool.sort(
+        ()=>Math.random()-.5
+    );
+
+
+    if(category==="random"){
+
+        quizQuestions=
+        pool.slice(0,5);
+
+    }
+    else{
+
+        quizQuestions=
+        pool.slice(0,10);
+
+    }
+
+
+    current=0;
+
+    answers=[];
+
+
+    document.getElementById(
+        "quizArea"
+    ).style.display="block";
+
+
+    document.getElementById(
+        "resultBox"
+    ).style.display="none";
+
+
+    scrollToSection("quizArea");
+
 
     showQuestion();
 
 }
 
 
-function showQuestion() {
 
-    const q = questions[currentQuestion];
+/* =========================
+   SHOW QUESTION
+========================= */
 
-    document.getElementById("questionNumber").innerText =
-        "Question " + (currentQuestion + 1) +
-        " / " + questions.length;
+function showQuestion(){
 
-    document.getElementById("topic").innerText = q.topic;
-
-    document.getElementById("question").innerText =
-        q.question;
-
-    document.getElementById("progress").style.width =
-        ((currentQuestion + 1) / questions.length * 100) + "%";
+    const q=
+    quizQuestions[current];
 
 
-    const optionsContainer =
-        document.getElementById("options");
-
-    optionsContainer.innerHTML = "";
-
-
-    q.options.forEach((option, index) => {
-
-        const button = document.createElement("button");
-
-        button.className = "option";
-
-        button.innerText =
-            String.fromCharCode(65 + index) +
-            ". " +
-            option;
+    document.getElementById(
+        "quizTopic"
+    ).innerText=q.topic;
 
 
-        if(selectedAnswers[currentQuestion] === index) {
-            button.classList.add("selected");
+    document.getElementById(
+        "quizCount"
+    ).innerText=
+    (current+1)+" / "+quizQuestions.length;
+
+
+    document.getElementById(
+        "quizQuestion"
+    ).innerText=q.q;
+
+
+    document.getElementById(
+        "quizProgress"
+    ).style.width=
+    ((current+1)/quizQuestions.length*100)+"%";
+
+
+    const box=
+    document.getElementById(
+        "quizOptions"
+    );
+
+    box.innerHTML="";
+
+
+    q.o.forEach(
+        (option,index)=>{
+
+            const button=
+            document.createElement("button");
+
+
+            button.className=
+            "option";
+
+
+            button.innerText=
+            String.fromCharCode(65+index)
+            +". "+option;
+
+
+            if(
+                answers[current]===index
+            ){
+
+                button.classList.add(
+                    "selected"
+                );
+
+            }
+
+
+            button.onclick=()=>{
+
+                answers[current]=index;
+
+                showQuestion();
+
+            };
+
+
+            box.appendChild(button);
+
         }
+    );
 
 
-        button.onclick = function() {
-
-            selectedAnswers[currentQuestion] = index;
-
-            showQuestion();
-
-        };
+    document.getElementById(
+        "prevBtn"
+    ).disabled=
+    current===0;
 
 
-        optionsContainer.appendChild(button);
-
-    });
-
-
-    document.getElementById("previousBtn").disabled =
-        currentQuestion === 0;
-
-
-    if(currentQuestion === questions.length - 1) {
-
-        document.getElementById("nextBtn").innerText =
-            "Finish 🏆";
-
-    } else {
-
-        document.getElementById("nextBtn").innerText =
-            "Next →";
-
-    }
+    document.getElementById(
+        "nextBtn"
+    ).innerText=
+    current===quizQuestions.length-1
+    ?"Finish 🏆"
+    :"Next →";
 
 }
 
 
-function nextQuestion() {
 
-    if(selectedAnswers[currentQuestion] === undefined) {
+/* =========================
+   NEXT
+========================= */
 
-        alert("Please select an answer.");
+function nextQuestion(){
+
+    if(
+        answers[current]===undefined
+    ){
+
+        alert(
+            "Please select an answer first."
+        );
 
         return;
 
     }
 
 
-    if(currentQuestion < questions.length - 1) {
+    if(
+        current<
+        quizQuestions.length-1
+    ){
 
-        currentQuestion++;
+        current++;
 
         showQuestion();
 
-    } else {
+    }
+    else{
 
-        showResult();
+        finishQuiz();
 
     }
 
 }
 
 
-function previousQuestion() {
 
-    if(currentQuestion > 0) {
+/* =========================
+   PREVIOUS
+========================= */
 
-        currentQuestion--;
+function previousQuestion(){
+
+    if(current>0){
+
+        current--;
 
         showQuestion();
 
@@ -906,155 +2173,391 @@ function previousQuestion() {
 }
 
 
-function showResult() {
 
-    document.getElementById("quizScreen")
-        .classList.add("hidden");
+/* =========================
+   FINISH
+========================= */
 
-    document.getElementById("resultScreen")
-        .classList.remove("hidden");
+function finishQuiz(){
 
-
-    let score = 0;
+    let score=0;
 
 
-    questions.forEach((q, index) => {
+    quizQuestions.forEach(
+        (q,index)=>{
 
-        if(selectedAnswers[index] === q.answer) {
-            score++;
+            if(
+                answers[index]===q.a
+            ){
+
+                score++;
+
+            }
+
         }
+    );
+
+
+    /* XP */
+
+    const earnedXP=
+    score*10;
+
+
+    gameData.xp+=earnedXP;
+
+    gameData.solved+=
+    quizQuestions.length;
+
+
+    gameData.streak++;
+
+
+    /* Save score */
+
+    gameData.scores.push({
+
+        score:score,
+
+        total:quizQuestions.length,
+
+        date:new Date()
+        .toLocaleDateString()
 
     });
 
 
-    document.getElementById("resultName").innerHTML =
-        "<h3>Well done, " + student + "! 🎉</h3>";
+    if(
+        gameData.scores.length>10
+    ){
 
-
-    document.getElementById("score").innerText =
-        score + " / " + questions.length;
-
-
-    let percentage =
-        (score / questions.length) * 100;
-
-
-    if(percentage >= 90) {
-
-        document.getElementById("resultMessage").innerText =
-            "🌟 Outstanding! You're a CSE star!";
-
-    }
-    else if(percentage >= 75) {
-
-        document.getElementById("resultMessage").innerText =
-            "🔥 Excellent performance!";
-
-    }
-    else if(percentage >= 50) {
-
-        document.getElementById("resultMessage").innerText =
-            "👍 Good job! Keep learning.";
-
-    }
-    else {
-
-        document.getElementById("resultMessage").innerText =
-            "💪 Keep practicing. You can do better!";
+        gameData.scores=
+        gameData.scores.slice(-10);
 
     }
 
 
-    createReview();
+    saveData();
+
+
+    showResult(score);
+
+    confetti();
 
 }
 
 
-function createReview() {
 
-    const container =
-        document.getElementById("reviewContainer");
+/* =========================
+   RESULT
+========================= */
 
-    container.innerHTML = "";
+function showResult(score){
 
-
-    questions.forEach((q, index) => {
-
-        const userAnswer =
-            selectedAnswers[index];
-
-        const isCorrect =
-            userAnswer === q.answer;
+    document.getElementById(
+        "quizArea"
+    ).style.display="none";
 
 
-        const item =
+    document.getElementById(
+        "resultBox"
+    ).style.display="block";
+
+
+    document.getElementById(
+        "finalScore"
+    ).innerText=
+    score+" / "+quizQuestions.length;
+
+
+    let percentage=
+    score/quizQuestions.length*100;
+
+
+    let message;
+
+
+    if(percentage===100){
+
+        message=
+        "🔥 PERFECT! You're operating at CSE Master level!";
+
+    }
+    else if(percentage>=80){
+
+        message=
+        "🚀 Excellent! Your CSE skills are getting stronger!";
+
+    }
+    else if(percentage>=60){
+
+        message=
+        "⚡ Good job! Keep learning and push your score higher.";
+
+    }
+    else{
+
+        message=
+        "💪 Keep practicing. Every question makes you better.";
+
+    }
+
+
+    document.getElementById(
+        "finalMessage"
+    ).innerText=message;
+
+
+    const badges=
+    document.getElementById(
+        "earnedBadges"
+    );
+
+
+    badges.innerHTML="";
+
+
+    if(score>=quizQuestions.length*.8){
+
+        addBadge(
+            "🏆 Knowledge Crusher"
+        );
+
+    }
+
+    if(score===quizQuestions.length){
+
+        addBadge(
+            "👑 Perfect Score"
+        );
+
+    }
+
+    if(gameData.solved>=50){
+
+        addBadge(
+            "⚡ 50 Questions"
+        );
+
+    }
+
+    if(gameData.xp>=500){
+
+        addBadge(
+            "💎 XP Hunter"
+        );
+
+    }
+
+}
+
+
+function addBadge(text){
+
+    const badge=
+    document.createElement("div");
+
+    badge.className=
+    "badge-earned";
+
+    badge.innerText=text;
+
+    document.getElementById(
+        "earnedBadges"
+    ).appendChild(badge);
+
+}
+
+
+
+/* =========================
+   CLOSE RESULT
+========================= */
+
+function closeResult(){
+
+    document.getElementById(
+        "resultBox"
+    ).style.display="none";
+
+
+    scrollToSection(
+        "dashboard"
+    );
+
+}
+
+
+
+/* =========================
+   LEADERBOARD
+========================= */
+
+function showLeaderboard(){
+
+    const box=
+    document.getElementById(
+        "leaderboardBox"
+    );
+
+
+    if(!gameData.scores.length){
+
+        box.innerHTML=
+        "<p style='text-align:center;color:#8994ad'>"
+        +"Complete a quiz to appear here!"
+        +"</p>";
+
+        return;
+
+    }
+
+
+    let sorted=
+    [...gameData.scores]
+    .sort(
+        (a,b)=>b.score-a.score
+    );
+
+
+    box.innerHTML="";
+
+
+    sorted.forEach(
+        (item,index)=>{
+
+            const row=
             document.createElement("div");
 
-        item.className = "review-item";
+
+            row.className=
+            "leader-row";
 
 
-        let userText =
-            userAnswer !== undefined
-            ? q.options[userAnswer]
-            : "Not answered";
+            row.innerHTML=`
+
+                <div class="rank">
+                    #${index+1}
+                </div>
+
+                <div class="player">
+                    CSE Learner
+                    <small style="display:block;color:#66718b">
+                    ${item.date}
+                    </small>
+                </div>
+
+                <div class="points">
+                    ${item.score}/${item.total}
+                </div>
+
+            `;
 
 
-        item.innerHTML = `
+            box.appendChild(row);
 
-            <strong>
-                ${index + 1}. ${q.question}
-            </strong>
+        }
+    );
 
-            <p class="${isCorrect ? "correct" : "wrong"}">
+}
 
-                ${
-                    isCorrect
-                    ? "✓ Correct"
-                    : "✗ Wrong"
+
+
+/* =========================
+   CONFETTI
+========================= */
+
+function confetti(){
+
+    for(let i=0;i<100;i++){
+
+        const piece=
+        document.createElement("div");
+
+
+        piece.style.position=
+        "fixed";
+
+        piece.style.width=
+        "8px";
+
+        piece.style.height=
+        "8px";
+
+        piece.style.left=
+        Math.random()*100+"vw";
+
+        piece.style.top="-10px";
+
+        piece.style.background=
+        [
+            "#00e5ff",
+            "#7c4dff",
+            "#ff4ecd",
+            "#fff"
+        ][
+            Math.floor(
+                Math.random()*4
+            )
+        ];
+
+        piece.style.zIndex="9999";
+
+        piece.style.borderRadius=
+        "2px";
+
+
+        document.body.appendChild(
+            piece
+        );
+
+
+        const duration=
+        1500+Math.random()*2500;
+
+
+        piece.animate(
+            [
+
+                {
+                    transform:
+                    "translateY(0) rotate(0deg)"
+                },
+
+                {
+                    transform:
+                    `translateY(110vh)
+                     rotate(${Math.random()*720}deg)`
+
                 }
 
-            </p>
-
-            <p>
-                Your answer:
-                <strong>${userText}</strong>
-            </p>
-
-            <p>
-                Correct answer:
-                <strong>${q.options[q.answer]}</strong>
-            </p>
-
-            <p class="explanation">
-                💡 ${q.explanation}
-            </p>
-
-        `;
+            ],
+            {
+                duration:duration,
+                easing:"ease-out"
+            }
+        );
 
 
-        container.appendChild(item);
+        setTimeout(
+            ()=>piece.remove(),
+            duration
+        );
 
-    });
+    }
 
 }
 
 
-function restartQuiz() {
 
-    currentQuestion = 0;
+/* =========================
+   INITIALIZE
+========================= */
 
-    selectedAnswers = [];
+updateDashboard();
 
-    document.getElementById("resultScreen")
-        .classList.add("hidden");
+showLeaderboard();
 
-    document.getElementById("startScreen")
-        .classList.remove("hidden");
-
-    document.getElementById("studentName")
-        .value = "";
-
-}
 
 </script>
 
