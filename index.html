@@ -3,172 +3,294 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSE Quiz Hub</title>
+
+<title>CSE Quiz Arena</title>
 
 <style>
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #0f172a, #1e3a8a, #312e81);
-  min-height: 100vh;
-  color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    color: white;
+    background:
+        radial-gradient(circle at top left, #243b55, transparent 40%),
+        radial-gradient(circle at bottom right, #6a11cb, transparent 40%),
+        linear-gradient(135deg, #050816, #10172b);
 }
 
 .container {
-  width: 92%;
-  max-width: 850px;
-  margin: auto;
-  padding: 30px 0;
+    width: 92%;
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 0;
 }
 
-header {
-  text-align: center;
-  margin-bottom: 25px;
+/* Header */
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-header h1 {
-  font-size: 36px;
-  margin-bottom: 8px;
+.logo {
+    font-size: 55px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    background: linear-gradient(90deg, #00e5ff, #7c4dff, #ff4ecd);
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
-header p {
-  color: #cbd5e1;
+.subtitle {
+    color: #b8c1d9;
+    margin-top: 8px;
 }
+
+/* Glass card */
 
 .card {
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 25px;
+    padding: 30px;
+    backdrop-filter: blur(18px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+
+/* Start screen */
+
+.start-screen {
+    text-align: center;
+}
+
+.start-screen h2 {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.start-screen p {
+    color: #b8c1d9;
+    line-height: 1.6;
+    margin-bottom: 25px;
 }
 
 input {
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-radius: 10px;
-  margin: 15px 0;
-  font-size: 16px;
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(0,0,0,0.25);
+    color: white;
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 20px;
 }
 
+input:focus {
+    border-color: #00e5ff;
+}
+
+/* Buttons */
+
 button {
-  border: none;
-  border-radius: 10px;
-  padding: 13px 22px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  background: #38bdf8;
-  color: #082f49;
-  margin-top: 15px;
+    border: none;
+    padding: 13px 22px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s;
 }
 
 button:hover {
-  transform: scale(1.03);
+    transform: translateY(-2px);
 }
+
+.primary {
+    color: white;
+    background: linear-gradient(90deg, #00bcd4, #7c4dff);
+}
+
+.secondary {
+    color: white;
+    background: rgba(255,255,255,0.1);
+}
+
+/* Quiz */
 
 .hidden {
-  display: none;
+    display: none;
 }
 
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 18px;
-  font-weight: bold;
+.quiz-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.question-number {
+    color: #00e5ff;
+    font-weight: bold;
+}
+
+.topic {
+    color: #b8c1d9;
+    font-size: 14px;
+}
+
+/* Progress */
+
+.progress-container {
+    width: 100%;
+    height: 9px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 30px;
 }
 
 .progress {
-  width: 100%;
-  height: 8px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 10px;
-  margin-bottom: 25px;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #00e5ff, #7c4dff);
+    transition: 0.3s;
 }
 
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: #38bdf8;
-  border-radius: 10px;
-  transition: 0.3s;
-}
+/* Question */
 
 .question {
-  font-size: 22px;
-  margin-bottom: 20px;
+    font-size: 25px;
+    line-height: 1.4;
+    margin-bottom: 25px;
+}
+
+/* Options */
+
+.options {
+    display: grid;
+    gap: 13px;
 }
 
 .option {
-  display: block;
-  width: 100%;
-  text-align: left;
-  background: rgba(255,255,255,0.12);
-  color: white;
-  border: 1px solid rgba(255,255,255,0.2);
-  margin: 10px 0;
+    width: 100%;
+    text-align: left;
+    color: white;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
 }
 
 .option:hover {
-  background: rgba(56,189,248,0.25);
+    background: rgba(0,229,255,0.12);
+    border-color: #00e5ff;
 }
 
+.option.selected {
+    background: linear-gradient(
+        90deg,
+        rgba(0,188,212,0.35),
+        rgba(124,77,255,0.35)
+    );
+    border-color: #00e5ff;
+}
+
+/* Navigation */
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+/* Result */
+
 .result {
-  text-align: center;
+    text-align: center;
 }
 
 .score {
-  font-size: 55px;
-  font-weight: bold;
-  margin: 20px;
+    font-size: 70px;
+    font-weight: 900;
+    margin: 20px 0;
+    background: linear-gradient(90deg,#00e5ff,#ff4ecd);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.result-message {
+    font-size: 20px;
+    margin-bottom: 25px;
 }
 
 .review {
-  text-align: left;
-  margin-top: 25px;
+    text-align: left;
+    margin-top: 30px;
 }
 
 .review-item {
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.06);
+    padding: 18px;
+    border-radius: 15px;
+    margin-bottom: 15px;
 }
 
 .correct {
-  border-left: 5px solid #22c55e;
+    color: #49f58c;
 }
 
 .wrong {
-  border-left: 5px solid #ef4444;
+    color: #ff647c;
 }
 
-footer {
-  text-align: center;
-  margin-top: 25px;
-  color: #cbd5e1;
-  font-size: 13px;
+.explanation {
+    color: #b8c1d9;
+    margin-top: 8px;
+    line-height: 1.5;
 }
+
+/* Footer */
+
+.footer {
+    text-align: center;
+    color: #77819b;
+    margin-top: 25px;
+    font-size: 13px;
+}
+
+/* Mobile */
 
 @media(max-width:600px) {
-  header h1 {
-    font-size: 28px;
-  }
 
-  .question {
-    font-size: 19px;
-  }
+    .container {
+        width: 94%;
+        padding: 20px 0;
+    }
 
-  .card {
-    padding: 18px;
-  }
+    .logo {
+        font-size: 40px;
+    }
+
+    .card {
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .question {
+        font-size: 20px;
+    }
+
+    .score {
+        font-size: 55px;
+    }
+
+    .navigation button {
+        padding: 11px 15px;
+    }
 }
 </style>
 </head>
@@ -177,364 +299,760 @@ footer {
 
 <div class="container">
 
-<header>
-  <h1>💻 CSE QUIZ HUB</h1>
-  <p>CSE-A • 2026–2030</p>
-</header>
+    <!-- HEADER -->
 
-<!-- START SCREEN -->
-<div class="card" id="startScreen">
+    <div class="header">
+        <div class="logo">CSE QUIZ</div>
+        <div class="subtitle">
+            Computer Science Engineering • Quiz Arena
+        </div>
+    </div>
 
-  <h2>Welcome to CSE Quiz!</h2>
-  <br>
 
-  <p>
-    Test your Computer Science knowledge with 20 MCQ questions.
-  </p>
+    <!-- START SCREEN -->
 
-  <input
-    type="text"
-    id="studentName"
-    placeholder="Enter your name"
-  >
+    <div class="card start-screen" id="startScreen">
 
-  <button onclick="startQuiz()">Start Quiz 🚀</button>
+        <h2>🚀 Welcome to CSE Quiz Arena</h2>
+
+        <p>
+            Test your Computer Science knowledge with questions
+            from programming, data structures, DBMS, operating systems,
+            networking and web technology.
+        </p>
+
+        <input
+            type="text"
+            id="studentName"
+            placeholder="Enter your name"
+        >
+
+        <button class="primary" onclick="startQuiz()">
+            Start Quiz 🚀
+        </button>
+
+    </div>
+
+
+    <!-- QUIZ SCREEN -->
+
+    <div class="card hidden" id="quizScreen">
+
+        <div class="quiz-top">
+
+            <div class="question-number" id="questionNumber">
+                Question 1
+            </div>
+
+            <div class="topic" id="topic">
+                C Programming
+            </div>
+
+        </div>
+
+        <div class="progress-container">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <div class="question" id="question">
+            Question goes here
+        </div>
+
+        <div class="options" id="options"></div>
+
+        <div class="navigation">
+
+            <button
+                class="secondary"
+                onclick="previousQuestion()"
+                id="previousBtn">
+                ← Previous
+            </button>
+
+            <button
+                class="primary"
+                onclick="nextQuestion()"
+                id="nextBtn">
+                Next →
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESULT SCREEN -->
+
+    <div class="card hidden result" id="resultScreen">
+
+        <h2>🏆 Quiz Completed!</h2>
+
+        <div id="resultName"></div>
+
+        <div class="score" id="score">
+            0 / 30
+        </div>
+
+        <div class="result-message" id="resultMessage"></div>
+
+        <button
+            class="primary"
+            onclick="restartQuiz()">
+            🔄 Try Again
+        </button>
+
+        <div class="review">
+
+            <h2>📋 Answer Review</h2>
+
+            <br>
+
+            <div id="reviewContainer"></div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        CSE Quiz Arena • Made for CSE Students 💻
+    </div>
 
 </div>
 
-<!-- QUIZ SCREEN -->
-<div class="card hidden" id="quizScreen">
-
-  <div class="topbar">
-    <span id="questionNumber">Question 1/20</span>
-    <span>⏱️ <span id="timer">60</span>s</span>
-  </div>
-
-  <div class="progress">
-    <div class="progress-bar" id="progressBar"></div>
-  </div>
-
-  <div class="question" id="question"></div>
-
-  <div id="options"></div>
-
-</div>
-
-<!-- RESULT SCREEN -->
-<div class="card hidden result" id="resultScreen">
-
-  <h2>🎉 Quiz Completed!</h2>
-
-  <p id="resultMessage"></p>
-
-  <div class="score" id="score"></div>
-
-  <p id="percentage"></p>
-
-  <div class="review" id="review"></div>
-
-  <button onclick="location.reload()">
-    🔄 Try Again
-  </button>
-
-</div>
-
-<footer>
-  CSE Quiz Hub • Created for CSE Students
-</footer>
-
-</div>
 
 <script>
 
 const questions = [
 
 {
-q: "Which programming language is known as a middle-level language?",
-options: ["Python", "C", "Java", "HTML"],
-answer: 1
+    topic: "C Programming",
+    question: "Which symbol is used to end a statement in C?",
+    options: [".", ";", ":", ","],
+    answer: 1,
+    explanation: "A semicolon (;) is used to terminate statements in C."
 },
 
 {
-q: "Which data structure follows LIFO?",
-options: ["Queue", "Stack", "Array", "Tree"],
-answer: 1
+    topic: "C Programming",
+    question: "Which function is used to print output in C?",
+    options: ["scanf()", "print()", "printf()", "display()"],
+    answer: 2,
+    explanation: "printf() is the standard output function in C."
 },
 
 {
-q: "Which data structure follows FIFO?",
-options: ["Stack", "Queue", "Tree", "Graph"],
-answer: 1
+    topic: "C Programming",
+    question: "Which data type is used to store a character?",
+    options: ["int", "float", "char", "double"],
+    answer: 2,
+    explanation: "The char data type stores a single character."
 },
 
 {
-q: "Which symbol is used to end a statement in C?",
-options: [":", ";", ".", ","],
-answer: 1
+    topic: "C Programming",
+    question: "Which operator is used to get the address of a variable?",
+    options: ["*", "&", "#", "@"],
+    answer: 1,
+    explanation: "The & operator returns the memory address of a variable."
 },
 
 {
-q: "Which SQL command is used to retrieve data?",
-options: ["INSERT", "DELETE", "SELECT", "UPDATE"],
-answer: 2
+    topic: "C Programming",
+    question: "Which loop executes at least once?",
+    options: ["for", "while", "do-while", "if"],
+    answer: 2,
+    explanation: "A do-while loop executes its body before checking the condition."
+},
+
+
+{
+    topic: "Data Structures",
+    question: "Which data structure follows LIFO?",
+    options: ["Queue", "Stack", "Array", "Linked List"],
+    answer: 1,
+    explanation: "Stack follows Last In First Out (LIFO)."
 },
 
 {
-q: "What does CPU stand for?",
-options: [
-"Central Processing Unit",
-"Computer Processing Utility",
-"Central Program Unit",
-"Control Processing Unit"
-],
-answer: 0
+    topic: "Data Structures",
+    question: "Which data structure follows FIFO?",
+    options: ["Stack", "Queue", "Tree", "Graph"],
+    answer: 1,
+    explanation: "Queue follows First In First Out (FIFO)."
 },
 
 {
-q: "Which memory is volatile?",
-options: ["ROM", "RAM", "SSD", "Hard Disk"],
-answer: 1
+    topic: "Data Structures",
+    question: "Which structure consists of nodes connected by edges?",
+    options: ["Array", "Stack", "Graph", "Variable"],
+    answer: 2,
+    explanation: "A graph consists of vertices/nodes connected by edges."
 },
 
 {
-q: "Which protocol is commonly used for web pages?",
-options: ["FTP", "HTTP", "SMTP", "SSH"],
-answer: 1
+    topic: "Data Structures",
+    question: "What is the root node in a tree?",
+    options: [
+        "Last node",
+        "Topmost node",
+        "Middle node",
+        "Leaf node"
+    ],
+    answer: 1,
+    explanation: "The root is the topmost node of a tree."
 },
 
 {
-q: "Which device connects different networks?",
-options: ["Switch", "Router", "Keyboard", "Monitor"],
-answer: 1
+    topic: "Data Structures",
+    question: "Which data structure uses nodes and pointers?",
+    options: ["Array", "Linked List", "Integer", "String"],
+    answer: 1,
+    explanation: "Linked lists use nodes connected through pointers."
+},
+
+
+{
+    topic: "DBMS",
+    question: "What does DBMS stand for?",
+    options: [
+        "Data Base Management System",
+        "Database Management System",
+        "Data Backup Management System",
+        "Database Machine System"
+    ],
+    answer: 1,
+    explanation: "DBMS stands for Database Management System."
 },
 
 {
-q: "What is the full form of DBMS?",
-options: [
-"Database Management System",
-"Data Backup Management System",
-"Database Machine System",
-"Digital Base Management System"
-],
-answer: 0
+    topic: "DBMS",
+    question: "Which language is mainly used to communicate with databases?",
+    options: ["HTML", "CSS", "SQL", "C"],
+    answer: 2,
+    explanation: "SQL is used to create, access and manipulate relational databases."
 },
 
 {
-q: "Which sorting algorithm has average O(n log n) complexity?",
-options: ["Bubble Sort", "Merge Sort", "Linear Search", "Selection Sort"],
-answer: 1
+    topic: "DBMS",
+    question: "Which key uniquely identifies a record?",
+    options: [
+        "Foreign Key",
+        "Primary Key",
+        "Candidate Key",
+        "Normal Key"
+    ],
+    answer: 1,
+    explanation: "A primary key uniquely identifies each record in a table."
 },
 
 {
-q: "Which language is mainly used to style web pages?",
-options: ["HTML", "CSS", "SQL", "C"],
-answer: 1
+    topic: "DBMS",
+    question: "Which command is used to retrieve data?",
+    options: ["INSERT", "DELETE", "SELECT", "UPDATE"],
+    answer: 2,
+    explanation: "SELECT is used to retrieve data from a database."
 },
 
 {
-q: "Which language is used to structure web pages?",
-options: ["CSS", "Python", "HTML", "SQL"],
-answer: 2
+    topic: "DBMS",
+    question: "Which SQL command removes a table?",
+    options: ["DELETE", "DROP", "REMOVE", "CLEAR"],
+    answer: 1,
+    explanation: "DROP TABLE permanently removes a table."
+},
+
+
+{
+    topic: "Operating Systems",
+    question: "Which is an example of an operating system?",
+    options: ["Windows", "Google", "HTML", "Python"],
+    answer: 0,
+    explanation: "Windows is an operating system."
 },
 
 {
-q: "Which operating system is open source?",
-options: ["Linux", "Windows", "iOS", "macOS"],
-answer: 0
+    topic: "Operating Systems",
+    question: "What is the main function of an operating system?",
+    options: [
+        "Play games",
+        "Manage computer resources",
+        "Create websites",
+        "Edit photos"
+    ],
+    answer: 1,
+    explanation: "An OS manages hardware and software resources."
 },
 
 {
-q: "Which of these is an input device?",
-options: ["Monitor", "Printer", "Keyboard", "Speaker"],
-answer: 2
+    topic: "Operating Systems",
+    question: "Which manages processes in an operating system?",
+    options: [
+        "Process Scheduler",
+        "Compiler",
+        "Browser",
+        "Editor"
+    ],
+    answer: 0,
+    explanation: "The process scheduler manages CPU allocation among processes."
 },
 
 {
-q: "Which number system uses only 0 and 1?",
-options: ["Decimal", "Binary", "Octal", "Hexadecimal"],
-answer: 1
+    topic: "Operating Systems",
+    question: "What is virtual memory?",
+    options: [
+        "Extra CPU",
+        "Memory using disk space",
+        "A type of processor",
+        "A programming language"
+    ],
+    answer: 1,
+    explanation: "Virtual memory uses part of storage as an extension of RAM."
 },
 
 {
-q: "What does RAM stand for?",
-options: [
-"Random Access Memory",
-"Read Access Memory",
-"Rapid Application Memory",
-"Random Application Module"
-],
-answer: 0
+    topic: "Operating Systems",
+    question: "Which memory is fastest?",
+    options: [
+        "Hard Disk",
+        "RAM",
+        "Cache",
+        "DVD"
+    ],
+    answer: 2,
+    explanation: "Cache memory is faster than RAM and storage."
+},
+
+
+{
+    topic: "Computer Networks",
+    question: "What does LAN stand for?",
+    options: [
+        "Large Area Network",
+        "Local Area Network",
+        "Long Area Network",
+        "Linked Area Network"
+    ],
+    answer: 1,
+    explanation: "LAN stands for Local Area Network."
 },
 
 {
-q: "Which keyword is used to define a constant using the C preprocessor?",
-options: ["const", "define", "static", "constant"],
-answer: 1
+    topic: "Computer Networks",
+    question: "Which device connects different networks?",
+    options: ["Switch", "Router", "Keyboard", "Monitor"],
+    answer: 1,
+    explanation: "Routers connect and route traffic between networks."
 },
 
 {
-q: "Which SQL command removes records from a table?",
-options: ["SELECT", "DELETE", "CREATE", "INSERT"],
-answer: 1
+    topic: "Computer Networks",
+    question: "What does IP stand for?",
+    options: [
+        "Internet Protocol",
+        "Internet Program",
+        "Internal Protocol",
+        "Information Process"
+    ],
+    answer: 0,
+    explanation: "IP stands for Internet Protocol."
 },
 
 {
-q: "Which part of a computer executes instructions?",
-options: ["CPU", "Monitor", "Keyboard", "Printer"],
-answer: 0
+    topic: "Computer Networks",
+    question: "Which protocol is commonly used for web pages?",
+    options: ["HTTP", "FTP", "SMTP", "SSH"],
+    answer: 0,
+    explanation: "HTTP is used for transferring web resources."
+},
+
+{
+    topic: "Computer Networks",
+    question: "Which device forwards data within a LAN?",
+    options: ["Router", "Switch", "Modem", "Printer"],
+    answer: 1,
+    explanation: "A network switch forwards frames between devices in a LAN."
+},
+
+
+{
+    topic: "Web Technology",
+    question: "What does HTML stand for?",
+    options: [
+        "Hyper Text Markup Language",
+        "High Text Machine Language",
+        "Hyperlink Text Management Language",
+        "Home Tool Markup Language"
+    ],
+    answer: 0,
+    explanation: "HTML stands for HyperText Markup Language."
+},
+
+{
+    topic: "Web Technology",
+    question: "Which language is used to style webpages?",
+    options: ["HTML", "CSS", "C", "SQL"],
+    answer: 1,
+    explanation: "CSS controls the appearance and layout of webpages."
+},
+
+{
+    topic: "Web Technology",
+    question: "Which language makes webpages interactive?",
+    options: ["HTML", "CSS", "JavaScript", "SQL"],
+    answer: 2,
+    explanation: "JavaScript is commonly used to add interaction and dynamic behavior."
+},
+
+{
+    topic: "Web Technology",
+    question: "Which tag creates a hyperlink?",
+    options: ["<link>", "<a>", "<href>", "<url>"],
+    answer: 1,
+    explanation: "The <a> element creates hyperlinks."
+},
+
+{
+    topic: "Web Technology",
+    question: "Which tag is used for the largest heading?",
+    options: ["<h6>", "<head>", "<h1>", "<title>"],
+    answer: 2,
+    explanation: "<h1> represents the highest-level heading."
+},
+
+
+{
+    topic: "Computer Fundamentals",
+    question: "What is the brain of the computer?",
+    options: [
+        "RAM",
+        "CPU",
+        "Hard Disk",
+        "Monitor"
+    ],
+    answer: 1,
+    explanation: "The CPU performs instructions and controls processing."
+},
+
+{
+    topic: "Computer Fundamentals",
+    question: "Which is temporary memory?",
+    options: ["ROM", "RAM", "SSD", "HDD"],
+    answer: 1,
+    explanation: "RAM is volatile temporary memory."
+},
+
+{
+    topic: "Computer Fundamentals",
+    question: "What does USB stand for?",
+    options: [
+        "Universal Serial Bus",
+        "Universal System Bus",
+        "United Serial Board",
+        "User System Bus"
+    ],
+    answer: 0,
+    explanation: "USB stands for Universal Serial Bus."
+},
+
+{
+    topic: "Computer Fundamentals",
+    question: "Which number system does a computer primarily use?",
+    options: [
+        "Decimal",
+        "Binary",
+        "Octal",
+        "Roman"
+    ],
+    answer: 1,
+    explanation: "Digital computers primarily represent data using binary digits (0 and 1)."
 }
 
 ];
 
+
 let currentQuestion = 0;
-let score = 0;
-let timer;
-let timeLeft = 60;
-let userAnswers = [];
+let selectedAnswers = [];
+let student = "";
+
 
 function startQuiz() {
 
-  const name = document.getElementById("studentName").value.trim();
+    student = document.getElementById("studentName").value.trim();
 
-  if (name === "") {
-    alert("Please enter your name!");
-    return;
-  }
+    if(student === "") {
+        alert("Please enter your name.");
+        return;
+    }
 
-  document.getElementById("startScreen").classList.add("hidden");
-  document.getElementById("quizScreen").classList.remove("hidden");
+    document.getElementById("startScreen").classList.add("hidden");
 
-  showQuestion();
+    document.getElementById("quizScreen").classList.remove("hidden");
+
+    showQuestion();
 
 }
+
 
 function showQuestion() {
 
-  clearInterval(timer);
+    const q = questions[currentQuestion];
 
-  timeLeft = 60;
-  document.getElementById("timer").textContent = timeLeft;
+    document.getElementById("questionNumber").innerText =
+        "Question " + (currentQuestion + 1) +
+        " / " + questions.length;
 
-  timer = setInterval(() => {
+    document.getElementById("topic").innerText = q.topic;
 
-    timeLeft--;
+    document.getElementById("question").innerText =
+        q.question;
 
-    document.getElementById("timer").textContent = timeLeft;
+    document.getElementById("progress").style.width =
+        ((currentQuestion + 1) / questions.length * 100) + "%";
 
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      selectAnswer(-1);
+
+    const optionsContainer =
+        document.getElementById("options");
+
+    optionsContainer.innerHTML = "";
+
+
+    q.options.forEach((option, index) => {
+
+        const button = document.createElement("button");
+
+        button.className = "option";
+
+        button.innerText =
+            String.fromCharCode(65 + index) +
+            ". " +
+            option;
+
+
+        if(selectedAnswers[currentQuestion] === index) {
+            button.classList.add("selected");
+        }
+
+
+        button.onclick = function() {
+
+            selectedAnswers[currentQuestion] = index;
+
+            showQuestion();
+
+        };
+
+
+        optionsContainer.appendChild(button);
+
+    });
+
+
+    document.getElementById("previousBtn").disabled =
+        currentQuestion === 0;
+
+
+    if(currentQuestion === questions.length - 1) {
+
+        document.getElementById("nextBtn").innerText =
+            "Finish 🏆";
+
+    } else {
+
+        document.getElementById("nextBtn").innerText =
+            "Next →";
+
     }
 
-  }, 1000);
+}
 
-  const q = questions[currentQuestion];
 
-  document.getElementById("questionNumber").textContent =
-    `Question ${currentQuestion + 1}/${questions.length}`;
+function nextQuestion() {
 
-  document.getElementById("question").textContent = q.q;
+    if(selectedAnswers[currentQuestion] === undefined) {
 
-  document.getElementById("progressBar").style.width =
-    `${((currentQuestion) / questions.length) * 100}%`;
+        alert("Please select an answer.");
 
-  const optionsDiv = document.getElementById("options");
+        return;
 
-  optionsDiv.innerHTML = "";
+    }
 
-  q.options.forEach((option, index) => {
 
-    const button = document.createElement("button");
+    if(currentQuestion < questions.length - 1) {
 
-    button.className = "option";
+        currentQuestion++;
 
-    button.textContent =
-      `${String.fromCharCode(65 + index)}. ${option}`;
+        showQuestion();
 
-    button.onclick = () => selectAnswer(index);
+    } else {
 
-    optionsDiv.appendChild(button);
+        showResult();
 
-  });
+    }
 
 }
 
-function selectAnswer(selected) {
 
-  clearInterval(timer);
+function previousQuestion() {
 
-  const q = questions[currentQuestion];
+    if(currentQuestion > 0) {
 
-  userAnswers.push(selected);
+        currentQuestion--;
 
-  if (selected === q.answer) {
-    score++;
-  }
+        showQuestion();
 
-  currentQuestion++;
-
-  if (currentQuestion < questions.length) {
-
-    setTimeout(showQuestion, 200);
-
-  } else {
-
-    setTimeout(showResult, 200);
-
-  }
+    }
 
 }
+
 
 function showResult() {
 
-  document.getElementById("quizScreen").classList.add("hidden");
-  document.getElementById("resultScreen").classList.remove("hidden");
+    document.getElementById("quizScreen")
+        .classList.add("hidden");
 
-  const name =
-    document.getElementById("studentName").value;
+    document.getElementById("resultScreen")
+        .classList.remove("hidden");
 
-  const percentage =
-    Math.round((score / questions.length) * 100);
 
-  document.getElementById("resultMessage").textContent =
-    `Well done, ${name}!`;
+    let score = 0;
 
-  document.getElementById("score").textContent =
-    `${score}/${questions.length}`;
 
-  document.getElementById("percentage").textContent =
-    `Your Score: ${percentage}%`;
+    questions.forEach((q, index) => {
 
-  const review =
-    document.getElementById("review");
+        if(selectedAnswers[index] === q.answer) {
+            score++;
+        }
 
-  review.innerHTML = "<h3>Answer Review</h3>";
+    });
 
-  questions.forEach((q, i) => {
 
-    const item =
-      document.createElement("div");
+    document.getElementById("resultName").innerHTML =
+        "<h3>Well done, " + student + "! 🎉</h3>";
 
-    const correct =
-      userAnswers[i] === q.answer;
 
-    item.className =
-      `review-item ${correct ? "correct" : "wrong"}`;
+    document.getElementById("score").innerText =
+        score + " / " + questions.length;
 
-    item.innerHTML = `
-      <b>Q${i + 1}. ${q.q}</b><br><br>
-      Your answer:
-      ${userAnswers[i] >= 0
-        ? q.options[userAnswers[i]]
-        : "Not answered"}
-      <br>
-      Correct answer:
-      ${q.options[q.answer]}
-    `;
 
-    review.appendChild(item);
+    let percentage =
+        (score / questions.length) * 100;
 
-  });
+
+    if(percentage >= 90) {
+
+        document.getElementById("resultMessage").innerText =
+            "🌟 Outstanding! You're a CSE star!";
+
+    }
+    else if(percentage >= 75) {
+
+        document.getElementById("resultMessage").innerText =
+            "🔥 Excellent performance!";
+
+    }
+    else if(percentage >= 50) {
+
+        document.getElementById("resultMessage").innerText =
+            "👍 Good job! Keep learning.";
+
+    }
+    else {
+
+        document.getElementById("resultMessage").innerText =
+            "💪 Keep practicing. You can do better!";
+
+    }
+
+
+    createReview();
+
+}
+
+
+function createReview() {
+
+    const container =
+        document.getElementById("reviewContainer");
+
+    container.innerHTML = "";
+
+
+    questions.forEach((q, index) => {
+
+        const userAnswer =
+            selectedAnswers[index];
+
+        const isCorrect =
+            userAnswer === q.answer;
+
+
+        const item =
+            document.createElement("div");
+
+        item.className = "review-item";
+
+
+        let userText =
+            userAnswer !== undefined
+            ? q.options[userAnswer]
+            : "Not answered";
+
+
+        item.innerHTML = `
+
+            <strong>
+                ${index + 1}. ${q.question}
+            </strong>
+
+            <p class="${isCorrect ? "correct" : "wrong"}">
+
+                ${
+                    isCorrect
+                    ? "✓ Correct"
+                    : "✗ Wrong"
+                }
+
+            </p>
+
+            <p>
+                Your answer:
+                <strong>${userText}</strong>
+            </p>
+
+            <p>
+                Correct answer:
+                <strong>${q.options[q.answer]}</strong>
+            </p>
+
+            <p class="explanation">
+                💡 ${q.explanation}
+            </p>
+
+        `;
+
+
+        container.appendChild(item);
+
+    });
+
+}
+
+
+function restartQuiz() {
+
+    currentQuestion = 0;
+
+    selectedAnswers = [];
+
+    document.getElementById("resultScreen")
+        .classList.add("hidden");
+
+    document.getElementById("startScreen")
+        .classList.remove("hidden");
+
+    document.getElementById("studentName")
+        .value = "";
 
 }
 
