@@ -590,10 +590,37 @@ footer{
         font-size:17px;
     }
 }
+
+/* ================= OPTIONAL NAME LOGIN ================= */
+.name-gate{
+ position:fixed; inset:0; z-index:10000; display:flex; align-items:center; justify-content:center;
+ background:rgba(3,7,18,.88); backdrop-filter:blur(14px); padding:20px;
+}
+.name-card{width:min(460px,100%); text-align:center; padding:36px; border:1px solid rgba(0,229,255,.28); border-radius:24px; background:rgba(10,18,35,.96); box-shadow:0 20px 80px rgba(0,0,0,.5)}
+.name-card h2{font-size:30px;margin:8px 0 10px}.name-card p{opacity:.8;line-height:1.6;margin-bottom:22px}
+.name-card input{width:100%;box-sizing:border-box;padding:14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;outline:none;margin-bottom:12px}
+.name-card input:focus{border-color:#00e5ff;box-shadow:0 0 0 3px rgba(0,229,255,.1)}
+.name-actions{display:flex;gap:10px}.name-actions button{flex:1}
+.user-greeting{display:inline-block;margin-left:10px;font-size:12px;opacity:.8}
+
 </style>
 </head>
 
 <body>
+
+<!-- ================= OPTIONAL NAME LOGIN ================= -->
+<div class="name-gate" id="nameGate">
+  <div class="name-card">
+    <div style="font-size:42px">🚀</div>
+    <h2>Welcome to CSE NEXUS</h2>
+    <p>Enter your name to personalize your dashboard and quiz experience. This is optional and is stored only in this browser.</p>
+    <input id="nameInput" type="text" maxlength="30" placeholder="Your name (optional)" autocomplete="name">
+    <div class="name-actions">
+      <button class="btn btn-primary" onclick="saveName()">Continue →</button>
+      <button class="btn btn-secondary" onclick="skipName()">Skip</button>
+    </div>
+  </div>
+</div>
 
 <canvas id="particles"></canvas>
 
@@ -603,7 +630,7 @@ footer{
 
     <div class="brand">
         CSE NEXUS
-        <span class="class-info">CSE A 2026 - 2030</span>
+        <span class="class-info">CSE A 2026 - 2030</span><span class="user-greeting" id="navUser"></span>
     </div>
 
     <ul class="nav-links">
@@ -630,7 +657,7 @@ footer{
 
         <h1>CSE NEXUS</h1>
 
-        <h2>Your Journey From Student → Future Engineer</h2>
+        <h2 id="heroGreeting">Your Journey From Student → Future Engineer</h2>
 
         <p>
             Learn Computer Science, challenge yourself with quizzes,
@@ -1231,6 +1258,37 @@ window.addEventListener("resize",()=>{
 });
 
 
+
+/* =====================================================
+   OPTIONAL NAME LOGIN
+===================================================== */
+function saveName(){
+    const input=document.getElementById("nameInput");
+    const name=input.value.trim().slice(0,30);
+    localStorage.setItem("cseNexusName",name);
+    applyName(name);
+}
+function skipName(){
+    localStorage.setItem("cseNexusName","");
+    applyName("");
+}
+function applyName(name){
+    document.getElementById("nameGate").style.display="none";
+    const nav=document.getElementById("navUser");
+    const greeting=document.getElementById("heroGreeting");
+    if(name){
+        nav.textContent="👋 "+name;
+        greeting.textContent="Welcome, "+name+" — Your Journey From Student → Future Engineer";
+    }else{
+        nav.textContent="";
+        greeting.textContent="Your Journey From Student → Future Engineer";
+    }
+}
+function initName(){
+    const name=localStorage.getItem("cseNexusName");
+    if(name!==null){ applyName(name); }
+}
+
 /* =====================================================
    PLAYER DATA
 ===================================================== */
@@ -1330,389 +1388,650 @@ updateDashboard();
 
 const questions = [
 
-/* ================= C PROGRAMMING ================= */
-
+/* ================= C ================= */
 {
-category:"C",
-question:"Which symbol is used to end a statement in C?",
-options:[".",":",";","#"],
-answer:2,
-explanation:"The semicolon (;) is used to terminate statements in C."
+category:"C", question:"Which symbol is used to end a statement in C?", options:[".",":",";","#"], answer:2, explanation:"The semicolon (;) terminates a C statement."
+},
+{
+category:"C", question:"Which function is used to print output in C?", options:["scanf()","printf()","print()","output()"], answer:1, explanation:"printf() displays formatted output."
+},
+{
+category:"C", question:"Which data type stores a single character?", options:["int","float","char","double"], answer:2, explanation:"char stores a single character."
+},
+{
+category:"C", question:"Which symbol starts a single-line comment in C?", options:["//","##","<!--","**"], answer:0, explanation:"// starts a single-line comment."
+},
+{
+category:"C", question:"Which loop executes its body at least once?", options:["for","while","do-while","if"], answer:2, explanation:"do-while checks the condition after the body."
+},
+{
+category:"C", question:"Which header is needed for printf() and scanf()?", options:["stdlib.h","stdio.h","string.h","math.h"], answer:1, explanation:"stdio.h declares standard input/output functions."
+},
+{
+category:"C", question:"Which operator is used for assignment?", options:["==","=","!=","<="], answer:1, explanation:"= assigns a value to a variable."
+},
+{
+category:"C", question:"Which operator means logical AND?", options:["||","&&","!","&"], answer:1, explanation:"&& is the logical AND operator."
+},
+{
+category:"C", question:"Which keyword declares a constant variable?", options:["fixed","const","constant","static"], answer:1, explanation:"const prevents modification through that variable."
+},
+{
+category:"C", question:"Which function returns the length of a string?", options:["size()","length()","strlen()","strsize()"], answer:2, explanation:"strlen() returns the number of characters before the null terminator."
+},
+{
+category:"C", question:"Which character terminates a C string?", options:["\\n","\\0","\\t","\\b"], answer:1, explanation:"C strings end with the null character \\0."
+},
+{
+category:"C", question:"Array indexing in C normally starts at?", options:["0","1","-1","2"], answer:0, explanation:"The first array element has index 0."
+},
+{
+category:"C", question:"Which keyword exits a loop immediately?", options:["stop","exit","break","returnloop"], answer:2, explanation:"break terminates the nearest loop or switch."
+},
+{
+category:"C", question:"Which keyword skips to the next loop iteration?", options:["skip","continue","next","pass"], answer:1, explanation:"continue skips the remaining loop body for that iteration."
+},
+{
+category:"C", question:"Which operator gives the remainder of integer division?", options:["/","%","//","rem"], answer:1, explanation:"% is the modulus operator."
+},
+{
+category:"C", question:"Which is a valid identifier in C?", options:["2value","my-value","my_value","float"], answer:2, explanation:"Identifiers can contain letters, digits and underscores but cannot start with a digit."
+},
+{
+category:"C", question:"Which storage class is the default for local variables?", options:["auto","register","extern","static"], answer:0, explanation:"Local variables have automatic storage duration by default."
+},
+{
+category:"C", question:"What does a pointer store?", options:["A keyword","A memory address","A loop count","A data type"], answer:1, explanation:"A pointer stores the address of an object or function."
+},
+{
+category:"C", question:"Which operator gets the address of a variable?", options:["*","&","@","#"], answer:1, explanation:"& is the address-of operator."
+},
+{
+category:"C", question:"Which operator dereferences a pointer?", options:["&","*","%","->"], answer:1, explanation:"* accesses the value pointed to."
+},
+{
+category:"C", question:"Which statement is used for decision making?", options:["if","goto","typedef","include"], answer:0, explanation:"if conditionally executes a block."
+},
+{
+category:"C", question:"Which statement handles multiple fixed choices?", options:["switch","repeat","select","choose"], answer:0, explanation:"switch selects among case labels."
+},
+{
+category:"C", question:"Which keyword defines a structure type?", options:["record","struct","object","class"], answer:1, explanation:"struct defines a structure type in C."
+},
+{
+category:"C", question:"Which function compares two strings?", options:["strcompare()","strcmp()","compare()","strmatch()"], answer:1, explanation:"strcmp() compares two C strings lexicographically."
+},
+{
+category:"C", question:"Which function copies one string to another?", options:["strcopy()","copystr()","strcpy()","memcopystr()"], answer:2, explanation:"strcpy() copies a null-terminated string."
+},
+{
+category:"C", question:"Which function allocates dynamic memory?", options:["malloc()","alloc()","new()","create()"], answer:0, explanation:"malloc() allocates a block of dynamic memory."
+},
+{
+category:"C", question:"Which function releases memory allocated by malloc()?", options:["delete()","remove()","free()","release()"], answer:2, explanation:"free() releases dynamically allocated memory."
+},
+{
+category:"C", question:"Which preprocessor directive includes a header?", options:["#define","#include","#header","#import"], answer:1, explanation:"#include inserts the contents/declarations of a header."
+},
+{
+category:"C", question:"What does sizeof return?", options:["A variable name","Size in bytes","Address only","Number of bits only"], answer:1, explanation:"sizeof yields the size of a type or object in bytes."
+},
+{
+category:"C", question:"Which is the correct main function form?", options:["main[]","void main{}","int main(void)","start()"], answer:2, explanation:"int main(void) is a standard form of the program entry point."
 },
 
+/* ================= DS ================= */
 {
-category:"C",
-question:"Which function is used to print output in C?",
-options:["scanf()","printf()","print()","output()"],
-answer:1,
-explanation:"printf() is the standard C function used to display formatted output."
+category:"DS", question:"Which data structure follows LIFO?", options:["Queue","Stack","Array","Graph"], answer:1, explanation:"A stack follows Last In First Out."
 },
-
 {
-category:"C",
-question:"Which data type is used to store a character?",
-options:["int","float","char","double"],
-answer:2,
-explanation:"The char data type stores a single character."
+category:"DS", question:"Which data structure follows FIFO?", options:["Stack","Tree","Queue","Graph"], answer:2, explanation:"A queue follows First In First Out."
 },
-
 {
-category:"C",
-question:"Which symbol is used for a single-line comment in C?",
-options:["//","##","<!--","**"],
-answer:0,
-explanation:"Two forward slashes (//) start a single-line comment."
+category:"DS", question:"Which structure uses nodes connected by pointers?", options:["Linked List","Array","Integer","String"], answer:0, explanation:"Linked lists use linked nodes."
 },
-
 {
-category:"C",
-question:"Which loop executes at least once?",
-options:["for","while","do-while","if"],
-answer:2,
-explanation:"A do-while loop executes its body before checking the condition."
+category:"DS", question:"What is the root node in a tree?", options:["Last node","Top node","Middle node","Leaf node"], answer:1, explanation:"The root is the topmost node."
 },
-
-/* ================= DATA STRUCTURES ================= */
-
 {
-category:"DS",
-question:"Which data structure follows LIFO?",
-options:["Queue","Stack","Array","Graph"],
-answer:1,
-explanation:"Stack follows Last In First Out (LIFO)."
+category:"DS", question:"Which structure is commonly used for BFS?", options:["Stack","Queue","Array","Heap"], answer:1, explanation:"BFS uses a queue."
 },
-
 {
-category:"DS",
-question:"Which data structure follows FIFO?",
-options:["Stack","Tree","Queue","Graph"],
-answer:2,
-explanation:"Queue follows First In First Out (FIFO)."
+category:"DS", question:"Which structure is commonly used for DFS?", options:["Queue","Stack","Hash table","Priority queue"], answer:1, explanation:"DFS is naturally implemented with a stack or recursion."
 },
-
 {
-category:"DS",
-question:"Which data structure uses nodes and pointers?",
-options:["Linked List","Array","Integer","String"],
-answer:0,
-explanation:"Linked lists consist of nodes connected using pointers."
+category:"DS", question:"What is the worst-case search time in an unsorted array?", options:["O(1)","O(log n)","O(n)","O(n log n)"], answer:2, explanation:"An unsorted array may require checking every element."
 },
-
 {
-category:"DS",
-question:"What is the root node in a tree?",
-options:["Last node","Top node","Middle node","Leaf node"],
-answer:1,
-explanation:"The root is the topmost node of a tree."
+category:"DS", question:"Which data structure gives average O(1) key lookup?", options:["Stack","Hash table","Linked list","Heap"], answer:1, explanation:"Hash tables provide average constant-time lookup with a good hash function."
 },
-
 {
-category:"DS",
-question:"Which structure is commonly used for BFS?",
-options:["Stack","Queue","Array","Heap"],
-answer:1,
-explanation:"Breadth First Search uses a queue."
+category:"DS", question:"Which tree has at most two children per node?", options:["B-tree","Binary tree","Trie","Graph"], answer:1, explanation:"A binary tree has at most two children."
+},
+{
+category:"DS", question:"What is a leaf node?", options:["Node with no children","Root only","Node with two parents","Any internal node"], answer:0, explanation:"A leaf has no children."
+},
+{
+category:"DS", question:"Which traversal visits root between left and right subtrees?", options:["Preorder","Inorder","Postorder","Level order"], answer:1, explanation:"Inorder is left-root-right."
+},
+{
+category:"DS", question:"Which traversal visits root before its children?", options:["Preorder","Inorder","Postorder","Reverse order"], answer:0, explanation:"Preorder is root-left-right."
+},
+{
+category:"DS", question:"Which traversal visits root after its children?", options:["Preorder","Inorder","Postorder","Level order"], answer:2, explanation:"Postorder is left-right-root."
+},
+{
+category:"DS", question:"Which data structure is ideal for priority-based removal?", options:["Priority queue","Stack","Array","Linked list"], answer:0, explanation:"A priority queue removes the highest/lowest priority item."
+},
+{
+category:"DS", question:"Which heap is commonly used to implement a min-priority queue?", options:["Min-heap","Max-stack","AVL heap","Binary list"], answer:0, explanation:"A min-heap keeps the smallest key at the root."
+},
+{
+category:"DS", question:"What is the height of a tree?", options:["Number of edges on longest root-to-leaf path","Number of leaves","Number of roots","Total data size"], answer:0, explanation:"Height is the longest root-to-leaf path length in edges (common definition)."
+},
+{
+category:"DS", question:"Which sorting algorithm repeatedly swaps adjacent out-of-order elements?", options:["Merge sort","Bubble sort","Heap sort","Radix sort"], answer:1, explanation:"Bubble sort compares adjacent elements and swaps them."
+},
+{
+category:"DS", question:"Which sorting algorithm is based on divide and conquer?", options:["Bubble sort","Merge sort","Counting sort","Selection only"], answer:1, explanation:"Merge sort divides the array and merges sorted halves."
+},
+{
+category:"DS", question:"Average time of binary search on sorted data?", options:["O(n)","O(log n)","O(n²)","O(1) always"], answer:1, explanation:"Binary search halves the search space each step."
+},
+{
+category:"DS", question:"Binary search requires the data to be?", options:["Encrypted","Sorted","Linked","Randomized"], answer:1, explanation:"Binary search relies on sorted order."
+},
+{
+category:"DS", question:"Which graph representation uses a matrix of vertices?", options:["Adjacency matrix","Linked stack","Heap matrix","Traversal list"], answer:0, explanation:"An adjacency matrix stores edge relationships in a 2D table."
+},
+{
+category:"DS", question:"What is a vertex in a graph?", options:["A node","An edge only","A queue","A sorting step"], answer:0, explanation:"Vertices are the nodes of a graph."
+},
+{
+category:"DS", question:"What connects two vertices in a graph?", options:["Edge","Root","Leaf","Index"], answer:0, explanation:"An edge represents a connection between vertices."
+},
+{
+category:"DS", question:"Which algorithm finds shortest paths from one source with non-negative weights?", options:["Dijkstra","Bubble sort","DFS only","Kruskal"], answer:0, explanation:"Dijkstra is designed for non-negative edge weights."
+},
+{
+category:"DS", question:"Which algorithm finds a minimum spanning tree?", options:["Kruskal","Binary search","BFS only","KMP"], answer:0, explanation:"Kruskal builds an MST by selecting safe edges."
+},
+{
+category:"DS", question:"What is recursion?", options:["A function calling itself","A queue operation","A sorting swap","A database key"], answer:0, explanation:"Recursion solves a problem through self-calls with a base case."
+},
+{
+category:"DS", question:"Which structure is used by function call management?", options:["Call stack","Queue only","Graph","Hash table"], answer:0, explanation:"Function calls and local frames are managed on a call stack."
+},
+{
+category:"DS", question:"Which linked list has pointers in both directions?", options:["Singly linked list","Doubly linked list","Circular array","Heap"], answer:1, explanation:"A doubly linked list stores next and previous links."
+},
+{
+category:"DS", question:"Which structure connects the last node back to the first?", options:["Circular linked list","Binary tree","Stack","Static array"], answer:0, explanation:"A circular linked list forms a cycle from tail to head."
+},
+{
+category:"DS", question:"Which notation describes asymptotic growth?", options:["Big-O","HTML","SQL","ASCII"], answer:0, explanation:"Big-O describes an upper-bound growth rate commonly used for complexity."
 },
 
 /* ================= DBMS ================= */
-
 {
-category:"DBMS",
-question:"What does DBMS stand for?",
-options:[
-"Data Backup Management System",
-"Database Management System",
-"Database Memory System",
-"Data Binary Management System"
-],
-answer:1,
-explanation:"DBMS stands for Database Management System."
+category:"DBMS", question:"What does DBMS stand for?", options:["Data Backup Management System","Database Management System","Database Memory System","Data Binary Management System"], answer:1, explanation:"DBMS means Database Management System."
+},
+{
+category:"DBMS", question:"Which language is used with relational databases?", options:["HTML","SQL","CSS","C"], answer:1, explanation:"SQL is used to define and manipulate relational data."
+},
+{
+category:"DBMS", question:"Which key uniquely identifies a record?", options:["Foreign Key","Primary Key","Candidate Key","Secondary Key"], answer:1, explanation:"A primary key uniquely identifies rows."
+},
+{
+category:"DBMS", question:"Which command retrieves data?", options:["INSERT","UPDATE","SELECT","DELETE"], answer:2, explanation:"SELECT retrieves rows from tables."
+},
+{
+category:"DBMS", question:"What does SQL stand for?", options:["Structured Query Language","Simple Query Language","System Query Language","Sequential Query Language"], answer:0, explanation:"SQL means Structured Query Language."
+},
+{
+category:"DBMS", question:"Which command adds new rows?", options:["INSERT","ALTER","DROP","SELECT"], answer:0, explanation:"INSERT adds rows."
+},
+{
+category:"DBMS", question:"Which command modifies existing rows?", options:["UPDATE","CHANGE","MODIFYDB","ALTERROW"], answer:0, explanation:"UPDATE changes existing records."
+},
+{
+category:"DBMS", question:"Which command removes rows?", options:["DELETE","REMOVE TABLE","CLEARDB","DROP ROW"], answer:0, explanation:"DELETE removes selected rows."
+},
+{
+category:"DBMS", question:"Which command creates a table?", options:["MAKE","CREATE TABLE","BUILD","NEW TABLE"], answer:1, explanation:"CREATE TABLE defines a new table."
+},
+{
+category:"DBMS", question:"Which clause filters rows?", options:["WHERE","FROM","ORDER","GROUP"], answer:0, explanation:"WHERE applies row-level conditions."
+},
+{
+category:"DBMS", question:"Which clause sorts query results?", options:["SORT","ORDER BY","ARRANGE","GROUP BY"], answer:1, explanation:"ORDER BY sorts results."
+},
+{
+category:"DBMS", question:"Which clause groups rows for aggregate calculations?", options:["GROUP BY","WHERE","ORDER BY","JOIN"], answer:0, explanation:"GROUP BY forms groups for aggregation."
+},
+{
+category:"DBMS", question:"Which function counts rows?", options:["SUM()","COUNT()","TOTAL()","NUMBER()"], answer:1, explanation:"COUNT() counts rows/values according to its argument."
+},
+{
+category:"DBMS", question:"Which function calculates an average?", options:["MEAN()","AVG()","AVERAGE()","MID()"], answer:1, explanation:"AVG() calculates the average."
+},
+{
+category:"DBMS", question:"What is a foreign key?", options:["A key referencing another table","Always the primary key","A password","A duplicate column"], answer:0, explanation:"A foreign key references a key in another table."
+},
+{
+category:"DBMS", question:"What is normalization used for?", options:["Reduce redundancy","Increase duplicate data","Encrypt passwords","Speed CPU"], answer:0, explanation:"Normalization organizes data to reduce redundancy and anomalies."
+},
+{
+category:"DBMS", question:"Which normal form removes repeating groups?", options:["1NF","2NF","3NF","BCNF"], answer:0, explanation:"First Normal Form requires atomic values/no repeating groups."
+},
+{
+category:"DBMS", question:"Which normal form removes partial dependency?", options:["1NF","2NF","3NF","4NF"], answer:1, explanation:"2NF removes partial dependency on part of a composite key."
+},
+{
+category:"DBMS", question:"Which normal form removes transitive dependency?", options:["1NF","2NF","3NF","5NF"], answer:2, explanation:"3NF addresses transitive dependency."
+},
+{
+category:"DBMS", question:"What is a transaction?", options:["Logical unit of database work","A table only","A password","A network packet"], answer:0, explanation:"A transaction is a logical unit of work."
+},
+{
+category:"DBMS", question:"Which property means all-or-nothing?", options:["Atomicity","Consistency","Isolation","Durability"], answer:0, explanation:"Atomicity ensures a transaction fully succeeds or fully fails."
+},
+{
+category:"DBMS", question:"Which ACID property preserves committed changes?", options:["Durability","Atomicity","Isolation","Consistency"], answer:0, explanation:"Durability keeps committed results despite failures."
+},
+{
+category:"DBMS", question:"Which ACID property separates concurrent transactions?", options:["Isolation","Durability","Atomicity","Indexing"], answer:0, explanation:"Isolation controls how concurrent transactions interact."
+},
+{
+category:"DBMS", question:"Which command saves a transaction?", options:["COMMIT","SAVEIT","STORE","APPLY"], answer:0, explanation:"COMMIT makes transaction changes permanent."
+},
+{
+category:"DBMS", question:"Which command undoes uncommitted changes?", options:["ROLLBACK","UNDO ALL","CANCELDB","RESET"], answer:0, explanation:"ROLLBACK reverses changes in the current transaction."
+},
+{
+category:"DBMS", question:"What is an index used for?", options:["Faster data retrieval","Deleting databases","Creating users only","Replacing tables"], answer:0, explanation:"Indexes can speed up searches at storage/update cost."
+},
+{
+category:"DBMS", question:"What is a view?", options:["Virtual table based on a query","Physical CPU cache","Backup drive","Primary key"], answer:0, explanation:"A view presents query results as a virtual table."
+},
+{
+category:"DBMS", question:"Which join returns matching rows from both tables?", options:["INNER JOIN","FULL DELETE","CROSS REMOVE","LEFT ONLY"], answer:0, explanation:"INNER JOIN returns rows satisfying the join condition."
+},
+{
+category:"DBMS", question:"Which join keeps all rows from the left table?", options:["LEFT JOIN","RIGHT DELETE","INNER JOIN","ONLY JOIN"], answer:0, explanation:"LEFT JOIN preserves all left-table rows and matching right rows."
+},
+{
+category:"DBMS", question:"What is a schema?", options:["Logical structure/design of a database","A single row","A password","A network protocol"], answer:0, explanation:"A schema describes database objects and relationships."
 },
 
+/* ================= OS ================= */
 {
-category:"DBMS",
-question:"Which language is used to communicate with relational databases?",
-options:["HTML","SQL","CSS","C"],
-answer:1,
-explanation:"SQL is used to create, retrieve and manipulate relational database data."
+category:"OS", question:"Which is an operating system?", options:["Linux","HTML","SQL","Python"], answer:0, explanation:"Linux is an operating system."
+},
+{
+category:"OS", question:"Which component manages hardware resources?", options:["Compiler","Operating System","Browser","Editor"], answer:1, explanation:"The OS manages CPU, memory and devices."
+},
+{
+category:"OS", question:"What is a process?", options:["A program in execution","A storage device","A network","A file"], answer:0, explanation:"A process is a program in execution."
+},
+{
+category:"OS", question:"Who manages virtual memory?", options:["CPU","Operating System","Keyboard","Monitor"], answer:1, explanation:"The OS manages virtual memory."
+},
+{
+category:"OS", question:"What is multitasking?", options:["Running multiple tasks","Deleting tasks","Installing software","Formatting disk"], answer:0, explanation:"Multitasking allows multiple tasks to make progress."
+},
+{
+category:"OS", question:"What is a thread?", options:["Smallest execution unit within a process","A disk partition","A file type","A network cable"], answer:0, explanation:"A thread is an execution path within a process."
+},
+{
+category:"OS", question:"What is a scheduler?", options:["Selects processes for CPU execution","Formats disks","Encrypts files only","Creates websites"], answer:0, explanation:"The scheduler decides which ready process/thread runs."
+},
+{
+category:"OS", question:"Which scheduling algorithm uses a time quantum?", options:["Round Robin","FCFS only","SJF only","FIFO disk"], answer:0, explanation:"Round Robin assigns each process a time slice."
+},
+{
+category:"OS", question:"What does FCFS stand for?", options:["First Come First Served","Fast CPU File System","First Core First Start","File Control For Storage"], answer:0, explanation:"FCFS schedules in arrival order."
+},
+{
+category:"OS", question:"What does deadlock mean?", options:["Processes wait indefinitely for resources","CPU is off","A file is deleted","A program compiles"], answer:0, explanation:"Deadlock is indefinite waiting caused by circular resource dependencies."
+},
+{
+category:"OS", question:"Which is a deadlock condition?", options:["Mutual exclusion","Compilation","Caching","Paging"], answer:0, explanation:"Mutual exclusion is one of the four Coffman conditions."
+},
+{
+category:"OS", question:"What is a page in virtual memory?", options:["Fixed-size memory block","A keyboard key","A process","A CPU register"], answer:0, explanation:"Virtual memory is divided into fixed-size pages."
+},
+{
+category:"OS", question:"What is paging?", options:["Memory management using pages","File compression","CPU scheduling","Network routing"], answer:0, explanation:"Paging maps virtual pages to physical frames."
+},
+{
+category:"OS", question:"What is fragmentation?", options:["Wasted/unused memory space","A CPU instruction","A network protocol","A file name"], answer:0, explanation:"Fragmentation can leave memory space inefficiently usable."
+},
+{
+category:"OS", question:"What is a file system?", options:["Organizes files on storage","Runs only CPU","Creates RAM","Sends emails"], answer:0, explanation:"A file system organizes and accesses stored files."
+},
+{
+category:"OS", question:"Which is a file system?", options:["NTFS","HTTP","SMTP","HTML"], answer:0, explanation:"NTFS is a file system used by Windows."
+},
+{
+category:"OS", question:"What is a kernel?", options:["Core part of an OS","Web browser","Text editor","Database table"], answer:0, explanation:"The kernel manages core system resources."
+},
+{
+category:"OS", question:"What is a system call?", options:["Interface for programs to request OS services","A network cable","A compiler warning","A database query only"], answer:0, explanation:"System calls provide controlled access to OS services."
+},
+{
+category:"OS", question:"Which mode protects the OS from ordinary application code?", options:["Kernel mode","User mode","Browser mode","File mode"], answer:0, explanation:"Kernel mode has privileged access."
+},
+{
+category:"OS", question:"What is context switching?", options:["Changing CPU execution from one process/thread to another","Changing a file name","Formatting RAM","Installing drivers"], answer:0, explanation:"The OS saves one execution context and loads another."
+},
+{
+category:"OS", question:"What is a semaphore used for?", options:["Process/thread synchronization","Image editing","Disk formatting only","DNS lookup"], answer:0, explanation:"Semaphores coordinate access to shared resources."
+},
+{
+category:"OS", question:"What is a critical section?", options:["Code accessing shared resources","A boot screen","A disk partition","A network route"], answer:0, explanation:"A critical section needs synchronization to avoid races."
+},
+{
+category:"OS", question:"What is a race condition?", options:["Result depends on timing of concurrent operations","A CPU speed test","A disk error","A compile option"], answer:0, explanation:"Race conditions arise when concurrent accesses are improperly synchronized."
+},
+{
+category:"OS", question:"What is booting?", options:["Starting and loading an operating system","Deleting files","Sending packets","Creating SQL tables"], answer:0, explanation:"Booting loads the OS and starts the system."
+},
+{
+category:"OS", question:"What is a device driver?", options:["Software that lets OS communicate with hardware","A CPU","A file extension","A database key"], answer:0, explanation:"Drivers provide hardware-specific control interfaces."
+},
+{
+category:"OS", question:"What is swapping?", options:["Moving processes/pages between memory and storage","Changing IP addresses","Sorting files","Compiling code"], answer:0, explanation:"Swapping moves memory contents between RAM and secondary storage."
+},
+{
+category:"OS", question:"What is a shell?", options:["Command interpreter/interface","CPU cache","Database engine","Network cable"], answer:0, explanation:"A shell lets users/programs interact with OS services through commands."
+},
+{
+category:"OS", question:"What is multiprocessing?", options:["Using multiple CPUs/cores for concurrent execution","Using one file","Formatting a disk","Only one process"], answer:0, explanation:"Multiprocessing uses multiple processing units."
+},
+{
+category:"OS", question:"What is an interrupt?", options:["Signal requesting CPU attention","A file system","A SQL clause","A web page"], answer:0, explanation:"Interrupts notify the CPU that an event needs service."
+},
+{
+category:"OS", question:"What is virtual memory?", options:["Technique using storage to extend apparent memory","A virtual keyboard","A network server","A CPU register"], answer:0, explanation:"Virtual memory gives processes an address space larger than physical RAM."
 },
 
+/* ================= CN ================= */
 {
-category:"DBMS",
-question:"Which key uniquely identifies a record?",
-options:["Foreign Key","Primary Key","Candidate Key","Secondary Key"],
-answer:1,
-explanation:"A primary key uniquely identifies each record in a table."
+category:"CN", question:"What does IP stand for?", options:["Internet Protocol","Internal Program","Internet Program","Information Protocol"], answer:0, explanation:"IP stands for Internet Protocol."
 },
-
 {
-category:"DBMS",
-question:"Which command is used to retrieve data?",
-options:["INSERT","UPDATE","SELECT","DELETE"],
-answer:2,
-explanation:"SELECT retrieves data from a database."
+category:"CN", question:"Which device connects different networks?", options:["Switch","Router","Keyboard","Monitor"], answer:1, explanation:"Routers forward packets between networks."
 },
-
 {
-category:"DBMS",
-question:"What does SQL stand for?",
-options:[
-"Structured Query Language",
-"Simple Query Language",
-"System Query Language",
-"Sequential Query Language"
-],
-answer:0,
-explanation:"SQL means Structured Query Language."
+category:"CN", question:"Which protocol secures web browsing?", options:["HTTP","FTP","HTTPS","SMTP"], answer:2, explanation:"HTTPS uses TLS to protect HTTP communication."
 },
-
-/* ================= OPERATING SYSTEM ================= */
-
 {
-category:"OS",
-question:"Which is an operating system?",
-options:["Linux","HTML","SQL","Python"],
-answer:0,
-explanation:"Linux is an operating system."
+category:"CN", question:"What does LAN stand for?", options:["Large Area Network","Local Area Network","Long Access Network","Linked Area Network"], answer:1, explanation:"LAN means Local Area Network."
 },
-
 {
-category:"OS",
-question:"Which component manages hardware resources?",
-options:["Compiler","Operating System","Browser","Editor"],
-answer:1,
-explanation:"The operating system manages CPU, memory, storage and other hardware resources."
+category:"CN", question:"Which protocol is commonly used to send email?", options:["SMTP","HTTP","FTP","IP"], answer:0, explanation:"SMTP is used for sending mail."
 },
-
 {
-category:"OS",
-question:"What is a process?",
-options:[
-"A program in execution",
-"A storage device",
-"A network",
-"A file"
-],
-answer:0,
-explanation:"A process is a program that is currently executing."
+category:"CN", question:"What does DNS do?", options:["Maps domain names to network addresses","Encrypts disks","Compiles code","Stores images only"], answer:0, explanation:"DNS resolves names such as example.com to IP addresses."
 },
-
 {
-category:"OS",
-question:"Which manages virtual memory?",
-options:["CPU","Operating System","Keyboard","Monitor"],
-answer:1,
-explanation:"The operating system manages virtual memory."
+category:"CN", question:"What does DHCP provide?", options:["Automatic network configuration","Web page styling","Database indexing","File compression"], answer:0, explanation:"DHCP can assign IP configuration automatically."
 },
-
 {
-category:"OS",
-question:"What is multitasking?",
-options:[
-"Running multiple tasks",
-"Deleting tasks",
-"Installing software",
-"Formatting disk"
-],
-answer:0,
-explanation:"Multitasking allows multiple processes or tasks to run seemingly simultaneously."
+category:"CN", question:"Which protocol transfers web pages?", options:["HTTP","SMTP","SSH","SNMP"], answer:0, explanation:"HTTP is the basic web transfer protocol."
 },
-
-/* ================= COMPUTER NETWORKS ================= */
-
 {
-category:"CN",
-question:"What does IP stand for?",
-options:[
-"Internet Protocol",
-"Internal Program",
-"Internet Program",
-"Information Protocol"
-],
-answer:0,
-explanation:"IP stands for Internet Protocol."
+category:"CN", question:"Which protocol securely provides remote shell access?", options:["SSH","FTP","HTTP","ARP"], answer:0, explanation:"SSH provides encrypted remote login and command execution."
 },
-
 {
-category:"CN",
-question:"Which device connects different networks?",
-options:["Switch","Router","Keyboard","Monitor"],
-answer:1,
-explanation:"Routers connect different networks and forward packets between them."
+category:"CN", question:"What does FTP stand for?", options:["File Transfer Protocol","Fast Text Process","File Transport Program","Forward Transfer Path"], answer:0, explanation:"FTP means File Transfer Protocol."
 },
-
 {
-category:"CN",
-question:"Which protocol is used for secure web browsing?",
-options:["HTTP","FTP","HTTPS","SMTP"],
-answer:2,
-explanation:"HTTPS provides encrypted communication for web browsing."
+category:"CN", question:"Which device forwards frames using MAC addresses?", options:["Switch","Router","Modem only","Repeater"], answer:0, explanation:"Ethernet switches use MAC address tables."
 },
-
 {
-category:"CN",
-question:"What does LAN stand for?",
-options:[
-"Large Area Network",
-"Local Area Network",
-"Long Access Network",
-"Linked Area Network"
-],
-answer:1,
-explanation:"LAN means Local Area Network."
+category:"CN", question:"Which device regenerates signals at the physical layer?", options:["Repeater","Router","Database","Firewall only"], answer:0, explanation:"A repeater regenerates/retimes signals."
 },
-
 {
-category:"CN",
-question:"Which protocol is commonly used to send email?",
-options:["SMTP","HTTP","FTP","IP"],
-answer:0,
-explanation:"SMTP is used for sending email."
+category:"CN", question:"What is a MAC address?", options:["Hardware/link-layer address","Website URL","Port number","Password"], answer:0, explanation:"A MAC address identifies a network interface at the link layer."
+},
+{
+category:"CN", question:"What is a port number used for?", options:["Identifying application endpoints","Identifying monitor pixels","Formatting disks","Naming files"], answer:0, explanation:"Ports identify transport-layer application endpoints."
+},
+{
+category:"CN", question:"Which protocol is connection-oriented?", options:["TCP","UDP","IP","ARP"], answer:0, explanation:"TCP establishes a reliable connection."
+},
+{
+category:"CN", question:"Which protocol is connectionless?", options:["UDP","TCP","TLS","FTP"], answer:0, explanation:"UDP sends datagrams without a connection setup."
+},
+{
+category:"CN", question:"Which protocol maps an IP address to a MAC address on a local network?", options:["ARP","DNS","HTTP","SMTP"], answer:0, explanation:"ARP resolves IPv4 addresses to link-layer addresses on local networks."
+},
+{
+category:"CN", question:"What is bandwidth?", options:["Data-carrying capacity of a link","A password","A routing table","A CPU instruction"], answer:0, explanation:"Bandwidth describes a link’s capacity, often in bits per second."
+},
+{
+category:"CN", question:"What is latency?", options:["Delay in data delivery","Maximum storage","Number of users","Encryption key length"], answer:0, explanation:"Latency is the time delay in communication."
+},
+{
+category:"CN", question:"What is a packet?", options:["Unit of data sent across a packet-switched network","A CPU core","A file system","A database row"], answer:0, explanation:"Network data is commonly divided into packets."
+},
+{
+category:"CN", question:"What is a protocol?", options:["Set of communication rules","A storage device","A programming language only","A monitor setting"], answer:0, explanation:"Protocols define how systems communicate."
+},
+{
+category:"CN", question:"Which topology connects every device to a central device?", options:["Star","Ring","Bus","Mesh only"], answer:0, explanation:"Star topology uses a central hub/switch."
+},
+{
+category:"CN", question:"Which topology uses a shared backbone?", options:["Bus","Star","Ring","Tree only"], answer:0, explanation:"Bus topology uses a shared backbone cable."
+},
+{
+category:"CN", question:"What is a firewall?", options:["Filters network traffic according to rules","A CPU fan","A database table","A compiler"], answer:0, explanation:"Firewalls control traffic based on security rules."
+},
+{
+category:"CN", question:"What is encryption?", options:["Converting data into a protected form using cryptographic methods","Deleting data","Compressing RAM","Changing file names"], answer:0, explanation:"Encryption protects information from unauthorized reading."
+},
+{
+category:"CN", question:"What does VPN commonly provide?", options:["Encrypted tunnel over a network","Extra RAM","A database schema","A CPU upgrade"], answer:0, explanation:"A VPN can create an encrypted tunnel between endpoints."
+},
+{
+category:"CN", question:"Which layer handles end-to-end transport in the OSI model?", options:["Transport","Physical","Session only","Presentation only"], answer:0, explanation:"The transport layer provides end-to-end transport services."
+},
+{
+category:"CN", question:"Which OSI layer deals with routing packets?", options:["Network","Physical","Presentation","Application"], answer:0, explanation:"The network layer handles logical addressing and routing."
+},
+{
+category:"CN", question:"Which OSI layer transmits raw bits?", options:["Physical","Network","Transport","Application"], answer:0, explanation:"The physical layer handles signals and raw bit transmission."
+},
+{
+category:"CN", question:"What is a subnet mask used for?", options:["Separating network and host portions of an IP address","Encrypting email","Naming websites","Choosing a browser"], answer:0, explanation:"A subnet mask identifies the network prefix and host portion."
 },
 
 /* ================= WEB ================= */
-
 {
-category:"WEB",
-question:"What does HTML stand for?",
-options:[
-"Hyper Text Markup Language",
-"High Text Machine Language",
-"Hyperlink Text Management Language",
-"Home Tool Markup Language"
-],
-answer:0,
-explanation:"HTML stands for HyperText Markup Language."
+category:"WEB", question:"What does HTML stand for?", options:["Hyper Text Markup Language","High Text Machine Language","Hyperlink Text Management Language","Home Tool Markup Language"], answer:0, explanation:"HTML stands for HyperText Markup Language."
+},
+{
+category:"WEB", question:"Which language styles HTML pages?", options:["HTML","CSS","SQL","C"], answer:1, explanation:"CSS controls presentation and styling."
+},
+{
+category:"WEB", question:"Which language adds interactivity to websites?", options:["CSS","HTML","JavaScript","SQL"], answer:2, explanation:"JavaScript adds dynamic behavior."
+},
+{
+category:"WEB", question:"Which tag creates a hyperlink?", options:["<p>","<a>","<h1>","<img>"], answer:1, explanation:"The <a> element creates links."
+},
+{
+category:"WEB", question:"Which extension is normally used for HTML?", options:[".css",".js",".html",".sql"], answer:2, explanation:"HTML files commonly use .html."
+},
+{
+category:"WEB", question:"Which tag defines the largest standard heading?", options:["<h6>","<head>","<h1>","<title>"], answer:2, explanation:"<h1> is the highest-level heading."
+},
+{
+category:"WEB", question:"Which tag inserts an image?", options:["<image>","<img>","<pic>","<src>"], answer:1, explanation:"<img> embeds an image."
+},
+{
+category:"WEB", question:"Which attribute specifies an image source?", options:["href","src","link","path"], answer:1, explanation:"src gives the image URL/path."
+},
+{
+category:"WEB", question:"Which attribute provides alternative text for an image?", options:["alt","title","text","caption"], answer:0, explanation:"alt provides alternative text."
+},
+{
+category:"WEB", question:"Which CSS property changes text color?", options:["font-style","color","text-style","foreground"], answer:1, explanation:"color sets text color."
+},
+{
+category:"WEB", question:"Which CSS property changes background color?", options:["background-color","bg","fill-color","back-color"], answer:0, explanation:"background-color sets the background color."
+},
+{
+category:"WEB", question:"Which CSS property controls font size?", options:["font-size","text-size","size","font-scale"], answer:0, explanation:"font-size controls text size."
+},
+{
+category:"WEB", question:"Which symbol selects a class in CSS?", options:["#",".",":","@"], answer:1, explanation:"A dot selects a class."
+},
+{
+category:"WEB", question:"Which symbol selects an id in CSS?", options:["#",".",":","@"], answer:0, explanation:"# selects an element by id."
+},
+{
+category:"WEB", question:"Which HTML element contains metadata?", options:["<body>","<head>","<main>","<meta-data>"], answer:1, explanation:"<head> contains metadata and linked resources."
+},
+{
+category:"WEB", question:"Which HTML element contains visible page content?", options:["<head>","<body>","<meta>","<style>"], answer:1, explanation:"Visible page content belongs in <body>."
+},
+{
+category:"WEB", question:"Which JavaScript keyword declares a block-scoped variable that can be reassigned?", options:["let","const","varonly","fixed"], answer:0, explanation:"let declares a block-scoped variable that can be reassigned."
+},
+{
+category:"WEB", question:"Which keyword declares a block-scoped constant?", options:["let","const","constant","static"], answer:1, explanation:"const creates a block-scoped binding that cannot be reassigned."
+},
+{
+category:"WEB", question:"Which method selects an element by id?", options:["getElementById()","selectId()","queryId()","findId()"], answer:0, explanation:"document.getElementById() finds an element by its id."
+},
+{
+category:"WEB", question:"Which method selects the first matching CSS selector?", options:["querySelector()","getFirst()","selectCSS()","findSelector()"], answer:0, explanation:"querySelector() returns the first match."
+},
+{
+category:"WEB", question:"What does DOM stand for?", options:["Document Object Model","Data Object Mode","Document Order Map","Digital Object Manager"], answer:0, explanation:"DOM represents the document as a tree of objects."
+},
+{
+category:"WEB", question:"Which event commonly fires when a button is clicked?", options:["click","press","tap-only","mousehit"], answer:0, explanation:"click is a standard browser event."
+},
+{
+category:"WEB", question:"Which HTML tag creates a form?", options:["<form>","<input-form>","<data>","<fieldset-only>"], answer:0, explanation:"<form> groups controls for submitting data."
+},
+{
+category:"WEB", question:"Which input type hides typed passwords?", options:["text","password","hidden-text","secure"], answer:1, explanation:"type=\"password\" masks entered characters."
+},
+{
+category:"WEB", question:"Which CSS layout system is one-dimensional?", options:["Flexbox","Grid","Table only","Canvas"], answer:0, explanation:"Flexbox is designed for one-dimensional layouts."
+},
+{
+category:"WEB", question:"Which CSS layout system is two-dimensional?", options:["Grid","Flexbox","Float only","Inline"], answer:0, explanation:"CSS Grid handles rows and columns."
+},
+{
+category:"WEB", question:"What does responsive design mean?", options:["Layout adapts to different screen sizes","Only mobile pages","Using no CSS","Using only images"], answer:0, explanation:"Responsive design adapts layouts across devices."
+},
+{
+category:"WEB", question:"Which tag creates an unordered list?", options:["<ol>","<ul>","<li>","<list>"], answer:1, explanation:"<ul> creates an unordered list."
+},
+{
+category:"WEB", question:"Which tag creates a list item?", options:["<item>","<li>","<list-item>","<ul-item>"], answer:1, explanation:"<li> represents a list item."
+},
+{
+category:"WEB", question:"Which protocol is normally used to load a website?", options:["HTTP/HTTPS","SMTP","FTP only","SSH only"], answer:0, explanation:"Web browsers commonly use HTTP or HTTPS."
 },
 
+/* ================= FUND ================= */
 {
-category:"WEB",
-question:"Which language styles HTML pages?",
-options:["HTML","CSS","SQL","C"],
-answer:1,
-explanation:"CSS controls the presentation and styling of web pages."
+category:"FUND", question:"What is often called the brain of a computer?", options:["RAM","CPU","SSD","Monitor"], answer:1, explanation:"The CPU executes instructions."
 },
-
 {
-category:"WEB",
-question:"Which language adds interactivity to websites?",
-options:["CSS","HTML","JavaScript","SQL"],
-answer:2,
-explanation:"JavaScript is widely used to add dynamic behavior and interactivity."
+category:"FUND", question:"Which memory is volatile?", options:["ROM","SSD","RAM","Hard Disk"], answer:2, explanation:"RAM loses its contents when power is removed."
 },
-
 {
-category:"WEB",
-question:"Which tag creates a hyperlink?",
-options:["<p>","<a>","<h1>","<img>"],
-answer:1,
-explanation:"The <a> element creates hyperlinks."
+category:"FUND", question:"What does CPU stand for?", options:["Central Processing Unit","Computer Processing Utility","Central Program Unit","Computer Power Unit"], answer:0, explanation:"CPU means Central Processing Unit."
 },
-
 {
-category:"WEB",
-question:"Which file extension is normally used for HTML?",
-options:[".css",".js",".html",".sql"],
-answer:2,
-explanation:"HTML documents normally use the .html extension."
+category:"FUND", question:"Which is an input device?", options:["Monitor","Printer","Keyboard","Speaker"], answer:2, explanation:"A keyboard is an input device."
 },
-
-/* ================= FUNDAMENTALS ================= */
-
 {
-category:"FUND",
-question:"What is the brain of a computer?",
-options:["RAM","CPU","SSD","Monitor"],
-answer:1,
-explanation:"The CPU performs instructions and is often called the brain of the computer."
+category:"FUND", question:"Which number system uses only 0 and 1?", options:["Decimal","Binary","Hexadecimal","Octal"], answer:1, explanation:"Binary uses 0 and 1."
 },
-
 {
-category:"FUND",
-question:"Which memory is volatile?",
-options:["ROM","SSD","RAM","Hard Disk"],
-answer:2,
-explanation:"RAM is volatile memory because its contents are lost when power is removed."
+category:"FUND", question:"Which is an output device?", options:["Keyboard","Mouse","Monitor","Scanner"], answer:2, explanation:"A monitor displays output."
 },
-
 {
-category:"FUND",
-question:"What does CPU stand for?",
-options:[
-"Central Processing Unit",
-"Computer Processing Utility",
-"Central Program Unit",
-"Computer Power Unit"
-],
-answer:0,
-explanation:"CPU stands for Central Processing Unit."
+category:"FUND", question:"Which unit is commonly used for CPU frequency?", options:["Hertz","Byte","Volt only","Pixel"], answer:0, explanation:"CPU frequency is measured in hertz, such as GHz."
 },
-
 {
-category:"FUND",
-question:"Which is an input device?",
-options:["Monitor","Printer","Keyboard","Speaker"],
-answer:2,
-explanation:"A keyboard is used to enter data into a computer."
+category:"FUND", question:"What does RAM stand for?", options:["Random Access Memory","Read Access Module","Rapid Array Memory","Run Access Machine"], answer:0, explanation:"RAM means Random Access Memory."
 },
-
 {
-category:"FUND",
-question:"Which number system uses only 0 and 1?",
-options:["Decimal","Binary","Hexadecimal","Octal"],
-answer:1,
-explanation:"Binary uses only two digits: 0 and 1."
+category:"FUND", question:"What does ROM stand for?", options:["Read Only Memory","Random Output Memory","Run Only Module","Read Open Memory"], answer:0, explanation:"ROM means Read Only Memory."
 },
-
-/* ================= MIXED ================= */
-
 {
-category:"MIX",
-question:"Which algorithm is used to find the shortest path in a weighted graph with non-negative weights?",
-options:["Bubble Sort","Dijkstra's Algorithm","Binary Search","DFS"],
-answer:1,
-explanation:"Dijkstra's algorithm finds shortest paths when edge weights are non-negative."
+category:"FUND", question:"Which stores data persistently?", options:["RAM","Cache only","SSD","CPU register"], answer:2, explanation:"An SSD retains data without power."
 },
-
 {
-category:"MIX",
-question:"Which Git command uploads local commits to a remote repository?",
-options:["git pull","git push","git clone","git init"],
-answer:1,
-explanation:"git push sends local commits to a remote repository."
+category:"FUND", question:"Which is the smallest common unit of digital information?", options:["Bit","Byte","Word","Kilobyte"], answer:0, explanation:"A bit is 0 or 1."
 },
-
 {
-category:"MIX",
-question:"Which technology is used to store code repositories online?",
-options:["GitHub","BIOS","RAM","CPU"],
-answer:0,
-explanation:"GitHub hosts Git repositories and provides collaboration tools."
+category:"FUND", question:"How many bits are in a byte?", options:["4","8","16","32"], answer:1, explanation:"A byte conventionally contains 8 bits."
 },
-
 {
-category:"MIX",
-question:"Which concept allows a class to have multiple forms?",
-options:["Encapsulation","Polymorphism","Compilation","Recursion"],
-answer:1,
-explanation:"Polymorphism means one interface or concept can have multiple forms."
+category:"FUND", question:"Which device is used to print documents?", options:["Printer","Scanner","Router","RAM"], answer:0, explanation:"A printer produces hard-copy output."
 },
-
 {
-category:"MIX",
-question:"What does AI stand for?",
-options:[
-"Automatic Internet",
-"Artificial Intelligence",
-"Advanced Information",
-"Automated Interface"
-],
-answer:1,
-explanation:"AI stands for Artificial Intelligence."
-}
-
+category:"FUND", question:"Which device converts paper documents into digital images?", options:["Scanner","Printer","Speaker","Switch"], answer:0, explanation:"A scanner captures physical documents digitally."
+},
+{
+category:"FUND", question:"What is an operating system?", options:["Software managing computer resources","A CPU chip","A cable","A file format"], answer:0, explanation:"An OS manages resources and provides services to programs."
+},
+{
+category:"FUND", question:"Which is system software?", options:["Operating system","Photo","Keyboard","Web page"], answer:0, explanation:"An operating system is system software."
+},
+{
+category:"FUND", question:"What is firmware?", options:["Software stored for device control, often in non-volatile memory","Temporary RAM data","A web page","A spreadsheet"], answer:0, explanation:"Firmware provides low-level device control."
+},
+{
+category:"FUND", question:"What is BIOS/UEFI used for?", options:["Initializing hardware and starting boot process","Editing photos","Sending email","Writing SQL"], answer:0, explanation:"Firmware initializes hardware and starts the boot process."
+},
+{
+category:"FUND", question:"Which component performs arithmetic and logic operations?", options:["ALU","Monitor","SSD","Keyboard"], answer:0, explanation:"The Arithmetic Logic Unit performs arithmetic and logical operations."
+},
+{
+category:"FUND", question:"What does ALU stand for?", options:["Arithmetic Logic Unit","Advanced Logic Utility","Array Logic Unit","Automatic Link Unit"], answer:0, explanation:"ALU means Arithmetic Logic Unit."
+},
+{
+category:"FUND", question:"What is cache memory?", options:["Small fast memory near/inside CPU used for frequently accessed data","A hard disk","A printer buffer only","A network cable"], answer:0, explanation:"CPU cache reduces access time for frequently used data."
+},
+{
+category:"FUND", question:"What is a motherboard?", options:["Main circuit board connecting components","A storage file","An operating system","A browser"], answer:0, explanation:"The motherboard connects major hardware components."
+},
+{
+category:"FUND", question:"What is an SSD?", options:["Solid State Drive","System Storage Device","Secure Software Disk","Serial System Data"], answer:0, explanation:"SSD means Solid State Drive."
+},
+{
+category:"FUND", question:"Which storage device has no moving mechanical parts?", options:["SSD","HDD","Floppy disk","Tape drive"], answer:0, explanation:"SSDs use flash memory and have no moving parts."
+},
+{
+category:"FUND", question:"What is binary 1010 in decimal?", options:["8","10","12","14"], answer:1, explanation:"1010₂ equals 10₁₀."
+},
+{
+category:"FUND", question:"What is hexadecimal base?", options:["2","8","10","16"], answer:3, explanation:"Hexadecimal uses base 16."
+},
+{
+category:"FUND", question:"What is decimal base?", options:["2","8","10","16"], answer:2, explanation:"Decimal uses base 10."
+},
+{
+category:"FUND", question:"What is a compiler?", options:["Translates source code into machine/object code","A storage device","A network protocol","A monitor"], answer:0, explanation:"A compiler translates source code for execution."
+},
+{
+category:"FUND", question:"What is an algorithm?", options:["Step-by-step procedure for solving a problem","A hardware port","A file extension","A display device"], answer:0, explanation:"An algorithm is a finite procedure for solving a problem."
+},
+{
+category:"FUND", question:"What is ASCII used for?", options:["Representing characters with numeric codes","Storing videos only","Routing packets","Formatting disks"], answer:0, explanation:"ASCII maps characters to numeric codes."
+},
 ];
-
 
 /* =====================================================
    QUIZ VARIABLES
@@ -1755,10 +2074,10 @@ function startQuiz(category){
     currentQuestions=
         currentQuestions.sort(()=>Math.random()-.5);
 
-    /* Limit to 10 */
+    /* Limit to 30 */
 
     currentQuestions=
-        currentQuestions.slice(0,10);
+        currentQuestions.slice(0,30);
 
     currentIndex=0;
 
@@ -2134,7 +2453,7 @@ function confetti(){
 ===================================================== */
 
 updateDashboard();
-
+initName();
 
 </script>
 
