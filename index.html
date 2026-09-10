@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSE Quiz Hub</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e3a8a, #312e81);
+  min-height: 100vh;
+  color: #fff;
+}
+
+.container {
+  width: 92%;
+  max-width: 850px;
+  margin: auto;
+  padding: 30px 0;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+header h1 {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+
+header p {
+  color: #cbd5e1;
+}
+
+.card {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  margin: 15px 0;
+  font-size: 16px;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 13px 22px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background: #38bdf8;
+  color: #082f49;
+  margin-top: 15px;
+}
+
+button:hover {
+  transform: scale(1.03);
+}
+
+.hidden {
+  display: none;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  font-weight: bold;
+}
+
+.progress {
+  width: 100%;
+  height: 8px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #38bdf8;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.question {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: rgba(255,255,255,0.12);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.2);
+  margin: 10px 0;
+}
+
+.option:hover {
+  background: rgba(56,189,248,0.25);
+}
+
+.result {
+  text-align: center;
+}
+
+.score {
+  font-size: 55px;
+  font-weight: bold;
+  margin: 20px;
+}
+
+.review {
+  text-align: left;
+  margin-top: 25px;
+}
+
+.review-item {
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.1);
+}
+
+.correct {
+  border-left: 5px solid #22c55e;
+}
+
+.wrong {
+  border-left: 5px solid #ef4444;
+}
+
+footer {
+  text-align: center;
+  margin-top: 25px;
+  color: #cbd5e1;
+  font-size: 13px;
+}
+
+@media(max-width:600px) {
+  header h1 {
+    font-size: 28px;
+  }
+
+  .question {
+    font-size: 19px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+  <h1>💻 CSE QUIZ HUB</h1>
+  <p>CSE-A • 2026–2030</p>
+</header>
+
+<!-- START SCREEN -->
+<div class="card" id="startScreen">
+
+  <h2>Welcome to CSE Quiz!</h2>
+  <br>
+
+  <p>
+    Test your Computer Science knowledge with 20 MCQ questions.
+  </p>
+
+  <input
+    type="text"
+    id="studentName"
+    placeholder="Enter your name"
+  >
+
+  <button onclick="startQuiz()">Start Quiz 🚀</button>
+
+</div>
+
+<!-- QUIZ SCREEN -->
+<div class="card hidden" id="quizScreen">
+
+  <div class="topbar">
+    <span id="questionNumber">Question 1/20</span>
+    <span>⏱️ <span id="timer">60</span>s</span>
+  </div>
+
+  <div class="progress">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <div class="question" id="question"></div>
+
+  <div id="options"></div>
+
+</div>
+
+<!-- RESULT SCREEN -->
+<div class="card hidden result" id="resultScreen">
+
+  <h2>🎉 Quiz Completed!</h2>
+
+  <p id="resultMessage"></p>
+
+  <div class="score" id="score"></div>
+
+  <p id="percentage"></p>
+
+  <div class="review" id="review"></div>
+
+  <button onclick="location.reload()">
+    🔄 Try Again
+  </button>
+
+</div>
+
+<footer>
+  CSE Quiz Hub • Created for CSE Students
+</footer>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+q: "Which programming language is known as a middle-level language?",
+options: ["Python", "C", "Java", "HTML"],
+answer: 1
+},
+
+{
+q: "Which data structure follows LIFO?",
+options: ["Queue", "Stack", "Array", "Tree"],
+answer: 1
+},
+
+{
+q: "Which data structure follows FIFO?",
+options: ["Stack", "Queue", "Tree", "Graph"],
+answer: 1
+},
+
+{
+q: "Which symbol is used to end a statement in C?",
+options: [":", ";", ".", ","],
+answer: 1
+},
+
+{
+q: "Which SQL command is used to retrieve data?",
+options: ["INSERT", "DELETE", "SELECT", "UPDATE"],
+answer: 2
+},
+
+{
+q: "What does CPU stand for?",
+options: [
+"Central Processing Unit",
+"Computer Processing Utility",
+"Central Program Unit",
+"Control Processing Unit"
+],
+answer: 0
+},
+
+{
+q: "Which memory is volatile?",
+options: ["ROM", "RAM", "SSD", "Hard Disk"],
+answer: 1
+},
+
+{
+q: "Which protocol is commonly used for web pages?",
+options: ["FTP", "HTTP", "SMTP", "SSH"],
+answer: 1
+},
+
+{
+q: "Which device connects different networks?",
+options: ["Switch", "Router", "Keyboard", "Monitor"],
+answer: 1
+},
+
+{
+q: "What is the full form of DBMS?",
+options: [
+"Database Management System",
+"Data Backup Management System",
+"Database Machine System",
+"Digital Base Management System"
+],
+answer: 0
+},
+
+{
+q: "Which sorting algorithm has average O(n log n) complexity?",
+options: ["Bubble Sort", "Merge Sort", "Linear Search", "Selection Sort"],
+answer: 1
+},
+
+{
+q: "Which language is mainly used to style web pages?",
+options: ["HTML", "CSS", "SQL", "C"],
+answer: 1
+},
+
+{
+q: "Which language is used to structure web pages?",
+options: ["CSS", "Python", "HTML", "SQL"],
+answer: 2
+},
+
+{
+q: "Which operating system is open source?",
+options: ["Linux", "Windows", "iOS", "macOS"],
+answer: 0
+},
+
+{
+q: "Which of these is an input device?",
+options: ["Monitor", "Printer", "Keyboard", "Speaker"],
+answer: 2
+},
+
+{
+q: "Which number system uses only 0 and 1?",
+options: ["Decimal", "Binary", "Octal", "Hexadecimal"],
+answer: 1
+},
+
+{
+q: "What does RAM stand for?",
+options: [
+"Random Access Memory",
+"Read Access Memory",
+"Rapid Application Memory",
+"Random Application Module"
+],
+answer: 0
+},
+
+{
+q: "Which keyword is used to define a constant using the C preprocessor?",
+options: ["const", "define", "static", "constant"],
+answer: 1
+},
+
+{
+q: "Which SQL command removes records from a table?",
+options: ["SELECT", "DELETE", "CREATE", "INSERT"],
+answer: 1
+},
+
+{
+q: "Which part of a computer executes instructions?",
+options: ["CPU", "Monitor", "Keyboard", "Printer"],
+answer: 0
+}
+
+];
+
+let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeLeft = 60;
+let userAnswers = [];
+
+function startQuiz() {
+
+  const name = document.getElementById("studentName").value.trim();
+
+  if (name === "") {
+    alert("Please enter your name!");
+    return;
+  }
+
+  document.getElementById("startScreen").classList.add("hidden");
+  document.getElementById("quizScreen").classList.remove("hidden");
+
+  showQuestion();
+
+}
+
+function showQuestion() {
+
+  clearInterval(timer);
+
+  timeLeft = 60;
+  document.getElementById("timer").textContent = timeLeft;
+
+  timer = setInterval(() => {
+
+    timeLeft--;
+
+    document.getElementById("timer").textContent = timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      selectAnswer(-1);
+    }
+
+  }, 1000);
+
+  const q = questions[currentQuestion];
+
+  document.getElementById("questionNumber").textContent =
+    `Question ${currentQuestion + 1}/${questions.length}`;
+
+  document.getElementById("question").textContent = q.q;
+
+  document.getElementById("progressBar").style.width =
+    `${((currentQuestion) / questions.length) * 100}%`;
+
+  const optionsDiv = document.getElementById("options");
+
+  optionsDiv.innerHTML = "";
+
+  q.options.forEach((option, index) => {
+
+    const button = document.createElement("button");
+
+    button.className = "option";
+
+    button.textContent =
+      `${String.fromCharCode(65 + index)}. ${option}`;
+
+    button.onclick = () => selectAnswer(index);
+
+    optionsDiv.appendChild(button);
+
+  });
+
+}
+
+function selectAnswer(selected) {
+
+  clearInterval(timer);
+
+  const q = questions[currentQuestion];
+
+  userAnswers.push(selected);
+
+  if (selected === q.answer) {
+    score++;
+  }
+
+  currentQuestion++;
+
+  if (currentQuestion < questions.length) {
+
+    setTimeout(showQuestion, 200);
+
+  } else {
+
+    setTimeout(showResult, 200);
+
+  }
+
+}
+
+function showResult() {
+
+  document.getElementById("quizScreen").classList.add("hidden");
+  document.getElementById("resultScreen").classList.remove("hidden");
+
+  const name =
+    document.getElementById("studentName").value;
+
+  const percentage =
+    Math.round((score / questions.length) * 100);
+
+  document.getElementById("resultMessage").textContent =
+    `Well done, ${name}!`;
+
+  document.getElementById("score").textContent =
+    `${score}/${questions.length}`;
+
+  document.getElementById("percentage").textContent =
+    `Your Score: ${percentage}%`;
+
+  const review =
+    document.getElementById("review");
+
+  review.innerHTML = "<h3>Answer Review</h3>";
+
+  questions.forEach((q, i) => {
+
+    const item =
+      document.createElement("div");
+
+    const correct =
+      userAnswers[i] === q.answer;
+
+    item.className =
+      `review-item ${correct ? "correct" : "wrong"}`;
+
+    item.innerHTML = `
+      <b>Q${i + 1}. ${q.q}</b><br><br>
+      Your answer:
+      ${userAnswers[i] >= 0
+        ? q.options[userAnswers[i]]
+        : "Not answered"}
+      <br>
+      Correct answer:
+      ${q.options[q.answer]}
+    `;
+
+    review.appendChild(item);
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
